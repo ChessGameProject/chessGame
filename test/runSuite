@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Run a suite of tests against a program
+# ./runSuite suite.txt ./program
+
+if [[ $# < 2 || $# > 2 ]]; then
+	>&2 echo "Must have 2 arguments"
+	exit 1
+elif [ ! -r $1 ]; then
+	>&2 echo "Tests file must exist"
+	exit 1
+elif [ ! -r $2 ]; then
+	>&2 echo "Program file must exist"
+	exit 1
+fi
+
+TESTS=`cat $1`
+PROGRAM=$2
+
+# Check to make sure path to program is relative and can be run
+#if [[ "$PROGRAM" != /* ]]; then
+#	PROGRAM=`echo $PROGRAM | sed -e "s/^/\.\//" `
+#	echo "You should have provided the full path!"
+#fi
+
+for FILE in $TESTS; do
+	IN="${FILE}.in"
+	EXPECTED="${FILE}.out"
+	ARGS="${FILE}.args"
+	if [ ! -r $IN ]; then
+		>&2 echo "$IN does not exist"
+		exit 1
+	elif [ ! -r $EXPECTED ]; then
+		>&2 echo "$EXPECTED does not exist"
+		exit 1
+	fi
+	
+	OUT=`mktemp "/tmp/${FILE}.test.XXXXX"`
+
+	if [ -r $ARGS ]; then
+		$PROGRAM `cat $ARGS` <$IN >$OUT
+	else
+		$PROGRAM <$IN >$OUT
+	fi
+
+	if ! diff $OUT $EXPECTED >/dev/null ; then
+		echo "Test failed: $FILE"
+		echo "Input:"
+		cat $IN
+		echo "Expected:"
+		cat $EXPECTED
+		echo "Actual:"
+		cat $OUT
+	fi
+	rm $OUT
+done
+
