@@ -25,7 +25,7 @@ Wednesday, November 25:
 Thursday, November 26:
  - Complete Game class 
      - With communication to cells and controller (Jonathan)
-     - Moving Pieces (David)
+     - Moving Pieces/Validity of Moves (David)
      - Capturing Pieces (David)
      - Checkmate/Stalemate and Game end checking (David)
  - Complete Controller class (Jonathan)
@@ -56,7 +56,7 @@ by four players (search for it!). Outline the changes that would be necessary to
 into a four-handed chess game.
 
  - The dimension of the board would need to change, and two extra array of pieces would need to be initialized for each new player.
- - The isCheck() function would also need to me modified so that only attacks from the oppositions pieces, and not it's allies pieces would classify as and attack on the King
+ - The isCheck() function would also need to be modified so that only attacks from the oppositions pieces, and not it's allies pieces would classify as and attack on the King
 
 
 4. Assuming you have already implemented all the commands specified in the Command
