@@ -19,7 +19,7 @@ public:
 	bool isWon();
 	bool isCheck();
 	bool isValidMove(int x1, int y1, int x2, int y2);
-	bool setup(); // Do you think this is neccesary?
+	bool setup();
 	bool makeMove(int x1, int y1, int x2, int y2);
 
 
