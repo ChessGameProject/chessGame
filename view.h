@@ -7,7 +7,7 @@
 class View {
 
   public:
-    View(int);
+    View();
     
  /*
   * The Controller calls notify to update the (row,column) location to be ch
