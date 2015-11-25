@@ -49,7 +49,7 @@ Monday, November 30:
 Tuesday, Novemeber 31:
  - Buffer Day/Bonus Features
  
- Bonus Ideas:
+Bonus Ideas:
  - Chess960
  - Higher Level AI
 
