@@ -29,11 +29,29 @@ Thursday, November 26:
      - Capturing Pieces (David)
      - Checkmate/Stalemate and Game end checking (David)
  - Complete Controller class (Jonathan)
- - Working Multi-player game (Both)
+
+Friday, Novemeber 27:
+ - Put it all together to get working Multi-player game (Both)
 
  Saturday, November 28:
  - Start working on AI opponent (Both)
- - Graphical Display
+  - Level 1: Jonathan
+  - Level 2: David
+  - Level 3: Both
+  - Level 4: Both
+ - Graphical Display (Jonathan)
+
+Monday, November 30:
+ - Continue AI opponent development
+  - Level 3: Both
+  - Level 4: Both
+
+Tuesday, Novemeber 31:
+ - Buffer Day/Bonus Features
+ 
+ Bonus Ideas:
+ - Chess960
+ - Higher Level AI
 
 ## Questions
 
