@@ -79,5 +79,5 @@ into a four-handed chess game.
 
 4. Assuming you have already implemented all the commands specified in the Command
 Interpreter, how would you implement loading a pre-saved game with maximal code reuse?
- - I would use the setup command to place each piece from the saved game into a new game in the program.
+ - Would use the setup command to place each piece from the saved game into a new game in the program.
 
