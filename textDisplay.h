@@ -9,7 +9,6 @@ class TextDisplay : public View {
   
  public:
   TextDisplay(int n); //ctor
-  TextDisplay(int size, string fileName); //Loads a file
 
   ~TextDisplay(); //dtor
   
