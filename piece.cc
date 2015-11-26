@@ -20,7 +20,7 @@ Piece::setGame(Game * game) {
 	this->game = game;
 }
 
-Game Piece::getGame() {
+Game* Piece::getGame() {
 	return game;
 }
 

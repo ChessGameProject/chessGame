@@ -21,7 +21,7 @@ class Piece {
 
   	// Allow game to be set
   	void setGame(Game * game);
-  	Game getGame() const;
+  	Game* getGame() const;
   	
   	// worth and name will be set by individual piece constructors, not client
   	int getWorth() const;
