@@ -16,7 +16,7 @@ Piece::Piece(int player, char name) {
 // Getters & Setters
 // ========================
 
-Piece::setGame(Game game) {
+Piece::setGame(const Game game&) {
 	this->game = game;
 }
 

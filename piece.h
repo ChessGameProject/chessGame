@@ -20,15 +20,15 @@ class Piece {
   	Piece(int player, char name);
 
   	// Allow game to be set
-  	void setGame(Game game);
-  	Game getGame();
+  	void setGame(const Game game&);
+  	Game getGame() const;
   	
   	// worth and name will be set by individual piece constructors, not client
-  	int getWorth();
-  	char getName();
+  	int getWorth() const;
+  	char getName() const;
 
   	// Checks to see if given move is valid
-    virtual bool isMoveValid(int startX, int startY, int endX, int endY) = 0;
+    virtual const bool isMoveValid(int startX, int startY, int endX, int endY) = 0;
 };
 
 #endif
