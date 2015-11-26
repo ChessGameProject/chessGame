@@ -1,7 +1,7 @@
 #include "textdisplay.h"
 
 TextDisplay::TextDisplay(int n):View(n){
-	// Creates a new nxn textdisplay and sets the default value to '0'
+	// Creates a new nxn textdisplay and sets the default value
 	theDisplay = new char*[n];
 	for (int row = 0; row < n; row++){
 		theDisplay[i] = new char[n];
