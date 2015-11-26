@@ -4,6 +4,11 @@
 class Piece;
 class Cell;
 
+class GameNotification {
+  public:
+    virtual void notify(int row, int column, char piece) = 0;
+};
+
 class Game{
 	Cell** theBoard;
 	Piece* playerWhite[16];
@@ -11,6 +16,8 @@ class Game{
 	GameNotifications* notifications;
 	int p1Score;
 	int p2Score;
+	bool whiteCastle;
+	bool blackCastle;
 	void clearGame();
 
 
