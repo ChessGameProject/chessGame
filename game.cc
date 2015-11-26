@@ -8,11 +8,70 @@ Game::~Game(){
 
 }
 
-void clearGame(){
+void Game::clearGame(){
 
 }
 
-bool isCheck(int player){
+
+bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
+	//Checks if the Move is valid based on the isMoveValid() function from the Piece class
+	if (theBoard[startX][startY]->isMoveValid(startX,startY,endX,endY) == false) return false;
+
+	//Since Knights only can move in certain ways, if it passes the Piece isMoveValid(), it is valid
+	if (theBoard[startX][startY]->getName == 'n' || theBoard[startX][startY]->getName == 'N') return true;
+
+	// Checks that the pawn's move is valid
+	if (theBoard[startX][startY]->getName == 'p' || theBoard[startX][startY]->getName == 'P'){
+		//Case if pawn is moving forward, not capturing
+		if (endX == endY){
+			//Checks that the space it is moving to is empty
+			if (theBoard[endX][endY]->piece == NULL) return true;
+			else return false;
+		}
+		//Checks that the space it is moving to is occupied by opposing piece
+		else{
+			if (theBoard[endX][endY]->piece == NULL) return false;
+			else{
+				//If the piece is White
+				if(theBoard[startX][startY]->getName >= 'A'){
+					// If it finds the piece that is in the location the pawn is moving to is an enemy piece
+					// it returns true. otherwise the returns false
+					for (int i = 0; i < 16; i++){
+						if (playerBlack[i] == theBoard[endX][endY]->getPiece){
+							return true;
+						}
+					}
+					return false;
+				}
+
+				//if the piece is Black
+				else{
+					for (int i = 0; i < 16; i++){
+						if (playerWhite[i] == theBoard[endX][endY]->getPiece){
+							return true;
+						}
+					}
+					return false;
+				}
+			}
+		}
+	}
+
+	//Checks that bishop move is valid
+	if (theBoard[startX][startY]->getName == 'b' || theBoard[startX][startY]->getName == 'B'){
+		
+	}
+
+
+
+
+
+
+
+
+}
+
+bool Game::isCheck(int player){
 	if (player == WHITE){
 		//Finds the Location the the King the the array of pieces and create pointer to it
 		for (int i = 0; i < 16; i++){
@@ -24,7 +83,7 @@ bool isCheck(int player){
 
 		for (int i = 0; i < 16; i++){
 			if (playerWhite[i] != king && playerWhite[i] != NULL){
-				if (isPossibleMove(playerWhite[i]->x,playerWhite[i]->y,king->x,king->y){
+				if (isPossibleMove(playerWhite[i]->getX(),playerWhite[i]->getY(),king->getX(),king->getY()){
 					return true;
 				}
 			}
@@ -42,7 +101,7 @@ bool isCheck(int player){
 
 		for (int i = 0; i < 16; i++){
 			if (playerBlack[i] != king && playerBlack[i] != NULL){
-				if (isPossibleMove(playerBlack[i]->x,playerBlack[i]->y,king->x,king->y){
+				if (isPossibleMove(playerBlack[i]->getX(),playerBlack[i]->getY(),king->getX(),king->getY()){
 					return true;
 				}
 			}
@@ -52,3 +111,4 @@ bool isCheck(int player){
 	}
 	else return false;
 }
+
