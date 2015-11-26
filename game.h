@@ -27,10 +27,10 @@ class Game{
 public:
 	void notify();// What will the parameters for this be?
 	bool isWon();
-	bool isCheck();
-	bool isValidMove(int x1, int y1, int x2, int y2);
-	bool setup();
-	bool makeMove(int x1, int y1, int x2, int y2);
+	bool isCheck(int player);
+	bool isValidMove(int startX, int startY, int endX, int endY);
+	void setup();
+	bool makeMove(int startX, int startY, int endX, int endY);
 
 
 };
