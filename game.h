@@ -13,7 +13,7 @@ class Game{
 	Cell** theBoard;
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
-	GameNotifications* notifications;
+	GameNotification* notifications;
 	int p1Score;
 	int p2Score;
 	bool whiteCastle;

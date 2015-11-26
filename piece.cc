@@ -16,18 +16,34 @@ Piece::Piece(int player, char name) {
 // Getters & Setters
 // ========================
 
-Piece::setGame(Game * game) {
+// Store game to connect with other functions
+void Piece::setGame(Game * game) {
 	this->game = game;
 }
 
-Game* Piece::getGame() {
+Game* Piece::getGame() const {
 	return game;
 }
 
-int Piece::getWorth() {
+// Store location of the piece
+void Piece::setLocation(int x, int y) {
+	this->x = x;
+	this->y = y;
+}
+
+int Piece::getX() const {
+	return x;
+}
+
+int Piece::getY() const {
+	return y;
+}
+
+
+int Piece::getWorth() const {
 	return worth;
 }
 
-char Piece::getName() {
+char Piece::getName() const {
 	return name;
 }
