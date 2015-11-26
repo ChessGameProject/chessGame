@@ -86,7 +86,46 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 				}
 			}
 		}
+		return true;
 	}
+
+	//If Piece is a Rook
+	if (theBoard[startX][startY]->getPiece()->getName() == 'r' || theBoard[startX][startY]->getPiece()->getName() == 'R'){
+		// rook is moving vertically
+		if (startX == endX){
+			// Rook is moving up
+			if (startY < endY){
+				for (int i = 1; i < endY - startY; i++){
+					if (theBoard[startY + i][startX]->getPiece()!= NULL) return false;
+				}	
+			}
+			//Rook is moving down
+			else{
+				for (int i = 1; i < startY - endY; i++){
+					if (theBoard[startY - i][startX]->getPiece()!= NULL) return false;
+				}
+			}
+		}
+
+		// Rook is moving horizontally
+		else{
+			// Rook is to the right
+			if (startX < endX){
+				for (int i = 1; i < endX - startX; i++){
+					if (theBoard[startY][startX + i]->getPiece()!= NULL) return false;
+				}	
+			}
+			//Rook is to the left
+			else{
+				for (int i = 1; i < startX - endX; i++){
+					if (theBoard[startY][startX - i]->getPiece()!= NULL) return false;
+				}
+			}
+
+		}
+		return true;
+
+	}	
 
 
 
