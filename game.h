@@ -31,6 +31,7 @@ public:
 	bool isWon();
 	bool isCheck(int player);
 	bool isValidMove(int startX, int startY, int endX, int endY);
+	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	void setup();
 	bool makeMove(int startX, int startY, int endX, int endY);
 
