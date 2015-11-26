@@ -66,7 +66,7 @@ void TextDisplay::notify(int row, int column, char ch){
    
 void TextDisplay::print(std::ostream &out) const {
   	for (int row = 0; row < gridSize; row++){
-  		out << n-row+1 << " ";
+  		out << gridSize-row+1 << " ";
   		for (int column = 0; column < gridSize; column++){
   			out << theDisplay[row][column];
   		}
