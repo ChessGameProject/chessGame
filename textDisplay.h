@@ -12,10 +12,9 @@ class TextDisplay : public View {
 
   ~TextDisplay(); //dtor
   
-  // Function that will determine if the square is a white square or a black square
-  // Returns True for White, False for Black
-  // Note: This functions count the bottom left square as (0,0)
-  bool whiteSquare(int x, int y);
+  // Function that will return the appropriate representation for a blank square
+  // Note: This functions counts the bottom left square as (0,0)
+ char blankSquare(int x, int y);
   
   
   //The Controller calls notify to update the (row,column) location to be ch
