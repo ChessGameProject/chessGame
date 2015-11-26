@@ -15,6 +15,10 @@ class Piece {
 	// A single character name to represent the piece on the board
 	char name;
 
+	// Location of piece
+	int x;
+	int y;
+
   public:
   	// Constructor that changes capitalization of the name based on player
   	Piece(int player, char name);
@@ -22,13 +26,18 @@ class Piece {
   	// Allow game to be set
   	void setGame(Game * game);
   	Game* getGame() const;
+
+	// Get and set location
+	void setLocation(int x, int y);
+	int getX();
+	int getY();
   	
   	// worth and name will be set by individual piece constructors, not client
   	int getWorth() const;
   	char getName() const;
 
   	// Checks to see if given move is valid
-    virtual const bool isMoveValid(int startX, int startY, int endX, int endY) = 0;
+    virtual bool isMoveValid(int startX, int startY, int endX, int endY) const = 0;
 };
 
 #endif

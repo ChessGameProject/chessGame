@@ -1,1 +1,1 @@
-piece.o : piece.h piece.cc
+piece.o: piece.cc game.h piece.h

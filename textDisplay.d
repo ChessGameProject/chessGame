@@ -1,1 +1,1 @@
-textDisplay.o : textDisplay.h textDisplay.cc view.h
+textDisplay.o: textDisplay.cc textdisplay.h view.h

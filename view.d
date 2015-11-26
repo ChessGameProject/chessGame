@@ -1,1 +1,1 @@
-view.o : view.cc view.h
+view.o: view.cc view.h
