@@ -34,8 +34,6 @@ TextDisplay::TextDisplay(int n):View(n){
 			else {
 				theDisplay[row][column] = blankSquare(row,column);
 			}
-
-			
 		}
 	}
 }
