@@ -1,13 +1,14 @@
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef VIEW_H
+#define VIEW_H
 #include <iostream>
 #include <sstream>
 
 class View {
-
+  protected:
+    const int gridSize;
   public:
-    View();
+    View(int n);
     
  /*
   * The Controller calls notify to update the (row,column) location to be ch
