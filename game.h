@@ -34,7 +34,7 @@ public:
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	void setup();
-	void makeMove(int startX, int startY, int endX, int endY);
+	bool makeMove(int startX, int startY, int endX, int endY);
 
 
 };
