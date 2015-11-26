@@ -8,7 +8,8 @@ class TextDisplay : public View {
   char **theDisplay;          //the n x n display 
   
  public:
-  TextDisplay(); //ctor
+  TextDisplay(int n); //ctor
+  TextDisplay(int size, string fileName); //Loads a file
 
   ~TextDisplay(); //dtor
   
