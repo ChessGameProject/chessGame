@@ -17,8 +17,12 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 	//Checks if the Move is valid based on the isMoveValid() function from the Piece class
 	if (theBoard[startX][startY]->getPiece()->isMoveValid(startX,startY,endX,endY) == false) return false;
 
+	//Now for each piece, we need to check if their path is blocked on the board
+
 	//Since Knights only can move in certain ways, if it passes the Piece isMoveValid(), it is valid
-	if (theBoard[startX][startY]->getPiece()->getName() == 'n' || theBoard[startX][startY]->getPiece()->getName()== 'N') return true;
+	// And Kings can only move 1 space, so it cannot be blocked
+	if (theBoard[startX][startY]->getPiece()->getName() == 'n' || theBoard[startX][startY]->getPiece()->getName()== 'N'
+		|| theBoard[startX][startY]->getPiece()->getName() == 'k' || theBoard[startX][startY]->getPiece()->getName()== 'K') return true;
 
 	// Checks that the pawn's move is valid
 	if (theBoard[startX][startY]->getPiece()->getName() == 'p' || theBoard[startX][startY]->getPiece()->getName()me == 'P'){
@@ -125,15 +129,79 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 		}
 		return true;
 
-	}	
+	}
 
+	//If Piece is a Queen
+	if (theBoard[startX][startY]->getPiece()->getName() == 'q' || theBoard[startX][startY]->getPiece()->getName() == 'Q'){
+		//Queen is moving diagonally
+		if (startX-endX == startY-endY){
+			// Queen is moving to the right diagonally
+			if (endX > startX){
+				for (int i = 1; i < endX - startX; i++){
+					// Queen is moving diagonaly up to the right
+					if (endY > startY){
+						if (theBoard[startX + i][startY + i]->getPiece() != NULL) return false;
+					}
+					// Queen is moving down to the right
+					else{
+						if (theBoard[startX + i][startY - i]->getPiece() != NULL) return false;	
+					}
+				}
+			}
 
+			// Queen is moving to the left diagonally
+			else{
+			for (int i = 1; i < startX - endX; i++){
+					// Queen is moving diagonaly up to the right
+					if (endY > startY){
+						if (theBoard[startX - i][startY + i]->getPiece() != NULL) return false;
+					}
+					// Queen is moving down to the right
+					else{
+						if (theBoard[startX - i][startY - i]->getPiece() != NULL) return false;	
+					}
+				}
+			}
+		}
+		//Queen is moving horizontally or vertically
+		else{
+			// Queen is moving vertically
+			if (startX == endX){
+				// Queen is moving up
+				if (startY < endY){
+					for (int i = 1; i < endY - startY; i++){
+						if (theBoard[startY + i][startX]->getPiece()!= NULL) return false;
+					}	
+				}
+				//Queen is moving down
+				else{
+					for (int i = 1; i < startY - endY; i++){
+						if (theBoard[startY - i][startX]->getPiece()!= NULL) return false;
+					}
+				}
+			}
 
+			// Queen is moving horizontally
+			else{
+				// Queen is to the right
+				if (startX < endX){
+					for (int i = 1; i < endX - startX; i++){
+						if (theBoard[startY][startX + i]->getPiece()!= NULL) return false;
+					}	
+				}
+				//Queen is to the left
+				else{
+					for (int i = 1; i < startX - endX; i++){
+						if (theBoard[startY][startX - i]->getPiece()!= NULL) return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
 
-
-
-
-
+	// Fail safe if none of the if statements are called, then it just returns false
+	return false;
 }
 
 bool Game::isCheck(int player){
