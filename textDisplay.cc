@@ -38,10 +38,10 @@ void TextDisplay::notify(int row, int column, char ch){
 
    
 void TextDisplay::print(std::ostream &out) const {
-  	for (int row = 0; row < gridSize; row++){
-  		out << gridSize-row+1 << " ";
-  		for (int column = 0; column < gridSize; column++){
-  			out << theDisplay[row][column];
+  	for (int x = 0; x < gridSize; x++){
+  		out << gridSize-x+1 << " ";
+  		for (int y = 0; y < gridSize; y++){
+  			out << theDisplay[x][y];
   		}
   		out << std::endl;
   	}
