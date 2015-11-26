@@ -4,36 +4,9 @@ TextDisplay::TextDisplay(int n):View(n){
 	// Creates a new nxn textdisplay and sets the default value
 	theDisplay = new char*[n];
 	for (int row = 0; row < n; row++){
-		theDisplay[i] = new char[n];
-
+		theDisplay[row] = new char[n];
 		for (int column = 0; column++ < n; column++){
-			//A variable that will know if it is initializng the Piece as a capital or not
-			int capital = 0;
-			if (row > n/2) capital = 'A' - 'a';
-
-			if (row == 0 || row == n-1){
-				//Sets Rooks Position
-				if (column == 0 || column == 7) theDisplay[row][column] = 'r' + capital;
-
-				//Sets Knights Position
-				if (column == 1 || column == 6) theDisplay[row][column] = 'n' + capital;
-
-				//Sets Bishops position
-				if (column == 2 || column == 5) theDisplay[row][column] = 'b' + capital;
-
-				if (column == 3) theDisplay[row][column] = 'q' + capital;
-
-				if (column == 4) theDisplay[row][column] = 'k' + capital;
-
-			}
-			//Sets the Pawns to default location
-			else if (row == 1 || row == n-2){
-				theDisplay[row][column] = 'p' + capital;
-
-			//Sets all other squares to blank
-			else {
-				theDisplay[row][column] = blankSquare(row,column);
-			}
+			theDisplay[row][column] = blankSquare(row,column);
 		}
 	}
 }
