@@ -12,7 +12,7 @@ class GameNotification {
     virtual void notify(int row, int column, char piece) = 0;
 };
 
-class Game{
+class Game: GameNotification{
 	Cell** theBoard;
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
@@ -22,6 +22,8 @@ class Game{
 	bool whiteCastle;
 	bool blackCastle;
 	void clearGame();
+	Game();
+	~Game();
 
 
 public:
