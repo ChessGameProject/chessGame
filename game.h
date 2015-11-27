@@ -21,7 +21,6 @@ class Game: GameNotification{
 	int p2Score;
 	bool whiteCastle;
 	bool blackCastle;
-	bool isOccupied(int x, int y);
 	void clearGame();
 	Game();
 	~Game();
@@ -32,6 +31,7 @@ public:
 	bool isWon();
 	bool isCheck(int player);
 	bool isCheckmate(int player);
+	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	void setup();
