@@ -13,7 +13,7 @@ class GameNotification {
 };
 
 class Game: GameNotification{
-	Cell** theBoard;
+	Piece** theBoard;
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
 	GameNotifications* notifications;
@@ -21,6 +21,7 @@ class Game: GameNotification{
 	int p2Score;
 	bool whiteCastle;
 	bool blackCastle;
+	bool isOccupied(int x, int y);
 	void clearGame();
 	Game();
 	~Game();
