@@ -20,6 +20,7 @@ bool Knight::isMoveValid(int endX, int endY) const {
 				(std::abs(endX - x) == 2 &&		// Type 2
 				std::abs(endY - y) == 1) ) {
 		// Moves must be L-shaped
+		// But we don't need to worry about pieces being in the way!
 		return true;
 	}
   return false;

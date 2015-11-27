@@ -17,6 +17,7 @@ bool Bishop::isMoveValid(int endX, int endY) const {
 		if (endY - y < 0) yDir = -1;
 
 		for (int i = x, j = y; (i != endX) && (j != endY); i += xDir, j += yDir) {
+			// Make sure there are no pieces in the way
 			if ( game.isOccupied(i, j) ) return false;
 		}
 

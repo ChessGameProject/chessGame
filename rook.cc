@@ -14,12 +14,20 @@ bool Rook::isMoveValid(int endX, int endY) const {
 		if (endY - y < 0) yDir = -1;
 
 		for ( int i = y; i != endY; i += yDir ) {
+			// Make sure there are no pieces in the way
 			if ( game.isOccupied(x, i) ) return false;
 		}
-
 	} else if ( (endY - y) == 0 ) {
 		// Stright right or left
-		return true;
+
+			// Determine direction 
+		int xDir = 1;
+		if (endX - x < 0) xDir = -1;
+
+		for ( int i = x; i != endX; i += xDir ) {
+			// Make sure there are no pieces in the way
+			if ( game.isOccupied(i, y) ) return false;
+		}
 	}
 
   return false;
