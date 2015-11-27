@@ -219,7 +219,7 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 	return false;
 }
 
-bool Gane::isValidMove(int startX, int startY, int endX, int endY){
+bool Game::isValidMove(int startX, int startY, int endX, int endY){
 
 	if (isPossibleMove(startX,startY,endX,endY) == false) return false;
 
@@ -231,7 +231,10 @@ bool Gane::isValidMove(int startX, int startY, int endX, int endY){
 
 }
 
-
+bool Game::isOccupied(int x, int y){
+	if (theBoard[x][y] == NULL) return false;
+	else return true;
+}
 
 bool Game::isCheckmate(int player){
 
