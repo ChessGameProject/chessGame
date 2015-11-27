@@ -14,7 +14,8 @@ class Piece {
 	int worth;
 	// A single character name to represent the piece on the board
 	char name;
-
+	
+protected:
 	// Location of piece
 	int x;
 	int y;
@@ -37,7 +38,7 @@ public:
 	char getName() const;
 
 	// Checks to see if given move is valid
-  virtual bool isMoveValid(int startX, int startY, int endX, int endY) const = 0;
+  virtual bool isMoveValid(int endX, int endY) const = 0;
 };
 
 #endif
