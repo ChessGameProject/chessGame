@@ -1,5 +1,6 @@
 #include "knight.h"
 #include "piece.h"
+#include <iostream>
 
 // Create a piece with name 'n'
 Knight::Knight(int player) : Piece(player, 'n') {}
@@ -13,7 +14,7 @@ Knight::Knight(int player) : Piece(player, 'n') {}
  *     - - 1 - 1 - -
  */
 
-bool isMoveValid(int endX, int endY) const {
+bool Knight::isMoveValid(int endX, int endY) const {
 	if ( (std::abs(endX - x) == 1 && 		// Type 1
 				std::abs(endY - y) == 2) ||
 				(std::abs(endX - x) == 2 &&		// Type 2

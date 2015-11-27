@@ -5,7 +5,7 @@
 Bishop::Bishop(int player) : Piece(player, 'b') {}
 
 // Checks if a given move is valid
-bool isMoveValid(int endX, int endY) const {
+bool Bishop::isMoveValid(int endX, int endY) const {
 	if ( endX - x == endY - y ) {
 		// Moves must be diagonal
 		return true;

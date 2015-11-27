@@ -1,5 +1,6 @@
 #include "pawn.h"
 #include "piece.h"
+#include "game.h"
 
 // Create a piece with name 'p'
 Pawn::Pawn(int player) : Piece(player, 'p') {
@@ -12,13 +13,10 @@ Pawn::Pawn(int player) : Piece(player, 'p') {
 }
 
 // Checks to see if a given move is valid
-bool isMoveValid(int endX, int endY) const {
-	bool tHasMoved = hasMoved;
-	hasMoved = true;
-
-	if ( !tHasMoved && 
+bool Pawn::isMoveValid(int endX, int endY) const {
+	if ( !hasMoved && 
 		 (endX - x) == 0 &&
-		 ( (endY - y) / direction ) == 2 )) {
+		 ( (endY - y) / direction ) == 2 ) {
 		// Move two squares away from starting end on first move
 	} else if ( (endX - x) == 0 &&
 			 			( (endY - y) / direction ) == 1 ) {
@@ -36,4 +34,9 @@ bool isMoveValid(int endX, int endY) const {
 		return true;
 	}
   return false;
+}
+
+// Should be called after a piece is moved
+void Pawn::setHasMoved(bool moved) {
+	hasMoved = moved;
 }

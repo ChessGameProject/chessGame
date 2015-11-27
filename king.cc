@@ -1,5 +1,6 @@
 #include "king.h"
 #include "piece.h"
+#include <iostream>
 
 // Create a piece with name 'k'
 King::King(int player) : Piece(player, 'k') {
@@ -7,7 +8,7 @@ King::King(int player) : Piece(player, 'k') {
 }
 
 // Checks if a given move is valid
-bool isMoveValid(int endX, int endY) const {
+bool King::isMoveValid(int endX, int endY) const {
 	if ( !hasMoved && ( x - endX == 2 ) ) { // Is moving two to the left	
 		// Check Castling
 		return true;
@@ -17,4 +18,9 @@ bool isMoveValid(int endX, int endY) const {
 	}
 
 	return false;
+}
+
+// Should be called when piece is moved for the 1st time
+void King::setHasMoved(bool moved) {
+	hasMoved = moved;
 }

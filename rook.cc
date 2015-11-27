@@ -5,7 +5,7 @@
 Rook::Rook(int player) : Piece(player, 'r') {}
 
 // Checks to see if a given move is valid
-bool isMoveValid(int endX, int endY) const {
+bool Rook::isMoveValid(int endX, int endY) const {
 	if ( (endX - x) == 0 ||
 			 (endY - y) == 0 ) {
 		// Moves must be stright

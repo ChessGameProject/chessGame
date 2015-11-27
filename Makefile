@@ -4,7 +4,7 @@
 CC = g++
 CXXFLAGS = -Wall -g -MMD 
 
-OBJS = view.o textDisplay.o piece.o game.o controller.o
+OBJS = view.o textDisplay.o piece.o king.o queen.o bishop.o knight.o rook.o pawn.o game.o controller.o
 DEPENDS = $(OBJS:.o=.d)
 
 EXEC = pp9k

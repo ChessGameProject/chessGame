@@ -6,7 +6,7 @@ Piece::Piece(int player, char name) {
 	// if the piece belongs to the white player it should be capitalized
 	if (player == WHITE) {
 		this->name = name - 'a' + 'A';
-	} else (player == BLACK) {
+	} else if (player == BLACK) {
 		this->name = name;
 	} else {
 		// Player isn't recognized
