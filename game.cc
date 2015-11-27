@@ -14,15 +14,30 @@ void Game::clearGame(){
 
 
 bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
+
+	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
+	if (startX == endX && startY == endY) return false;
+
 	//Checks if the Move is valid based on the isMoveValid() function from the Piece class
 	if (theBoard[startX][startY]->getPiece()->isMoveValid(startX,startY,endX,endY) == false) return false;
 
 	//Now for each piece, we need to check if their path is blocked on the board
 
 	//Since Knights only can move in certain ways, if it passes the Piece isMoveValid(), it is valid
-	// And Kings can only move 1 space, so it cannot be blocked
-	if (theBoard[startX][startY]->getPiece()->getName() == 'n' || theBoard[startX][startY]->getPiece()->getName()== 'N'
-		|| theBoard[startX][startY]->getPiece()->getName() == 'k' || theBoard[startX][startY]->getPiece()->getName()== 'K') return true;
+	if (theBoard[startX][startY]->getPiece()->getName() == 'n' || 
+		theBoard[startX][startY]->getPiece()->getName()== 'N') return true;
+
+
+	//Check for the King
+	if (theBoard[startX][startY]->getPiece()->getName() == 'k' || 
+		theBoard[startX][startY]->getPiece()->getName() == 'K'){
+		//Check for Castle??????
+		return true;
+
+	}
+
+
+
 
 	// Checks that the pawn's move is valid
 	if (theBoard[startX][startY]->getPiece()->getName() == 'p' || theBoard[startX][startY]->getPiece()->getName()me == 'P'){
@@ -204,6 +219,49 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 	return false;
 }
 
+bool Gane::isValidMove(int startX, int startY, int endX, int endY){
+
+	if (isPossibleMove(startX,startY,endX,endY) == false) return false;
+
+	//Check for castle
+
+	//Check for en passant
+
+	//Check for moving into check
+
+}
+
+
+
+bool Game::isCheckmate(int player){
+
+}
+
+bool Game::isStalemate(int player){
+
+	if (player == WHITE){
+		for (int i = 0; i < 16; i++){
+			if (playerWhite[i] == NULL) continue;
+			for(int x = 0; x < 8; x++){
+				for(int y = 0; y < 8; y++){
+					if (isMoveValid(playerWhite[i]->getX(),playerWhite[i]->getY(),x,y) == true) return false;
+				}
+			}
+		}
+	}
+	else{
+		for (int i = 0; i < 16; i++){
+			if (playerBlack[i] == NULL) continue;
+			for(int x = 0; x < 8; x++){
+				for(int y = 0; y < 8; y++){
+					if (isMoveValid(playerBlack[i]->getX(),playerBlack[i]->getY(),x,y) == true) return false;
+				}
+			}
+		}
+	}
+	return true;
+}
+
 bool Game::isCheck(int player){
 	if (player == WHITE){
 		//Finds the Location the the King the the array of pieces and create pointer to it
@@ -245,3 +303,17 @@ bool Game::isCheck(int player){
 	else return false;
 }
 
+bool Game::makeMove(int startX, int startY, int endX, int endY){
+	if (isValidMove(startX,startY,endX,endY) == false) return false;
+
+
+	//******Will this work??????*******//
+	//I want to delete the piece if it is being eaten
+	if (theBoard[endX][endY]->getPiece != NULL) delete theBoard[endX][endY]->getPiece();
+
+	//Check for Pawn Promotion
+
+	theBoard[endX][endY]->setPiece(theBoard[startX][startY]);
+	theBoard[start][startY]->setPiece(NULL);
+
+}
