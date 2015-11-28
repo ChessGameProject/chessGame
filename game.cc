@@ -309,16 +309,61 @@ bool Game::isCheck(int player){
 bool Game::makeMove(int startX, int startY, int endX, int endY){
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
+	//Checks to see if piece that it is moving to is own piece
+	for (int i = 0; i < 16; i++){
+		if (currentPlayer() == WHITE){
+			if(playerWhite[i] == theBoard[endX][endY]) return false;
+		}
+		else{
+			if(playerBlack[i] == theBoard[endX][endY]) return false;
+		}
+	}
 
-	//******Will this work??????*******//
-	//I want to delete the piece if it is being eaten
-	if (theBoard[endX][endY]->getPiece != NULL) delete theBoard[endX][endY]->getPiece();
+
+
 
 	//Check for Pawn Promotion
+	if (getPawnPromote()){
+		//Finds location of piece in the array of pieces
+		int loc;
+		for (int i = 0; i < 16; i++){
+			if (currentPlayer() == WHITE){
+				if(playerWhite[i] == theBoard[startX][startY]){
+					delete playerWhite[i];
+					loc = i;
+					break;
+				}
+			}
+			else{
+				if(playerBlack[i] == theBoard[startX][startY]){
+					delete playerBlack[i];
+					loc = i;
+					break;
+				}
+			}
+		}
 
-	//If eating piece, check to see if eating own piece
+
+		if (getPromoteType() == 'q'){
+
+		}
+	}
+
 
 	theBoard[endX][endY]->setPiece(theBoard[startX][startY]);
 	theBoard[start][startY]->setPiece(NULL);
 
+}
+
+int Game::getCurrentPlayer(){
+	return currentPlayer;
+}
+
+bool getPawnPromote(){
+	return pawnPromote;
+
+}
+
+char getPromoteType(){
+	return promoteType;
 }

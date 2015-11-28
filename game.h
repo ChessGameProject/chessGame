@@ -19,8 +19,13 @@ class Game: GameNotification{
 	GameNotification* notifications;
 	int p1Score;
 	int p2Score;
+	int currentPlayer;
 	bool whiteCastle;
 	bool blackCastle;
+	//If true, the given move is a pawn promotion
+	bool pawnPromote;
+	//Type of character to promote to
+	char promoteType;
 	void clearGame();
 	Game();
 	~Game();
@@ -34,6 +39,9 @@ public:
 	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
+	int getCurrentPlayer();
+	bool getPawnPromote();
+	char getPromoteType();
 	void setup();
 	bool makeMove(int startX, int startY, int endX, int endY);
 
