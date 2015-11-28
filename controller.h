@@ -17,6 +17,7 @@ class Controller : public GameNotification {
 
     std::istream & whitePlayer;
     std::istream & blackPlayer;
+    int currentPlayer;
 
     // Game setup
     void setup(std::istream & input, Game & g);

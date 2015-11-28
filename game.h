@@ -12,7 +12,7 @@ class GameNotification {
     virtual void notify(int row, int column, char piece) = 0;
 };
 
-class Game: GameNotification{
+class Game {
 	Piece** theBoard;
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
@@ -25,7 +25,6 @@ class Game: GameNotification{
 	Game();
 	~Game();
 
-
 public:
 	void notify();// What will the parameters for this be?
 	bool isWon();
@@ -36,8 +35,6 @@ public:
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	void setup();
 	bool makeMove(int startX, int startY, int endX, int endY);
-
-
 };
 
 #endif

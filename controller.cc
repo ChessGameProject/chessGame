@@ -7,12 +7,9 @@ using namespace std;
 Controller::Controller() {
 	game = new Game();
 	td = new TextDisplay(8);
+	// White always goes first
+	currentPlayer = WHITE;
 	// TODO: Add code for Graphics Window
-}
-
-// White starts game by default
-void Controller::play() {
-	play(WHITE);
 }
 
 bool Controller::printWinStatus(int currentPlayer) {
@@ -26,9 +23,9 @@ bool Controller::printWinStatus(int currentPlayer) {
 }
 
 // Start collecting user input for the Game with specified player moving first
-void Controller::play(int givenFirstMove) {
+void Controller::play(int givenFirstMove = WHITE) {
   srand(time(NULL));
-  int currentPlayer = givenFirstMove;
+  currentPlayer = givenFirstMove;
 
   string cmd;
   string whitePlayerInput;
@@ -39,36 +36,8 @@ void Controller::play(int givenFirstMove) {
 
   	if (cmd == "setup") {
   		string setup;
-  		// Standard Game Initialization
-
-  		// TODO: Setup
-  		while (cin >> setup) {
-  			if (cmd == "+") {
-
-  			} else if (setup == "-") {
-
-  			} else if (setup == "=") {
-  				string colour;
-  				cin >> colour;
-  				if (setup == "white") {
-  					move = WHITE;
-  				} else if (setup == "black") {
-  					move = BLACK;
-  				} else {
-  					#ifdef DEBUG
-  					cout << "'=' " << setup << " command not recognized" << endl;
-  					#endif
-  				}
-
-  			} else if (setup == "done") {
-  				// TODO: Check game for a valid board
-  				// if (notValid) {
-  				//    continue;
-  				// } else {
-  				break;
-  				// }
-  			}
-  		}
+  		// TODO: Check for a different input to give (if loading a game)
+  		setup(cin, game);
 
   	} else if (cmd == "game") {
   		//
@@ -144,8 +113,47 @@ void Controller::play(int givenFirstMove) {
 
 
 void Controller::setup(std::istream & input, Game & g) {
-	//
+	//game.init();
 
+	string cmd;
+	while (input >> setup) {
+		if (cmd == "+") {
+			string piece, location;
+			cin >> piece >> location;
+			int x = getXLocation(location);
+  		int y = getYLocation(location);
+			#ifdef DEBUG
+				cout << "'+' " << x << "," << y << " command not recognized" << endl;
+			#endif
+
+		} else if (setup == "-") {
+			#ifdef DEBUG
+				cout << "'-' " << setup << " command not recognized" << endl;
+			#endif
+
+		} else if (setup == "=") {
+
+			string colour;
+			cin >> colour;
+			if (setup == "white") {
+				move = WHITE;
+			} else if (setup == "black") {
+				move = BLACK;
+			} else {
+				#ifdef DEBUG
+				cout << "'=' " << setup << " command not recognized" << endl;
+				#endif
+			}
+
+		} else if (setup == "done") {
+			// TODO: Check game for a valid board
+			// if (notValid) {
+			//    continue;
+			// } else {
+			break;
+			// }
+		}
+	}
 }
 
 /*
@@ -164,4 +172,20 @@ Controller::~Controller() {
 	}
 }
 
-// Keep track of whose play it is
+// Returns the x location of a board location
+// Requires: location have the format [char][int] such that it would be found
+//		on the game board
+int getXLocation(string location) {
+	char x = location[0];
+	int locX = x - 'a';
+	return locX;
+}
+
+// Returns the y location of a board location
+// Requires: location have the format [char][int] such that it would be found
+//		on the game board
+int getYLocation(string location) {
+	char y = location[1];
+	int locY = y - '0';
+	return locY;
+}
