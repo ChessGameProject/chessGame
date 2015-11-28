@@ -5,6 +5,7 @@
 // Create a piece with name 'k'
 King::King(int player) : Piece(player, 'k') {
 	hasMoved = false;
+	worth = KING;
 }
 
 // Checks if a given move is valid

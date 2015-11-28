@@ -4,13 +4,26 @@
 class Game;
 
 const int WHITE = 1;
+const int WHITE = 1;
 const int BLACK = 2;
+const int KING = -1;
+const int QUEEN = 900;
+const int ROOK = 500;
+const int BISHOP = 305;
+const int KNIGHT = 300;
+const int PAWN = 100;
 
 class Piece {
 	// Pointer to the current game, which will allow access to the board
 	Game *game;
 
 	// value of the piece to help with strategy selection
+	//King: -1
+	//Queen: 900
+	//Rook: 500
+	//Bishop: 305
+	//Knight: 300
+	//Pawn: 100
 	int worth;
 	// A single character name to represent the piece on the board
 	char name;

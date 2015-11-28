@@ -4,6 +4,7 @@
 // Create a piece with name 'r'
 Rook::Rook(int player) : Piece(player, 'r') {
 	hasMoved = false;
+	worth = ROOK;
 }
 
 // Checks to see if a given move is valid

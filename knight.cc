@@ -3,7 +3,9 @@
 #include <iostream>
 
 // Create a piece with name 'n'
-Knight::Knight(int player) : Piece(player, 'n') {}
+Knight::Knight(int player) : Piece(player, 'n') {
+	worth = KNIGHT;
+}
 
 /* Checks if a given move is valid
  * A knight should only move in an 'L' shape of type 1 or 2

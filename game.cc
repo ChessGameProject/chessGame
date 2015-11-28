@@ -4,7 +4,6 @@ TO DO:
 - Castling
 - En Passant
 - setup() function
-- checkMate()
 - clearGame()
 */
 
@@ -27,9 +26,6 @@ Game::Game(){
 	p2Score = 0;
 	notifications = this;
 	currentPlayer = WHITE;
-	pawnPromote = false;
-	promoteType = '';
-
 }
 
 Game::~Game(){
@@ -290,7 +286,7 @@ bool Game::isCheckmate(){
 	//Finds the Location the the King the the array of pieces and create pointer to it
 	if (getCurrentPlayer() == BLACK){
 		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != NULL && playerWhite[i]->getName() == 'K'){
+			if (playerWhite[i] != NULL && playerWhite[i]->getWorth() == KING){
 				Piece *king = playerBlack[i];
 				break;
 			}
@@ -298,7 +294,7 @@ bool Game::isCheckmate(){
 	}
 	else{
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL && playerBlack[i]->getName() == 'k'){
+			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
 				Piece *king = playerWhite[i];
 				break;
 			}
@@ -345,7 +341,7 @@ bool Game::isCheck(){
 	if (getCurrentPlayer() == BLACK){
 		//Finds the Location the the King the the array of pieces and create pointer to it
 		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != NULL && playerWhite[i]->getName() == 'K'){
+			if (playerWhite[i] != NULL && playerWhite[i]->getWorth() == KING){
 				Piece *king = playerBlack[i];
 				break;
 			}
@@ -364,7 +360,7 @@ bool Game::isCheck(){
 	}
 	else{
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL && playerBlack[i]->getName() == 'k'){
+			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
 				Piece *king = playerWhite[i];
 				break;
 			}
@@ -403,6 +399,14 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 	//Checks for Pawn Promotion,
 	if (promoteType != ''){
+
+		//Checks that the piece is a pawn moving to the end row
+		if (theBoard[startX][startY].getWorth() != PAWN) return false;
+		if (getCurrentPlayer() == WHITE && endY != 0) return false;
+		if (getCurrentPlayer() == BLACK && endY != 7) return false;
+
+
+
 		// Check if character is correct Case
 		if (promoteType > 'A') promoteType = promoteType - 'A' + 'a';
 
@@ -479,8 +483,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 
 	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
-	if (theBoard[startX][startY]->getChar == 'k' || theBoard[startX][startY]->getChar == 'K' ||
-		theBoard[startX][startY]->getChar == 'r' || theBoard[startX][startY]->getChar == 'R'){
+	if (theBoard[startX][startY]->getWorth = KING || theBoard[startX][startY]->getWorth = ROOK){
 		if (theBoard[startX][startY]->getHasMoved == false) theBoard[startX][startY]->setHasMoved(true);
 	}
 
@@ -497,18 +500,6 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 int Game::getCurrentPlayer(){
 	return currentPlayer;
-}
-
-char Game::getPromoteType(){
-	return promoteType;
-}
-
-void Game::setPawnPromote(bool promote){
-	pawnPromote = promote;
-}
-
-void Game::setPromoteType(char type){
-	promoteType = type;
 }
 
 void initialSetup(){
