@@ -22,10 +22,10 @@ class Game {
 	bool whiteCastle;
 	bool blackCastle;
 	void clearGame();
-	Game();
-	~Game();
 
 public:
+	Game();
+	~Game();
 	void notify();// What will the parameters for this be?
 	bool isWon();
 	bool isCheck(int player);
@@ -34,7 +34,7 @@ public:
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	void setup();
-	bool makeMove(int startX, int startY, int endX, int endY);
+	bool makeMove(int startX, int startY, int endX, int endY, char pawnPromotionPiece = '0');
 };
 
 #endif

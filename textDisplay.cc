@@ -6,7 +6,7 @@ TextDisplay::TextDisplay(int n):View(n){
 	theDisplay = new char*[n];
 	for (int x = 0; x < n; x++){
 		theDisplay[x] = new char[x];
-		for (int y = 0; y++ < n; y++){
+		for (int y = 0; y < n; y++){
 			theDisplay[x][y] = blankSquare(x,y);
 		}
 	}
@@ -32,24 +32,30 @@ char TextDisplay::blankSquare(int x, int y){
 	}
 }
 
-void TextDisplay::notify(int row, int column, char ch){
- 	theDisplay[row][column] = ch;
+void TextDisplay::notify(int x, int y, char ch){
+	if (ch == '\0') {
+		ch = blankSquare(x, y);
+	}
+	theDisplay[x][y] = ch;
+	// Show updated display
+	print(cout);
  }
 
    
 void TextDisplay::print(std::ostream &out) const {
   	for (int x = 0; x < gridSize; x++){
-  		out << gridSize-x+1 << " ";
+  		out << gridSize-x << " ";
   		for (int y = 0; y < gridSize; y++){
   			out << theDisplay[x][y];
   		}
   		out << endl;
   	}
-  	cout << "  ";
+  	out << "  ";
   	for (int i = 0; i < gridSize; i++){
-  		cout << 'a' + i;
+  		char y = 'a' + i;
+  		out << y;
   	}
-  	cout << endl;
+  	out << endl;
   }
 
   View::~View(){}

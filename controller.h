@@ -27,7 +27,7 @@ class Controller : public GameNotification {
     bool checkWin() const;
 
     // Prints a success message for the given player
-    bool printWinStatus(int currentPlayer);
+    void printWinStatus(int currentPlayer);
 
   public:
     // Controller Constructor creates the game
@@ -38,7 +38,7 @@ class Controller : public GameNotification {
     // Start collecting user input from the Game
     // Args: 
     //    int givenFirstMove determines the player that starts the game
-    void play(int);
+    void play(int givenFirstMove = WHITE);
 
     // Update the game state in the View
     void notify(int x, int y, char piece);   

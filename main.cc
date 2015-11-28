@@ -1,6 +1,7 @@
 #include "controller.h"
 
 int main() {
-	Controller c = new Controller();
+	Controller c;
 	c.play();	
+	return 0;
 }
