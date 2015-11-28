@@ -2,7 +2,7 @@
 #define GAME_H
 
 const int WHITE = 1;
-const int BLACK = 2;
+const int BLACK = -1;
 
 class Piece;
 class Cell;

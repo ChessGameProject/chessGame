@@ -3,9 +3,6 @@
 
 class Game;
 
-const int WHITE = 1;
-const int BLACK = 2;
-
 class Piece {
 	// Pointer to the current game, which will allow access to the board
 	Game *game;

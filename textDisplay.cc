@@ -13,7 +13,6 @@ TextDisplay::TextDisplay(int n):View(n){
 }
 
 
-
 TextDisplay::~TextDisplay(){
 	for (int i = 0; i < gridSize; i++){
 		delete [] theDisplay[i];	
@@ -38,19 +37,11 @@ void TextDisplay::notify(int row, int column, char ch){
  }
 
    
-<<<<<<< HEAD
 void TextDisplay::print(std::ostream &out) const {
   	for (int x = 0; x < gridSize; x++){
   		out << gridSize-x+1 << " ";
   		for (int y = 0; y < gridSize; y++){
   			out << theDisplay[x][y];
-=======
-void TextDisplay::print(ostream &out) const {
-  	for (int row = 0; row < gridSize; row++){
-  		out << gridSize-row+1 << " ";
-  		for (int column = 0; column < gridSize; column++){
-  			out << theDisplay[row][column];
->>>>>>> master
   		}
   		out << endl;
   	}

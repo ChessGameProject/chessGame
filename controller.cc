@@ -6,7 +6,7 @@ using namespace std;
 
 Controller::Controller() {
 	game = new Game();
-	td = NULL;
+	td = new TextDisplay(8);
 	// TODO: Add code for Graphics Window
 }
 
@@ -152,7 +152,6 @@ void Controller::setup(std::istream & input, Game & g) {
  * Update the game state in the View
  */
 void Controller::notify(int x, int y, char piece) {
-	if (td == NULL) return;
 	td->notify(x, y, piece);
 }
 

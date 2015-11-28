@@ -6,9 +6,6 @@ class Game;
 class View;
 class GameNotification;
 
-const int WHITE = 1;
-const int BLACK = -1;
-
 // More documentation in controller.cc file
 
 class Controller : public GameNotification {
