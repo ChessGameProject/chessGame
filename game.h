@@ -14,16 +14,13 @@ class GameNotification {
 
 class Game{
 	Piece** theBoard[8][8];
-	Piece* playerWhite[16];
-	Piece* playerBlack[16];
+	Piece* playerWhite[25];
+	Piece* playerBlack[25];
 	GameNotification* notifications;
 	int p1Score;
 	int p2Score;
 	int currentPlayer;
-	//If true, the given move is a pawn promotion
-	bool pawnPromote;
 	//Type of character to promote to
-	char promoteType;
 	void clearGame();
 	Game();
 	~Game();
@@ -40,13 +37,9 @@ public:
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	bool isCheckAfterMove(int startX, int startY, int endX, int endY);
 	int getCurrentPlayer();
-	bool getPawnPromote();
-	char getPromoteType();
-	void setPawnPromote(bool promote);
-	void setPromoteType(char type);
 	void initalSetup();
 	void setup();
-	bool makeMove(int startX, int startY, int endX, int endY, bool promote = true,  bool checkForCheck = true);
+	bool makeMove(int startX, int startY, int endX, int endY, char promoteType = '', bool checkForCheck = true);
 
 
 };
