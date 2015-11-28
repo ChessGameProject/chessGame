@@ -36,24 +36,24 @@ void TextDisplay::notify(int x, int y, char ch){
 	if (ch == '\0') {
 		ch = blankSquare(x, y);
 	}
-	theDisplay[x][y] = ch;
+	theDisplay[y][x] = ch;
 	// Show updated display
 	print(cout);
  }
 
    
 void TextDisplay::print(std::ostream &out) const {
-  	for (int x = 0; x < gridSize; x++){
-  		out << gridSize-x << " ";
-  		for (int y = 0; y < gridSize; y++){
-  			out << theDisplay[x][y];
+  	for (int y = 0; y < gridSize; y++){
+  		out << gridSize-y << " ";
+  		for (int x = 0; x < gridSize; x++){
+  			out << theDisplay[y][x];
   		}
   		out << endl;
   	}
   	out << "  ";
   	for (int i = 0; i < gridSize; i++){
-  		char y = 'a' + i;
-  		out << y;
+  		char x = 'a' + i;
+  		out << x;
   	}
   	out << endl;
   }
