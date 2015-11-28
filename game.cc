@@ -322,14 +322,15 @@ bool Game::makeMove(int startX, int startY, int endX, int endY){
 
 
 
-	//Check for Pawn Promotion
+	//Checks for Pawn Promotion
 	if (getPawnPromote()){
 		//Finds location of piece in the array of pieces
 		int loc;
 		for (int i = 0; i < 16; i++){
-			if (currentPlayer() == WHITE){
+			if (getCurrentPlayer() == WHITE){
 				if(playerWhite[i] == theBoard[startX][startY]){
 					delete playerWhite[i];
+					theBoard[startX][startY] = NULL;
 					loc = i;
 					break;
 				}
@@ -337,21 +338,75 @@ bool Game::makeMove(int startX, int startY, int endX, int endY){
 			else{
 				if(playerBlack[i] == theBoard[startX][startY]){
 					delete playerBlack[i];
+					theBoard[startX][startY] = NULL;
 					loc = i;
 					break;
 				}
 			}
 		}
 
-
 		if (getPromoteType() == 'q'){
-
+			if (getCurrentPlayer() = WHITE){
+				playerWhite[loc] = new Queen(WHITE);
+				playerWhite[loc].setGame(this);
+				playerWhite[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerWhite[loc];
+			}
+			else{
+				playerBlack[loc] = new Queen(BLACK);
+				playerBlack[loc].setGame(this);
+				playerBlack[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerBlack[loc];
+			}
+		}
+		else if (getPromoteType() == 'r'){
+			if (getCurrentPlayer() = WHITE){
+				playerWhite[loc] = new Rook(WHITE);
+				playerWhite[loc].setGame(this);
+				playerWhite[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerWhite[loc];
+			}
+			else{
+				playerBlack[loc] = new Rook(BLACK);
+				playerBlack[loc].setGame(this);
+				playerBlack[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerBlack[loc];
+			}
+		}
+		else if (getPromoteType() == 'b'){
+			if (getCurrentPlayer() = WHITE){
+				playerWhite[loc] = new Bishop(WHITE);
+				playerWhite[loc].setGame(this);
+				playerWhite[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerWhite[loc];
+			}
+			else{
+				playerBlack[loc] = new Bishop(BLACK);
+				playerBlack[loc].setGame(this);
+				playerBlack[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerBlack[loc];
+			}
+		}
+		else if (getPromoteType() == 'n'){
+			if (getCurrentPlayer() = WHITE){
+				playerWhite[loc] = new Knight(WHITE);
+				playerWhite[loc].setGame(this);
+				playerWhite[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerWhite[loc];
+			}
+			else{
+				playerBlack[loc] = new Knight(BLACK);
+				playerBlack[loc].setGame(this);
+				playerBlack[loc].setLocation(startX,startY);
+				theBoard[startX][startY] = playerBlack[loc];
+			}
 		}
 	}
 
 
-	theBoard[endX][endY]->setPiece(theBoard[startX][startY]);
-	theBoard[start][startY]->setPiece(NULL);
+	theBoard[endX][endY] = theBoard[startX][startY];
+	theBoard[start][startY] = NULL;
+	theBoard[endX][endY].setLocation(endX,endY);
 
 }
 
@@ -359,11 +414,19 @@ int Game::getCurrentPlayer(){
 	return currentPlayer;
 }
 
-bool getPawnPromote(){
+bool Game::getPawnPromote(){
 	return pawnPromote;
 
 }
 
-char getPromoteType(){
+char Game::getPromoteType(){
 	return promoteType;
+}
+
+void Game::setPawnPromote(bool promote){
+	pawnPromote = promote;
+}
+
+void Game::setPromoteType(char type){
+	promoteType = type;
 }

@@ -12,7 +12,7 @@ class GameNotification {
     virtual void notify(int row, int column, char piece) = 0;
 };
 
-class Game: GameNotification{
+class Game{
 	Piece** theBoard[8][8];
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
@@ -42,6 +42,8 @@ public:
 	int getCurrentPlayer();
 	bool getPawnPromote();
 	char getPromoteType();
+	void setPawnPromote(bool promote);
+	void setPromoteType(char type)
 	void setup();
 	bool makeMove(int startX, int startY, int endX, int endY);
 
