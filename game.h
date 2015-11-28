@@ -20,8 +20,6 @@ class Game{
 	int p1Score;
 	int p2Score;
 	int currentPlayer;
-	bool whiteCastle;
-	bool blackCastle;
 	//If true, the given move is a pawn promotion
 	bool pawnPromote;
 	//Type of character to promote to
@@ -40,13 +38,14 @@ public:
 	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
+	bool isCheckAfterMove(int startX, int startY, int endX, int endY);
 	int getCurrentPlayer();
 	bool getPawnPromote();
 	char getPromoteType();
 	void setPawnPromote(bool promote);
 	void setPromoteType(char type);
 	void setup();
-	bool makeMove(int startX, int startY, int endX, int endY, bool promote = true);
+	bool makeMove(int startX, int startY, int endX, int endY, bool promote = true,  bool checkForCheck = true);
 
 
 };

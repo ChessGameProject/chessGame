@@ -1,11 +1,31 @@
 #include "game.h"
+/*
+TO DO:
+- Castling
+- En Passant
+- setup() function
+- checkMate()
+- ctor
+- dtor
+- clearGame()
+*/
+
+
 
 Game::Game(){
-
-
-
+	//Sets all pieces in Board to NULL
+	for(int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			theBoard[i][j] = NULL;
+		}
+	}
+	
 	p1Score = 0;
 	p2Score = 0;
+	notifications = this;
+	currentPlayer = WHITE;
+	pawnPromote = false;
+	promoteType = '';
 
 }
 
@@ -224,6 +244,15 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 	return false;
 }
 
+bool isCheckAfterMove(int startX, int startY, int endX, int endY){
+	Piece* temp = theBoard[endX][endY];
+	makeMove(startX,startY,endX,endY,false,false);
+	bool output = false;
+	if (isCheck() == true) output = true;
+	makeMove(endX,endY,startX,startY,false,false);
+	theBoard[endX][endY] = temp;
+}
+
 bool Game::isValidMove(int startX, int startY, int endX, int endY){
 	//Checks if input is valid
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
@@ -250,6 +279,8 @@ bool Game::isOccupied(int x, int y){
 }
 
 bool Game::isCheckmate(){
+
+
 
 }
 
@@ -321,7 +352,7 @@ bool Game::isCheck(){
 	}
 }
 
-bool Game::makeMove(int startX, int startY, int endX, int endY, bool promote = true){
+bool Game::makeMove(int startX, int startY, int endX, int endY, bool promote = true, bool checkForCheck = true){
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
 	//Checks to see if piece that it is moving to is own piece
@@ -334,7 +365,10 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, bool promote = t
 		}
 	}
 
-
+	//Check for Check
+	if (checkForCheck == true){
+		if (isCheckAfterMove(startX,startY,endX,endY) == true) return false;
+	}
 
 
 	//Checks for Pawn Promotion
@@ -419,13 +453,14 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, bool promote = t
 	}
 
 
-	//For Kings and Rooks, if they have not moved before, setHasMoved();
+	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
 	if (theBoard[startX][startY]->getChar == 'k' || theBoard[startX][startY]->getChar == 'K' ||
 		theBoard[startX][startY]->getChar == 'r' || theBoard[startX][startY]->getChar == 'R'){
 		if (theBoard[startX][startY]->getHasMoved == false) theBoard[startX][startY]->setHasMoved(true);
 	}
 
 	theBoard[endX][endY] = theBoard[startX][startY];
+	if (checkForCheck)theBoard[start][startY]->setLocation(-1,-1);
 	theBoard[start][startY] = NULL;
 	theBoard[endX][endY].setLocation(endX,endY);
 
@@ -454,4 +489,112 @@ void Game::setPawnPromote(bool promote){
 
 void Game::setPromoteType(char type){
 	promoteType = type;
+}
+
+void initialSetup(){
+	//Sets initial location of Pawns
+	for (int i = 0; i < 8; i++){
+		playerWhite[i] = new Pawn(WHITE);
+		playerBlack[i] = new Pawn(BLACK);
+		playerWhite[i]->setGame(this);
+		playerBlack[i]->setGame(this);
+		playerWhite[i]->setLocation(i,7);
+		playerWhite[i]->setLocation(i,2);
+		theBoard[i][7] = playerWhite[i];
+		theBoard[i][2] = playerBlack[i];
+	}
+
+	//Sets Location of Rooks
+	theBoard[0][0] = new Rook(BLACK);
+	theBoard[7][0] = new Rook(BLACK);
+	theBoard[0][7] = new Rook(WHITE);
+	theBoard[7][7] = new Rook(WHITE);
+
+	playerBlack[8] = theBoard[0][0];
+	playerBlack[9] = theBoard[7][0];
+	playerWhite[8] = theBoard[0][7];
+	playerWhite[9] = theBoard[7][7];
+
+	theBoard[0][0]->setGame(this);
+	theBoard[7][0]->setGame(this);
+	theBoard[0][7]->setGame(this);
+	theBoard[7][7]->setGame(this);
+
+	theBoard[0][0]->setLocation(0,0);
+	theBoard[7][0]->setLocation(7,0);
+	theBoard[0][7]->setLocation(0,7);
+	theBoard[7][7]->setLocation(7,7);
+
+	//Sets Location of Knights
+	theBoard[1][0] = new Knight(BLACK);
+	theBoard[6][0] = new Knight(BLACK);
+	theBoard[1][7] = new Knight(WHITE);
+	theBoard[6][7] = new Knight(WHITE);
+
+	playerBlack[10] = theBoard[1][0];
+	playerBlack[11] = theBoard[6][0];
+	playerWhite[10] = theBoard[1][7];
+	playerWhite[11] = theBoard[6][7];
+
+	theBoard[1][0]->setGame(this);
+	theBoard[6][0]->setGame(this);
+	theBoard[1][7]->setGame(this);
+	theBoard[6][7]->setGame(this);
+
+	theBoard[1][0]->setLocation(1,0);
+	theBoard[6][0]->setLocation(6,0);
+	theBoard[1][7]->setLocation(1,7);
+	theBoard[6][7]->setLocation(6,7);
+
+	//Sets Location of Bishops
+	theBoard[2][0] = new Bishop(BLACK);
+	theBoard[5][0] = new Bishop(BLACK);
+	theBoard[2][7] = new Bishop(WHITE);
+	theBoard[5][7] = new Bishop(WHITE);
+
+	playerBlack[12] = theBoard[2][0];
+	playerBlack[13] = theBoard[5][0];
+	playerWhite[12] = theBoard[2][7];
+	playerWhite[13] = theBoard[5][7];
+
+	theBoard[2][0]->setGame(this);
+	theBoard[5][0]->setGame(this);
+	theBoard[2][7]->setGame(this);
+	theBoard[5][7]->setGame(this);
+
+	theBoard[2][0]->setLocation(2,0);
+	theBoard[5][0]->setLocation(5,0);
+	theBoard[2][7]->setLocation(2,7);
+	theBoard[5][7]->setLocation(5,7);
+
+	//Sets Location fo Queens
+	theBoard[3][0] = new Queen(BLACK);;
+	theBoard[3][7] = new Queen(WHITE);
+
+	playerBlack[14] = theBoard[3][0];
+	playerWhite[14] = theBoard[3][7];
+
+	theBoard[3][0]->setGame(this);
+	theBoard[3][7]->setGame(this);
+
+	theBoard[3][0]->setLocation(3,0);
+	theBoard[3][7]->setLocation(3,7);
+
+	//Sets Location of King
+	theBoard[4][0] = new King(BLACK);;
+	theBoard[4][7] = new King(WHITE);
+
+	playerBlack[15] = theBoard[3][0];
+	playerWhite[15] = theBoard[3][7];
+
+	theBoard[4][0]->setGame(this);
+	theBoard[4][7]->setGame(this);
+
+	theBoard[4][0]->setLocation(3,0);
+	theBoard[4][7]->setLocation(3,7);
+
+
+
+
+
 }
