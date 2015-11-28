@@ -189,9 +189,9 @@ void Controller::setup(std::istream & input, Game & g) {
 		} else if (cmd == "=") {
 			string colour;
 			cin >> colour;
-			if (cmd == "white") {
+			if (colour == "white") {
 				currentPlayer = WHITE;
-			} else if (cmd == "black") {
+			} else if (colour == "black") {
 				currentPlayer = BLACK;
 			} else {
 				#ifdef DEBUG
