@@ -236,17 +236,19 @@ bool Game::isOccupied(int x, int y){
 	else return true;
 }
 
-bool Game::isCheckmate(int player){
+bool Game::isCheckmate(){
 
 }
 
-bool Game::isStalemate(int player){
+bool Game::isStalemate(){
 
-	if (player == WHITE){
+	if (getCurrentPlayer() == WHITE){
+		//goes through each piece and trie to find a valid move for any piece
 		for (int i = 0; i < 16; i++){
 			if (playerWhite[i] == NULL) continue;
 			for(int x = 0; x < 8; x++){
 				for(int y = 0; y < 8; y++){
+					//If it can find a valid move for the current player, returns false since it is not a stalemate
 					if (isMoveValid(playerWhite[i]->getX(),playerWhite[i]->getY(),x,y) == true) return false;
 				}
 			}
@@ -265,37 +267,38 @@ bool Game::isStalemate(int player){
 	return true;
 }
 
-bool Game::isCheck(int player){
-	if (player == WHITE){
+bool Game::isCheck(){
+	if (getCurrentPlayer() == BLACK){
 		//Finds the Location the the King the the array of pieces and create pointer to it
 		for (int i = 0; i < 16; i++){
-			if (playerWhite[i]!= NULL && playerWhite[i]->getName() == 'K'){
+			if (playerWhite[i]->getName() == 'K'){
+				Piece *king = playerBlack[i];
+				break;
+			}
+		}
+
+		//Goes through each opposition player and sees if any of them can make a vlid move to the King
+		for (int i = 0; i < 16; i++){
+			if (playerWhite[i] != king && playerWhite[i] != NULL){
+				if (playerWhite[i]->isMoveValid(king->getX(),king->getY()) == true){
+					return true;
+				}
+			}
+		}
+		return false;
+
+	}
+	else{
+		for (int i = 0; i < 16; i++){
+			if (playerBlack[i]->getName() == 'k'){
 				Piece *king = playerWhite[i];
 				break;
 			}
 		}
 
 		for (int i = 0; i < 16; i++){
-			if (playerWhite[i] != king && playerWhite[i] != NULL){
-				if (isPossibleMove(playerWhite[i]->getX(),playerWhite[i]->getY(),king->getX(),king->getY()){
-					return true;
-				}
-			}
-		}
-		return false;
-
-	}
-	else if (player == BLACK){
-		for (int i = 0; i < 16; i++){
-			if (playerBlack[i]!= NULL && playerBlack[i]->getName() == 'k'){
-				Piece *king = playerBlack[i];
-				break;
-			}
-		}
-
-		for (int i = 0; i < 16; i++){
 			if (playerBlack[i] != king && playerBlack[i] != NULL){
-				if (isPossibleMove(playerBlack[i]->getX(),playerBlack[i]->getY(),king->getX(),king->getY()){
+				if (playerBlack[i]->isMoveValid(king->getX(),king->getY())){
 					return true;
 				}
 			}
@@ -303,7 +306,6 @@ bool Game::isCheck(int player){
 		return false;
 
 	}
-	else return false;
 }
 
 bool Game::makeMove(int startX, int startY, int endX, int endY){
