@@ -1,10 +1,9 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
+#include "game.h"
 #include <iostream>
 
-class Game;
 class View;
-class GameNotification;
 
 // More documentation in controller.cc file
 
@@ -15,8 +14,8 @@ class Controller : public GameNotification {
     
     Game *game;
 
-    std::istream & whitePlayer;
-    std::istream & blackPlayer;
+    std::istream* whitePlayer;
+    std::istream* blackPlayer;
     int currentPlayer;
 
     // Game setup
@@ -26,6 +25,9 @@ class Controller : public GameNotification {
     //if yes, prints Won to stdout and returns true
     //if no, returns false
     bool checkWin() const;
+
+    // Prints a success message for the given player
+    bool printWinStatus(int currentPlayer);
 
   public:
     // Controller Constructor creates the game
@@ -44,11 +46,11 @@ class Controller : public GameNotification {
 
 // Converts board location input (eg. f6)
 //    into X location number from 0 to board length -1
-int getXLocation(string location);
+int getXLocation(std::string location);
 
 // Converts board location input (eg. f6)
 //    into Y location number from 0 to board length -1
-int getYLocation(string location);
+int getYLocation(std::string location);
 
 #endif
 

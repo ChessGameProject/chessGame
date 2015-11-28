@@ -1,12 +1,16 @@
-#include "game.h"
+//#include "game.h"
 #include "controller.h"
+#include "textDisplay.h"
 #include <iostream>
 
 using namespace std;
 
 Controller::Controller() {
-	game = new Game();
+	game = 0;//new Game();
 	td = new TextDisplay(8);
+	whitePlayer = 0;
+	blackPlayer = 0;
+
 	// White always goes first
 	currentPlayer = WHITE;
 	// TODO: Add code for Graphics Window
@@ -35,9 +39,8 @@ void Controller::play(int givenFirstMove = WHITE) {
   while ( !gameOver && (cin >> cmd) ) {
 
   	if (cmd == "setup") {
-  		string setup;
   		// TODO: Check for a different input to give (if loading a game)
-  		setup(cin, game);
+  		setup(cin, *game);
 
   	} else if (cmd == "game") {
   		//
@@ -72,7 +75,7 @@ void Controller::play(int givenFirstMove = WHITE) {
   				break;
   			} else if (cmd == "move") {
   				string start, end;
-  				bool success;
+  				bool success = false;
   				cin >> start >> end;
 
   				// Convert start and end to (x,y) locations
@@ -85,22 +88,23 @@ void Controller::play(int givenFirstMove = WHITE) {
   				// Check for Pawn promotion
   				//
   				// TODO: NOT sure if 'peek()' is the right way to do this?
+  				// TODO: Check for wrong pieced
   				if (cin.peek()) {
   					string pawnPromotionPiece;
   					cin >> pawnPromotionPiece;
-  					success = game.makeMove(startX, startY, endX, endY, pawnPromotionPiece);
+  					success = game->makeMove(startX, startY, endX, endY, pawnPromotionPiece);
   				} else {
-  					success = game.makeMove(startX, startY, endX, endY);
+  					success = game->makeMove(startX, startY, endX, endY);
   				}
 
   				if (!success) {
   					cout << "Couldn't make that move!" << endl;
   				} else {
   					// Check for the big win!
-  					if ( game.hasWon(currentPlayer) ) {
-  						gameOver = true;
-  						break;
-  					}
+  					// if ( game->hasWon(currentPlayer) ) {
+  					// 	gameOver = true;
+  					// 	break;
+  					// }
   					// or just increment whose turn it is
   					currentPlayer = currentPlayer * -1;
   				}
@@ -114,9 +118,8 @@ void Controller::play(int givenFirstMove = WHITE) {
 
 void Controller::setup(std::istream & input, Game & g) {
 	//game.init();
-
 	string cmd;
-	while (input >> setup) {
+	while (input >> cmd) {
 		if (cmd == "+") {
 			string piece, location;
 			cin >> piece >> location;
@@ -126,28 +129,27 @@ void Controller::setup(std::istream & input, Game & g) {
 				cout << "'+' " << x << "," << y << " command not recognized" << endl;
 			#endif
 
-		} else if (setup == "-") {
+		} else if (cmd == "-") {
 			#ifdef DEBUG
-				cout << "'-' " << setup << " command not recognized" << endl;
+				cout << "'-' " << cmd << " command not recognized" << endl;
 			#endif
 
-		} else if (setup == "=") {
-
+		} else if (cmd == "=") {
 			string colour;
 			cin >> colour;
-			if (setup == "white") {
-				move = WHITE;
-			} else if (setup == "black") {
-				move = BLACK;
+			if (cmd == "white") {
+				currentPlayer = WHITE;
+			} else if (cmd == "black") {
+				currentPlayer = BLACK;
 			} else {
 				#ifdef DEBUG
-				cout << "'=' " << setup << " command not recognized" << endl;
+				cout << "'=' " << cmd << " command not recognized" << endl;
 				#endif
 			}
 
-		} else if (setup == "done") {
+		} else if (cmd == "done") {
 			// TODO: Check game for a valid board
-			// if (notValid) {
+			// if (!game.validBoard()) {
 			//    continue;
 			// } else {
 			break;
