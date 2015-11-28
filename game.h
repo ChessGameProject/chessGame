@@ -13,7 +13,7 @@ class GameNotification {
 };
 
 class Game: GameNotification{
-	Piece** theBoard;
+	Piece** theBoard[8][8];
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
 	GameNotification* notifications;

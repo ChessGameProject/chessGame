@@ -316,6 +316,8 @@ bool Game::makeMove(int startX, int startY, int endX, int endY){
 
 	//Check for Pawn Promotion
 
+	//If eating piece, check to see if eating own piece
+
 	theBoard[endX][endY]->setPiece(theBoard[startX][startY]);
 	theBoard[start][startY]->setPiece(NULL);
 
