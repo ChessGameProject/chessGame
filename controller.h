@@ -26,6 +26,9 @@ class Controller : public GameNotification {
     //if no, returns false
     bool checkWin() const;
 
+    // Checks to see if location is valid on the board
+    bool validLocation(char chX, char chY) const;
+
     // Prints a success message for the given player
     void printWinStatus(int currentPlayer);
 

@@ -141,6 +141,14 @@ void Controller::play(int givenFirstMove) {
   }
 }
 
+bool Controller::validLocation(char chX, char chY) const {
+	if (chX > 'h' || chX < 'a' || 
+				chY < '1' || chY > '8') {
+		return false;
+	}
+	return true;
+}
+
 
 void Controller::setup(std::istream & input, Game & g) {
 	//game.init();
@@ -149,6 +157,13 @@ void Controller::setup(std::istream & input, Game & g) {
 	while (input >> cmd) {
 		if (cmd == "+") {
 			cin >> piece >> location;
+
+			// Location validation
+			if ( !validLocation(location[0], location[1]) ) {
+				cout << "Invalid board location, try again..." << endl;
+				continue;
+			}
+
 			int x = getXLocation(location);
   		int y = getYLocation(location);
   		// game.addPiece(x,y,piece);
@@ -159,15 +174,17 @@ void Controller::setup(std::istream & input, Game & g) {
 
 		} else if (cmd == "-") {
 			cin >> location;
+
+			// Location validation
+			if (!validLocation(location[0], location[1]) ) {
+				cout << "Invalid board location, try again..." << endl;
+				continue;
+			}
+
 			int x = getXLocation(location);
   		int y = getYLocation(location);
   		// game.removePiece(x, y);
   		notify(x, y, '\0');
-
-
-			#ifdef DEBUG
-				cout << "'-' " << cmd << " command not recognized" << endl;
-			#endif
 
 		} else if (cmd == "=") {
 			string colour;
@@ -210,8 +227,7 @@ Controller::~Controller() {
 }
 
 // Returns the x location of a board location
-// Requires: location have the format [char][int] such that it would be found
-//		on the game board
+// Requires: valid location string of format [a <= letter <= h][1 <= number <= 8]
 // Translation:
 //  8 -> 0, 7 -> 1, 6 -> 2, 5 -> 3, 4 -> 4, 3 -> 5, 2 -> 6, 1 -> 7
 int getXLocation(string location) {
@@ -221,8 +237,9 @@ int getXLocation(string location) {
 }
 
 // Returns the y location of a board location
-// Requires: location have the format [char][int] such that it would be found
-//		on the game board
+// Requires: valid location string of format [a <= letter <= h][1 <= number <= 8]
+// Translation:
+//  a -> 0, b -> 1, c -> 2, d -> 3, e -> 4, f -> 5, g -> 6, h -> 7
 int getYLocation(string location) {
 	char y = location[1];
 	int locY = y - '1';
