@@ -2,7 +2,7 @@
 #define GAME_H
 
 const int WHITE = 1;
-const int BLACK = 2;
+const int BLACK = -1;
 const int KING = -1;
 const int QUEEN = 900;
 const int ROOK = 500;
@@ -34,14 +34,17 @@ class Game{
 
 public:
 	void notify();// What will the parameters for this be?
-	bool isWon();
-	bool isCheck();
+	bool hasWon();
+	//Returns if current player is in Check
+	bool isCheck(int player = getCurrentPlayer());
+	//Check is other player is in a Checkmate scenario
 	bool isCheckmate();
 	bool isStalemate();
 	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
-	bool isCheckAfterMove(int startX, int startY, int endX, int endY);
+	bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player = getCurrentPlayer());
+	void setCurrentPlayer(int player);
 	int getCurrentPlayer();
 	void initalSetup();
 	void setup();

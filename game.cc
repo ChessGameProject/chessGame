@@ -1,4 +1,5 @@
 #include "game.h"
+#include "piece.h"
 /*
 TO DO:
 - Castling
@@ -247,11 +248,11 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 	return false;
 }
 
-bool isCheckAfterMove(int startX, int startY, int endX, int endY){
+bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player = getCurrentPlayer()){
 	Piece* temp = theBoard[endX][endY];
 	makeMove(startX,startY,endX,endY,'',false);
 	bool output = false;
-	if (isCheck() == true) output = true;
+	if (isCheck(player) == true) output = true;
 	makeMove(endX,endY,startX,startY,'',false);
 	theBoard[endX][endY] = temp;
 	return output;
@@ -284,18 +285,21 @@ bool Game::isOccupied(int x, int y){
 
 bool Game::isCheckmate(){
 	//Finds the Location the the King the the array of pieces and create pointer to it
-	if (getCurrentPlayer() == BLACK){
+	int player;
+	if (getCurrentPlayer() == WHITE){
 		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != NULL && playerWhite[i]->getWorth() == KING){
+			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
 				Piece *king = playerBlack[i];
+				player = BLACK;
 				break;
 			}
 		}
 	}
 	else{
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
+			if (playerWhite[i] != NULL && playerWhite[i]->getWorth() == KING){
 				Piece *king = playerWhite[i];
+				player = WHITE;
 				break;
 			}
 		}
@@ -304,7 +308,7 @@ bool Game::isCheckmate(){
 	//For all possible moves around the king, it checks if after moving the king there would result in a Check position
 	for (int x = -1; x <= 1; x++){
 		for (int y = -1; y <= 1; y++){
-			(isCheckAfterMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y) == false) return false;
+			(isCheckAfterMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y, player) == false) return false;
 		}
 	}
 	return true;
@@ -337,45 +341,46 @@ bool Game::isStalemate(){
 	return true;
 }
 
-bool Game::isCheck(){
-	if (getCurrentPlayer() == BLACK){
+bool hasWon(){
+	return isCheckmate();
+}
+
+bool Game::isCheck(int player = getCurrentPlayer()){
+	if (player == WHITE){
 		//Finds the Location the the King the the array of pieces and create pointer to it
 		for (int i = 0; i < 25; i++){
 			if (playerWhite[i] != NULL && playerWhite[i]->getWorth() == KING){
-				Piece *king = playerBlack[i];
-				break;
-			}
-		}
-
-		//Goes through each opposition player and sees if any of them can make a vlid move to the King
-		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != king && playerWhite[i] != NULL){
-				if (playerWhite[i]->isMoveValid(king->getX(),king->getY()) == true){
-					return true;
-				}
-			}
-		}
-		return false;
-
-	}
-	else{
-		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
 				Piece *king = playerWhite[i];
 				break;
 			}
 		}
 
+		//Goes through each opposition player and sees if any of them can make a valid move to the King
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != king && playerBlack[i] != NULL){
-				if (playerBlack[i]->isMoveValid(king->getX(),king->getY())){
+			if (playerBlack[i] != NULL){
+				if (playerBlack[i]->isMoveValid(king->getX(),king->getY()) == true){
 					return true;
 				}
 			}
 		}
-		return false;
-
 	}
+	else{
+		for (int i = 0; i < 25; i++){
+			if (playerBlack[i] != NULL && playerBlack[i]->getWorth() == KING){
+				Piece *king = playerBlack[i];
+				break;
+			}
+		}
+
+		for (int i = 0; i < 25; i++){
+			if (playerWhite[i] != NULL){
+				if (playerWhite[i]->isMoveValid(king->getX(),king->getY())){
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType = '', bool checkForCheck = true){
@@ -401,7 +406,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	if (promoteType != ''){
 
 		//Checks that the piece is a pawn moving to the end row
-		if (theBoard[startX][startY].getWorth() != PAWN) return false;
+		if (theBoard[startX][startY]->getWorth() != PAWN) return false;
 		if (getCurrentPlayer() == WHITE && endY != 0) return false;
 		if (getCurrentPlayer() == BLACK && endY != 7) return false;
 
@@ -426,56 +431,56 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		if (getPromoteType() == 'q'){
 			if (getCurrentPlayer() = WHITE){
 				playerWhite[loc] = new Queen(WHITE);
-				playerWhite[loc].setGame(this);
-				playerWhite[loc].setLocation(startX,startY);
+				playerWhite[loc]->setGame(this);
+				playerWhite[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Queen(BLACK);
-				playerBlack[loc].setGame(this);
-				playerBlack[loc].setLocation(startX,startY);
+				playerBlack[loc]->setGame(this);
+				playerBlack[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (getPromoteType() == 'r'){
 			if (getCurrentPlayer() = WHITE){
 				playerWhite[loc] = new Rook(WHITE);
-				playerWhite[loc].setGame(this);
-				playerWhite[loc].setLocation(startX,startY);
+				playerWhite[loc]->setGame(this);
+				playerWhite[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Rook(BLACK);
-				playerBlack[loc].setGame(this);
-				playerBlack[loc].setLocation(startX,startY);
+				playerBlack[loc]->setGame(this);
+				playerBlack[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (getPromoteType() == 'b'){
 			if (getCurrentPlayer() = WHITE){
 				playerWhite[loc] = new Bishop(WHITE);
-				playerWhite[loc].setGame(this);
-				playerWhite[loc].setLocation(startX,startY);
+				playerWhite[loc]->setGame(this);
+				playerWhite[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Bishop(BLACK);
-				playerBlack[loc].setGame(this);
-				playerBlack[loc].setLocation(startX,startY);
+				playerBlack[loc]->setGame(this);
+				playerBlack[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (getPromoteType() == 'n'){
 			if (getCurrentPlayer() = WHITE){
 				playerWhite[loc] = new Knight(WHITE);
-				playerWhite[loc].setGame(this);
-				playerWhite[loc].setLocation(startX,startY);
+				playerWhite[loc]->setGame(this);
+				playerWhite[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Knight(BLACK);
-				playerBlack[loc].setGame(this);
-				playerBlack[loc].setLocation(startX,startY);
+				playerBlack[loc]->setGame(this);
+				playerBlack[loc]->setLocation(startX,startY);
 				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
@@ -490,7 +495,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	theBoard[endX][endY] = theBoard[startX][startY];
 	if (checkForCheck)theBoard[start][startY]->setLocation(-1,-1);
 	theBoard[start][startY] = NULL;
-	theBoard[endX][endY].setLocation(endX,endY);
+	theBoard[endX][endY]->setLocation(endX,endY);
 
 	//Notifies of changes
 	notify(startX,startY,'');
@@ -498,11 +503,15 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 }
 
+void Game::setCurrentPlayer(int player){
+	currentPlayer = player;
+}
+
 int Game::getCurrentPlayer(){
 	return currentPlayer;
 }
 
-void initialSetup(){
+void Game::initialSetup(){
 	//Sets initial location of Pawns
 	for (int i = 0; i < 8; i++){
 		playerWhite[i] = new Pawn(WHITE);
@@ -605,6 +614,6 @@ void initialSetup(){
 	theBoard[4][7]->setLocation(4,7);
 }
 
-void setup(){
+void Game::setup(){
 	initialSetup();
 }
