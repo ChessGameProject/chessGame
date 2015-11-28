@@ -30,6 +30,10 @@ Game::Game(){
 }
 
 Game::~Game(){
+	for(int i = 0; i < 8; i++){
+		delete [] theBoard[i];
+	}
+	delete [] theBoard;
 
 }
 
@@ -584,17 +588,16 @@ void initialSetup(){
 	theBoard[4][0] = new King(BLACK);;
 	theBoard[4][7] = new King(WHITE);
 
-	playerBlack[15] = theBoard[3][0];
-	playerWhite[15] = theBoard[3][7];
+	playerBlack[15] = theBoard[4][0];
+	playerWhite[15] = theBoard[4][7];
 
 	theBoard[4][0]->setGame(this);
 	theBoard[4][7]->setGame(this);
 
-	theBoard[4][0]->setLocation(3,0);
-	theBoard[4][7]->setLocation(3,7);
+	theBoard[4][0]->setLocation(4,0);
+	theBoard[4][7]->setLocation(4,7);
+}
 
-
-
-
-
+void setup(){
+	initialSetup();
 }
