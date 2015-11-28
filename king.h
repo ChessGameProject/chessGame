@@ -13,6 +13,9 @@ public:
 
   // To let the piece know when it has been moved for the first time
   void setHasMoved(bool moved);
+
+  //getter for hasMoved
+  bool getHasMoved();
 };
 
 #endif

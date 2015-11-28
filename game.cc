@@ -2,6 +2,11 @@
 
 Game::Game(){
 
+
+
+	p1Score = 0;
+	p2Score = 0;
+
 }
 
 Game::~Game(){
@@ -220,8 +225,16 @@ bool Game::isPossibleMove(int startX, int startY, int endX, int endY){
 }
 
 bool Game::isValidMove(int startX, int startY, int endX, int endY){
+	//Checks if input is valid
+	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
+	if (startX == endX && startY == endY) return false;
 
-	if (isPossibleMove(startX,startY,endX,endY) == false) return false;
+	//If there is no piece at the specified location, returns false
+	if (theBoard[startX][startY] == NULL) return false;
+
+	//Check is Move is invalid from the Piece class
+	if (theBoard[startX]start[Y]->isMoveValid(endX,endY) == false) return false;
+
 
 	//Check for castle
 
@@ -308,7 +321,7 @@ bool Game::isCheck(){
 	}
 }
 
-bool Game::makeMove(int startX, int startY, int endX, int endY){
+bool Game::makeMove(int startX, int startY, int endX, int endY, bool promote = true){
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
 	//Checks to see if piece that it is moving to is own piece
@@ -325,7 +338,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY){
 
 
 	//Checks for Pawn Promotion
-	if (getPawnPromote()){
+	if (getPawnPromote() && promote == true){
 		//Finds location of piece in the array of pieces
 		int loc;
 		for (int i = 0; i < 16; i++){
@@ -406,9 +419,19 @@ bool Game::makeMove(int startX, int startY, int endX, int endY){
 	}
 
 
+	//For Kings and Rooks, if they have not moved before, setHasMoved();
+	if (theBoard[startX][startY]->getChar == 'k' || theBoard[startX][startY]->getChar == 'K' ||
+		theBoard[startX][startY]->getChar == 'r' || theBoard[startX][startY]->getChar == 'R'){
+		if (theBoard[startX][startY]->getHasMoved == false) theBoard[startX][startY]->setHasMoved(true);
+	}
+
 	theBoard[endX][endY] = theBoard[startX][startY];
 	theBoard[start][startY] = NULL;
 	theBoard[endX][endY].setLocation(endX,endY);
+
+	//Notifies of changes
+	notify(startX,startY,'');
+	notify(endX,endY, theBoard[endX][endY]->getChar());
 
 }
 

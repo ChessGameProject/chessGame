@@ -44,9 +44,9 @@ public:
 	bool getPawnPromote();
 	char getPromoteType();
 	void setPawnPromote(bool promote);
-	void setPromoteType(char type)
+	void setPromoteType(char type);
 	void setup();
-	bool makeMove(int startX, int startY, int endX, int endY);
+	bool makeMove(int startX, int startY, int endX, int endY, bool promote = true);
 
 
 };

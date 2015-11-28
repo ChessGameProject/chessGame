@@ -44,3 +44,8 @@ bool King::isMoveValid(int endX, int endY) const {
 void King::setHasMoved(bool moved) {
 	hasMoved = moved;
 }
+
+//getter for hasMoved
+bool King::getHasMoved(){
+  	return hasMoved;
+}
