@@ -12,8 +12,8 @@ class GameNotification {
     virtual void notify(int row, int column, char piece) = 0;
 };
 
-class Game{
-	Cell** theBoard;
+class Game: GameNotification{
+	Piece** theBoard;
 	Piece* playerWhite[16];
 	Piece* playerBlack[16];
 	GameNotification* notifications;
@@ -22,15 +22,20 @@ class Game{
 	bool whiteCastle;
 	bool blackCastle;
 	void clearGame();
+	Game();
+	~Game();
 
 
 public:
 	void notify();// What will the parameters for this be?
 	bool isWon();
-	bool isCheck();
-	bool isValidMove(int x1, int y1, int x2, int y2);
-	bool setup();
-	bool makeMove(int x1, int y1, int x2, int y2);
+	bool isCheck(int player);
+	bool isCheckmate(int player);
+	bool isOccupied(int x, int y);
+	bool isValidMove(int startX, int startY, int endX, int endY);
+	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
+	void setup();
+	bool makeMove(int startX, int startY, int endX, int endY);
 
 
 };
