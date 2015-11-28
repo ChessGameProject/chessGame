@@ -19,15 +19,17 @@ class Controller : public GameNotification {
     int currentPlayer;
 
     // Game setup
-    void setup(std::istream & input, Game & g);
+    void setup(std::istream & input);
     
 	///Helper to check if the game is in a win state
     //if yes, prints Won to stdout and returns true
     //if no, returns false
     bool checkWin() const;
 
-    // Checks to see if location is valid on the board
+    // Checks to see if given characters form a valid location
     bool validLocation(char chX, char chY) const;
+    // Checks to see if given character p is a valid piece
+    bool validPiece(char p) const;
 
     // Prints a success message for the given player
     void printWinStatus(int currentPlayer);

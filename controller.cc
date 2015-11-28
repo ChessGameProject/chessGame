@@ -38,16 +38,16 @@ void Controller::play(int givenFirstMove) {
 
   // Welcome message
   cout << "Welcome to Pawn Pusher 9000!" << endl;
-  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
+  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl << endl;
 
   while ( !gameOver && (cin >> cmd) ) {
 
   	if (cmd == "setup") {
-  		#ifdef DEBUG
-				cout << "(Entering setup...)" << endl;
-			#endif
+  		cout << "Welcome to SETUP mode" << endl;
+  		cout << "Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', ";
+  		cout << "'done'" << endl;
   		// TODO: Check for a different input to give (if loading a game)
-  		setup(cin, *game);
+  		setup(cin);
 
   	} else if (cmd == "game") {
   		#ifdef DEBUG
@@ -141,6 +141,7 @@ void Controller::play(int givenFirstMove) {
   }
 }
 
+// Checks to see if given characters form a valid location
 bool Controller::validLocation(char chX, char chY) const {
 	if (chX > 'h' || chX < 'a' || 
 				chY < '1' || chY > '8') {
@@ -149,8 +150,17 @@ bool Controller::validLocation(char chX, char chY) const {
 	return true;
 }
 
+// Checks to see if given character p is a valid piece
+bool Controller::validPiece(char p) const {
+	if (p == 'K' || p == 'k' || p == 'Q' || p == 'q' || p == 'B' || p == 'b' ||
+			p == 'N' || p == 'n' || p == 'R' || p == 'r' || p == 'P' || p == 'p') {
+		return true;
+	}
+	return false;
+}
 
-void Controller::setup(std::istream & input, Game & g) {
+
+void Controller::setup(std::istream & input) {
 	//game.init();
 	string cmd, location;
 	char piece;
@@ -162,16 +172,14 @@ void Controller::setup(std::istream & input, Game & g) {
 			if ( !validLocation(location[0], location[1]) ) {
 				cout << "Invalid board location, try again..." << endl;
 				continue;
+			} else if ( !validPiece(piece) ) {
+				cout << "Invalid piece, try again" << endl;
 			}
 
 			int x = getXLocation(location);
   		int y = getYLocation(location);
   		// game.addPiece(x,y,piece);
   		notify(x, y, piece);
-			#ifdef DEBUG
-				cout << "'+' " << x << "," << y << " command not recognized" << endl;
-			#endif
-
 		} else if (cmd == "-") {
 			cin >> location;
 
@@ -179,6 +187,8 @@ void Controller::setup(std::istream & input, Game & g) {
 			if (!validLocation(location[0], location[1]) ) {
 				cout << "Invalid board location, try again..." << endl;
 				continue;
+			} else if ( !validPiece(piece) ) {
+				cout << "Invalid piece, try again" << endl;
 			}
 
 			int x = getXLocation(location);
