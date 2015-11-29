@@ -288,6 +288,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 
 	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
+	/*
 	if (theBoard[startX][startY]->getWorth() == KING){
 		King* temp = theBoard[startX][startY];
 		if (temp->getHasMoved() == false) temp->setHasMoved(true);
@@ -297,6 +298,13 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		Rook* temp = theBoard[startX][startY];
 		if (temp->getHasMoved() == false) temp->setHasMoved(true);
 	}
+
+	*/
+	if (theBoard[startX][startY]->getWorth() == KING || theBoard[startX][startY]->getWorth() == ROOK){
+		if (theBoard[startX][startY]->getHasMoved() == false) theBoard[startX][startY]->setHasMoved(true);
+	}
+
+
 
 
 	if (theBoard[endX][endY] != NULL)theBoard[endX][endY]->setLocation(-1,-1);
