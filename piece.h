@@ -3,10 +3,12 @@
 
 class Game;
 
-const int WHITE = 1;
-const int BLACK = 2;
-
 class Piece {
+protected:
+	// Location of piece
+	int x;
+	int y;
+
 	// Pointer to the current game, which will allow access to the board
 	Game *game;
 
@@ -14,11 +16,6 @@ class Piece {
 	int worth;
 	// A single character name to represent the piece on the board
 	char name;
-	
-protected:
-	// Location of piece
-	int x;
-	int y;
 
 public:
 	// Constructor that changes capitalization of the name based on player

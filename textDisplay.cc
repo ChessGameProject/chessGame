@@ -6,12 +6,11 @@ TextDisplay::TextDisplay(int n):View(n){
 	theDisplay = new char*[n];
 	for (int x = 0; x < n; x++){
 		theDisplay[x] = new char[x];
-		for (int y = 0; y++ < n; y++){
+		for (int y = 0; y < n; y++){
 			theDisplay[x][y] = blankSquare(x,y);
 		}
 	}
 }
-
 
 
 TextDisplay::~TextDisplay(){
@@ -33,32 +32,30 @@ char TextDisplay::blankSquare(int x, int y){
 	}
 }
 
-void TextDisplay::notify(int row, int column, char ch){
- 	theDisplay[row][column] = ch;
+void TextDisplay::notify(int x, int y, char ch){
+	if (ch == '\0') {
+		ch = blankSquare(x, y);
+	}
+	theDisplay[y][x] = ch;
+	// Show updated display
+	print(cout);
  }
 
    
-<<<<<<< HEAD
 void TextDisplay::print(std::ostream &out) const {
-  	for (int x = 0; x < gridSize; x++){
-  		out << gridSize-x+1 << " ";
-  		for (int y = 0; y < gridSize; y++){
-  			out << theDisplay[x][y];
-=======
-void TextDisplay::print(ostream &out) const {
-  	for (int row = 0; row < gridSize; row++){
-  		out << gridSize-row+1 << " ";
-  		for (int column = 0; column < gridSize; column++){
-  			out << theDisplay[row][column];
->>>>>>> master
+  	for (int y = 0; y < gridSize; y++){
+  		out << gridSize-y << " ";
+  		for (int x = 0; x < gridSize; x++){
+  			out << theDisplay[y][x];
   		}
   		out << endl;
   	}
-  	cout << "  ";
+  	out << "  ";
   	for (int i = 0; i < gridSize; i++){
-  		cout << 'a' + i;
+  		char x = 'a' + i;
+  		out << x;
   	}
-  	cout << endl;
+  	out << endl;
   }
 
   View::~View(){}

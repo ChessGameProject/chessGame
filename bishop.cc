@@ -1,4 +1,5 @@
 #include "bishop.h"
+#include "game.h"
 #include "piece.h"
 
 // Create a piece with name 'b'
@@ -18,7 +19,7 @@ bool Bishop::isMoveValid(int endX, int endY) const {
 
 		for (int i = x, j = y; (i != endX) && (j != endY); i += xDir, j += yDir) {
 			// Make sure there are no pieces in the way
-			if ( game.isOccupied(i, j) ) return false;
+			if ( game->isOccupied(i, j) ) return false;
 		}
 
 		return true;

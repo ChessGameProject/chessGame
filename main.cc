@@ -1,6 +1,9 @@
 #include "controller.h"
 
 int main() {
-	Controller c = new Controller();
+
+	// TODO: Add command-line argument for loading game
+	Controller c;
 	c.play();	
+	return 0;
 }

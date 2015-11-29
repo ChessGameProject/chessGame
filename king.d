@@ -1,1 +1,1 @@
-king.o: king.cc king.h piece.h
+king.o: king.cc king.h piece.h game.h
