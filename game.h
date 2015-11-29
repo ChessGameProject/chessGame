@@ -1,6 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <cstdlib>
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
+#include "pawn.h"
+
+
 const int WHITE = 1;
 const int BLACK = -1;
 const int KING = -1;
@@ -19,7 +28,7 @@ class GameNotification {
 };
 
 class Game{
-	Piece** theBoard[8][8];
+	Piece* theBoard[8][8];
 	Piece* playerWhite[25];
 	Piece* playerBlack[25];
 	GameNotification* notifications;
@@ -33,22 +42,25 @@ class Game{
 
 
 public:
-	void notify();// What will the parameters for this be?
+	void notify(int x, int y, char c);// What will the parameters for this be
 	bool hasWon();
 	//Returns if current player is in Check
-	bool isCheck(int player = getCurrentPlayer());
+	bool isCheck(int player);
+	bool isCheck();
 	//Check is other player is in a Checkmate scenario
 	bool isCheckmate();
 	bool isStalemate();
 	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
-	bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player = getCurrentPlayer());
+	bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player);
+	bool isCheckAfterMove(int startX, int startY, int endX, int endY);
 	void setCurrentPlayer(int player);
 	int getCurrentPlayer();
-	void initalSetup();
+	void initialSetup();
 	void setup();
-	bool makeMove(int startX, int startY, int endX, int endY, char promoteType = '', bool checkForCheck = true);
+	bool makeMove(int startX, int startY, int endX, int endY, char promoteType = ' ', bool checkForCheck = true);
+	void setNotification(GameNotification* input);
 
 
 };
