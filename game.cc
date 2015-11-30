@@ -293,7 +293,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 
 	//Check for castle
-	if (theBoard[startX][startY]->getWorth() == KING  && (std::abs(startX - endX) == 2 || std::abs(startX - endX) == 3){
+	if (theBoard[startX][startY]->getWorth() == KING  && (std::abs(startX - endX) == 2 || std::abs(startX - endX) == 3)){
 		//If player is currently in check, returns false
 		if (isCheck() == true) return false;
 		
@@ -303,16 +303,16 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 		// Check is rook exists at required location and if it has moved
 		if (dir == 1){
-			if (isOccupied(7,startY) == false || theBoard[7][startY]->getWorth() != ROOK return false;
+			if (isOccupied(7,startY) == false || theBoard[7][startY]->getWorth() != ROOK) return false;
 			if (theBoard[7][startY]->getHasMoved() == true) return false;
 		}
 		else {
-			if (isOccupied(0,startY) == false || theBoard[0][startY]->getWorth() != ROOK return false;
+			if (isOccupied(0,startY) == false || theBoard[0][startY]->getWorth() != ROOK) return false;
 			if (theBoard[0][startY]->getHasMoved() == true) return false;
 		}
 
 		//For all spaces the king will move through, checks if any of them would put the king in check
-		for (int i = x + dir; i != endX; i += dir){
+		for (int i = startX + dir; i != endX; i += dir){
 			if (isCheckAfterMove(startX,startY,i,endY) == true) return false;
 		}
 		
@@ -324,7 +324,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
 			//Notifies of changes
 			notify(7,startY,' ');
-			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName())
+			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName());
 		}
 		else{
 			theBoard[endX - dir][endY] = theBoard[0][startY];	
@@ -332,7 +332,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
 			//Notifies of changes
 			notify(7,startY,' ');
-			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName())
+			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName());
 		}
 	}
 	
