@@ -59,17 +59,22 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 	if (startX == endX && startY == endY) return false;
 
 	//If there is no piece at the specified location, returns false
-	if (theBoard[startX][startY] == NULL) return false;
+	if (isOccupied(startX,startY) == false) return false;
 
 	//Check is Move is invalid from the Piece class
 	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) return false;
 
 
 	//Check for castle
+	if (currentPlayer = WHITE){
+
+	}
+	else{
+
+	}
+
 
 	//Check for en passant
-
-	//Check for moving into check
 
 }
 
@@ -287,27 +292,52 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	}
 
 
+	//Check for castle
+	if (theBoard[startX][startY]->getWorth() == KING  && (std::abs(startX - endX) == 2 || std::abs(startX - endX) == 3){
+		//If player is currently in check, returns false
+		if (isCheck() == true) return false;
+		
+		//Variable to know which direction the king is moving
+		int dir = 1;
+		if (endX < startX) dir = -1;
+
+		// Check is rook exists at required location and if it has moved
+		if (dir == 1){
+			if (isOccupied(7,startY) == false || theBoard[7][startY]->getWorth() != ROOK return false;
+			if (theBoard[7][startY]->getHasMoved() == true) return false;
+		}
+		else {
+			if (isOccupied(0,startY) == false || theBoard[0][startY]->getWorth() != ROOK return false;
+			if (theBoard[0][startY]->getHasMoved() == true) return false;
+		}
+
+		//For all spaces the king will move through, checks if any of them would put the king in check
+		for (int i = x + dir; i != endX; i += dir){
+			if (isCheckAfterMove(startX,startY,i,endY) == true) return false;
+		}
+		
+
+		//Move the rook to the proper location here, and then let the normal movement algorithm move then King
+		if (dir == 1){
+			theBoard[endX - dir][endY] = theBoard[7][startY];	
+			theBoard[7][startY] = NULL;
+			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
+		}
+		else{
+			theBoard[endX - dir][endY] = theBoard[0][startY];	
+			theBoard[0][startY] = NULL;
+			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
+		}
+	}
+	
+
 	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
-	/*
-	if (theBoard[startX][startY]->getWorth() == KING){
-		King* temp = theBoard[startX][startY];
-		if (temp->getHasMoved() == false) temp->setHasMoved(true);
-	}
-
-	if (theBoard[startX][startY]->getWorth() == KING){
-		Rook* temp = theBoard[startX][startY];
-		if (temp->getHasMoved() == false) temp->setHasMoved(true);
-	}
-
-	*/
 	if (theBoard[startX][startY]->getWorth() == KING || theBoard[startX][startY]->getWorth() == ROOK){
 		if (theBoard[startX][startY]->getHasMoved() == false) theBoard[startX][startY]->setHasMoved(true);
 	}
 
 
-
-
-	if (theBoard[endX][endY] != NULL)theBoard[endX][endY]->setLocation(-1,-1);
+	if (isOccupied(endX,endY) == true)theBoard[endX][endY]->setLocation(-1,-1);
 	theBoard[endX][endY] = theBoard[startX][startY];	
 	theBoard[startX][startY] = NULL;
 	theBoard[endX][endY]->setLocation(endX,endY);

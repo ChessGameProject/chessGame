@@ -10,8 +10,14 @@ King::King(int player) : Piece(player, 'k') {
 
 // Checks if a given move is valid
 bool King::isMoveValid(int endX, int endY) const {
-	if ( std::abs(x - endX) == 2 ) { // Is moving two
+	if ( std::abs(x - endX) == 2  || std::abs(x - endX) == 3) { // Is moving two
 		// Commence Castling Check
+
+		//If not moving on same y-cais, invalid castle move
+		if (y != endY) return false;
+
+		//Cannot castle when not on either the top or bottom row
+		if (y != 7 && y != 0) return false;
 
 		// Check that king hasn't moved
 		if (hasMoved) return false;
