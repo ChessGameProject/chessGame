@@ -10,8 +10,9 @@ King::King(int player) : Piece(player, 'k') {
 
 // Checks if a given move is valid
 bool King::isMoveValid(int endX, int endY) const {
-	if ( std::abs(x - endX) == 2  || std::abs(x - endX) == 3) { // Is moving two
+	if ( std::abs(x - endX) == 2  || std::abs(x - endX) == 3) { // Is moving two or three laterally
 		// Commence Castling Check
+
 
 		//If not moving on same y-cais, invalid castle move
 		if (y != endY) return false;
@@ -25,6 +26,10 @@ bool King::isMoveValid(int endX, int endY) const {
 		// Determine direction
 		int dir = 1
 		if (endX - x < 0) dir = -1;
+
+		//Checks if King is moving enough spaces in the correct direction
+		if (dir == 1 && std::abs(x - endX) == 3) return false;
+		if (dir == -1 && std::abs(x - endX) == 2) return false;
 
 		// TODO: Check the rook in that direction has not moved
 

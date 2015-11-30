@@ -322,11 +322,17 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			theBoard[endX - dir][endY] = theBoard[7][startY];	
 			theBoard[7][startY] = NULL;
 			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
+			//Notifies of changes
+			notify(7,startY,' ');
+			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName())
 		}
 		else{
 			theBoard[endX - dir][endY] = theBoard[0][startY];	
 			theBoard[0][startY] = NULL;
 			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
+			//Notifies of changes
+			notify(7,startY,' ');
+			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName())
 		}
 	}
 	
