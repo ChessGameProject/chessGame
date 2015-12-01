@@ -4,7 +4,6 @@
 
 // Create a piece with name 'r'
 Rook::Rook(int player) : Piece(player, 'r') {
-	hasMoved = false;
 	worth = ROOK;
 }
 
@@ -37,12 +36,3 @@ bool Rook::isMoveValid(int endX, int endY) const {
   return false;
 }
 
-// Should be called when piece is moved for the 1st time
-void Rook::setHasMoved(bool moved) {
-	hasMoved = moved;
-}
-
-//getter for hasMoved
-bool Rook::getHasMoved(){
-  	return hasMoved;
-}

@@ -42,10 +42,13 @@ public:
 	char getName() const;
 
 	// To let the piece know when it has been moved for the first time
-  	virtual void setHasMoved(bool moved);
+  	void setHasMoved(bool moved);
 	
 	//getter for hasMoved
   	bool getHasMoved();
+
+  	//setter for hasMoved
+  	void setHasMoved();
 
 	// Checks to see if given move is valid
   virtual bool isMoveValid(int endX, int endY) const = 0;

@@ -13,20 +13,23 @@ TO DO:
 
 
 Game::Game(){
+	theBoard = new Piece**[8];
 	//Sets all pieces in Board to NULL
 	for(int i = 0; i < 8; i++){
+		theBoard[i] = new Piece*[8];
 		for (int j = 0; j < 8; j++){
 			theBoard[i][j] = NULL;
 		}
 	}
-
+	playerWhite = new Piece*[25];
+	playerBlack = new Piece*[25];
 	for (int i = 0; i < 25; i++){
 		playerWhite[i] = NULL;
 		playerBlack[i] = NULL;
 	}
 	
-	p1Score = 0;
-	p2Score = 0;
+	whiteScore = 0;
+	blackScore = 0;
 	currentPlayer = WHITE;
 }
 
@@ -42,9 +45,26 @@ void Game::clearGame(){
 	delete [] playerWhite;
 	delete [] playerBlack;
 	delete [] theBoard;
-	notifications = NULL;
-	p1Score = 0;
-	p2Score = 0;
+	theBoard = new Piece**[8];
+	//Sets all pieces in Board to NULL
+	for(int i = 0; i < 8; i++){
+		theBoard[i] = new Piece*[8];
+		for (int j = 0; j < 8; j++){
+			theBoard[i][j] = NULL;
+		}
+	}
+
+	for (int i = 0; i < 25; i++){
+		playerWhite[i] = NULL;
+		playerBlack[i] = NULL;
+	}
+
+
+	playerWhite = new Piece*[25];
+	playerBlack = new Piece*[25];
+		
+	if ((whiteScore + blackScore)%2 == 0) currentPlayer = WHITE;
+	else currentPlayer = BLACK;
 }
 
 bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int player){
@@ -151,6 +171,10 @@ bool Game::isStalemate(){
 }
 
 bool Game::hasWon(){
+	if (isCheckmate()){
+		if (currentPlayer == WHITE) ++whiteScore;
+		else ++blackScore;
+	}
 	return isCheckmate();
 }
 
@@ -343,10 +367,9 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		}
 	}	
 
-	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
-	if (theBoard[startX][startY]->getWorth() == KING || theBoard[startX][startY]->getWorth() == ROOK){
-		if (theBoard[startX][startY]->getHasMoved() == false) theBoard[startX][startY]->setHasMoved(true);
-	}
+	//if piece has not moved before, setHasMoved to true;
+
+	if (theBoard[startX][startY]->getHasMoved() == false) theBoard[startX][startY]->setHasMoved(true);
 
 
 	if (isOccupied(endX,endY) == true) theBoard[endX][endY]->setLocation(-1,-1);

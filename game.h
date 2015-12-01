@@ -28,15 +28,17 @@ class GameNotification {
 };
 
 class Game{
-	Piece* theBoard[8][8];
-	Piece* playerWhite[25];
-	Piece* playerBlack[25];
+	Piece*** theBoard;
+	Piece** playerWhite;
+	Piece** playerBlack;
 	GameNotification* notifications;
-	int p1Score;
-	int p2Score;
+	int whiteScore;
+	int blackScore;
 	int currentPlayer;
 	//Type of character to promote to
 	void clearGame();
+	Game();
+	~Game();
 
 public:
 	void notify(int x, int y, char c);// What will the parameters for this be

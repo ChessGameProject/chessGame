@@ -5,7 +5,6 @@
 
 // Create a piece with name 'k'
 King::King(int player) : Piece(player, 'k') {
-	hasMoved = false;
 	worth = KING;
 }
 
@@ -53,12 +52,3 @@ bool King::isMoveValid(int endX, int endY) const {
 	return false;
 }
 
-// Should be called when piece is moved for the 1st time
-void King::setHasMoved(bool moved) {
-	hasMoved = moved;
-}
-
-//getter for hasMoved
-bool King::getHasMoved(){
-  	return hasMoved;
-}
