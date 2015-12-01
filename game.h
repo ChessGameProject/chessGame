@@ -59,7 +59,7 @@ public:
 	bool makeMove(int startX, int startY, int endX, int endY, char promoteType = ' ', bool checkForCheck = true);
 	void setNotification(GameNotification* input);
 	void addPiece(int x, int y, char newPiece);
-	void removePiece(int x, int y, char newPiece);
+	void removePiece(int x, int y);
 	bool validBoard();
 	Game();
 	~Game();

@@ -77,7 +77,7 @@ bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int play
 }
 
 bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY){
-	isCheckAfterMove(startX,startY, endX, endY, currentPlayer);
+	return isCheckAfterMove(startX,startY, endX, endY, currentPlayer);
 }
 
 bool Game::isValidMove(int startX, int startY, int endX, int endY){
@@ -210,7 +210,7 @@ bool Game::isCheck(int player){
 }
 
 bool Game::isCheck(){
-	isCheck(currentPlayer);
+	return isCheck(currentPlayer);
 }
 bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType, bool checkForCheck){
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
@@ -520,6 +520,9 @@ void Game::addPiece(int x, int y, char piece){
 	}
 	else if (piece == 'p' + charDiff){
 		newPiece = new Pawn(player);
+	} else {
+		// No piece
+		return;
 	}
 
 	if (player == BLACK){
@@ -533,14 +536,14 @@ void Game::addPiece(int x, int y, char piece){
 
 }
 
-void Game::removePiece(int x, int y, char piece){
+void Game::removePiece(int x, int y){
 	int player = WHITE;
+	char piece = theBoard[x][y]->getName();
 	if (piece < 'A') player = BLACK;
 	for (int i = 0; i < 16; i++){
 		if (player == BLACK){
 			if (playerBlack[i]->getX() == x && 
-				playerBlack[i]->getY() == y && 
-				playerBlack[i]->getName() == piece){
+				playerBlack[i]->getY() == y) {
 				delete playerBlack[i];
 				playerBlack[i] = NULL;
 				return;
@@ -548,8 +551,7 @@ void Game::removePiece(int x, int y, char piece){
 		}
 		else{
 			if (playerWhite[i]->getX() == x && 
-				playerWhite[i]->getY() == y && 
-				playerWhite[i]->getName() == piece){
+				playerWhite[i]->getY() == y) {
 				delete playerWhite[i];
 				playerWhite[i] = NULL;
 				return;

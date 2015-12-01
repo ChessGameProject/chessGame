@@ -181,8 +181,12 @@ void Controller::setup(std::istream & input) {
 
 			int x = getXLocation(location);
   		int y = getYLocation(location);
-  		// game.addPiece(x,y,piece);
+      //
+      // REMOVE the piece to the board
+      //
+  		game->addPiece(x,y,piece);
   		notify(x, y, piece);
+
 		} else if (cmd == "-") {
 			input >> location;
 
@@ -196,7 +200,10 @@ void Controller::setup(std::istream & input) {
 
 			int x = getXLocation(location);
   		int y = getYLocation(location);
-  		// game.removePiece(x, y);
+      //
+      // ADD the piece to the board
+      //
+  		game->removePiece(x, y);
   		notify(x, y, '\0');
 
 		} else if (cmd == "=") {
