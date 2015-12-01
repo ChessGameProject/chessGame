@@ -41,7 +41,8 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 		
 		return true;
 	}
-  return false;
+	else return false;
+  return true;
 }
 
 // Should be called after a piece is moved

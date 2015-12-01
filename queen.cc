@@ -48,8 +48,8 @@ bool Queen::isMoveValid(int endX, int endY) const {
 			// Make sure there are no pieces in the way
 			if ( game->isOccupied(i, j) ) return false;
 		}
-		return true;
 	}
+	else return false;
 
-  return false;
+  return true;
 }
