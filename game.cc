@@ -1,5 +1,8 @@
 #include "game.h"
 #include "piece.h"
+#include <iostream>
+
+using namespace std;
 /*
 TO DO:
 - En Passant
@@ -296,7 +299,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	}
 
 	//Check for castle
-	if (theBoard[startX][startY]->getWorth() == KING  && (std::abs(startX - endX) == 2 || std::abs(startX - endX) == 3)){
+	if (theBoard[startX][startY]->getWorth() == KING  && (abs(startX - endX) == 2 || abs(startX - endX) == 3)){
 		//If player is currently in check, returns false
 		if (isCheck() == true) return false;
 		
@@ -508,27 +511,27 @@ void Game::addPiece(int x, int y, char piece){
 
 	// If location is already occupied remove it and change co-ordinates
 	if (isOccupied(x,y)){
-		theBoard[x][y].setLocation(-1,-1);
+		theBoard[x][y]->setLocation(-1,-1);
 		theBoard[x][y] = NULL;
 	}
 
 	if (piece == 'k' + charDiff){
-		temp = new King(player);
+		newPiece = new King(player);
 	}
 	else if (piece == 'q' + charDiff){
-		temp = new Queen(player);
+		newPiece = new Queen(player);
 	}
 	else if (piece == 'r' + charDiff){
-		temp = new Rook(player);
+		newPiece = new Rook(player);
 	}
 	else if (piece == 'b' + charDiff){
-		temp = new Bishop(player);
+		newPiece = new Bishop(player);
 	}
 	else if (piece == 'n' + charDiff){
-		temp = new Knight(player);
+		newPiece = new Knight(player);
 	}
 	else if (piece == 'p' + charDiff){
-		temp = new Pawn(player);
+		newPiece = new Pawn(player);
 	}
 
 	if (player == BLACK){
@@ -575,8 +578,8 @@ bool Game::validBoard(){
 		return false;
 	}
 		// Checks if a pawn is in the top or bottom row
-	for (int y = 0; i == 0 || i == 7; i+= 7){
-		for (int x = 0; x < 8; i++){
+	for (int y = 0; y == 0 || y == 7; y+= 7){
+		for (int x = 0; x < 8; x++){
 			if (isOccupied(x,y) && theBoard[x][y]->getWorth() == PAWN){
 				cout << "A pawn is in an invalid position. Unable to leave setup mode" << endl;
 				return false;
@@ -589,8 +592,8 @@ bool Game::validBoard(){
 	for (int x = 0; x < 8; x++){
 		for (int y = 0; y < 8; y++){
 			if (isOccupied(x,y)){
-				if (theBoard[x][y]->getName == 'k') ++whiteKing;
-				else if (theBoard[x][y]->getName == 'K') ++blackKing;
+				if (theBoard[x][y]->getName() == 'k') ++whiteKing;
+				else if (theBoard[x][y]->getName() == 'K') ++blackKing;
 			}
 		}
 	}
