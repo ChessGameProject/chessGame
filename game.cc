@@ -28,13 +28,20 @@ Game::Game(){
 }
 
 Game::~Game(){
-	delete [] playerWhite;
-	delete [] playerBlack;
-	delete [] theBoard;
+	clearGame();
+}
+
+void Game::notify(int x, int y, char c){
+
 }
 
 void Game::clearGame(){
-
+	delete [] playerWhite;
+	delete [] playerBlack;
+	delete [] theBoard;
+	notifications = NULL;
+	p1Score = 0;
+	p2Score = 0;
 }
 
 bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int player){
@@ -466,7 +473,7 @@ void Game::setNotification(GameNotification* input){
 	notifications = input;
 }
 
-void addPiece(int x, int y, char piece){
+void Game::addPiece(int x, int y, char piece){
 	int player = WHITE;
 	if (piece < 'A') player = BLACK;
 	// Variable to store what location to put the piece in the Pieces array
@@ -487,30 +494,7 @@ void addPiece(int x, int y, char piece){
 	}
 
 
-
-	//If there are no empty spaces in the piece array, checks if any of the pieces ahave been eaten
-	if (location == -1){
-		for (int i = 0; i < 16; i++){
-			if (player == BLACK){
-				if (playerBlack[i]->getX() == -1 && playerBlack[i]->getY() == -1){
-					delete playerBlack[i];
-					playerBlack[i] = NULL;
-					location = i;
-					break;
-				}
-			}
-			else{
-				if (playerWhite[i]->getX() == -1 && playerWhite[i]->getY() == -1){
-					delete playerWhite[i];
-					playerWhite[i] = NULL;
-					location = i;
-					break;
-				}
-			}
-		}
-	}
-
-// If the loop couldn't find and empty space, then there are already 16 pieces on the board
+	// If there are already 16 pieces on the board
 	if (location == -1){
 		cout << "Too many pieces on the board, remove some before trying to add more!" << endl;
 		return;
@@ -558,7 +542,7 @@ void addPiece(int x, int y, char piece){
 
 }
 
-void removePiece(int x, int y, char piece){
+void Game::removePiece(int x, int y, char piece){
 	int player = WHITE;
 	if (piece < 'A') player = BLACK;
 	for (int i = 0; i < 16; i++){
@@ -583,7 +567,7 @@ void removePiece(int x, int y, char piece){
 	}
 }
 
-bool validBoard(){
+bool Game::validBoard(){
 
 	//Checks if either player is in Check
 	if (isCheck(WHITE) || isCheck(BLACK)){
