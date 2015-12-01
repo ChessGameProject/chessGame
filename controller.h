@@ -17,9 +17,6 @@ class Controller : public GameNotification {
     std::istream* whitePlayer;
     std::istream* blackPlayer;
     int currentPlayer;
-
-    // Game setup
-    void setup(std::istream & input);
     
 	///Helper to check if the game is in a win state
     //if yes, prints Won to stdout and returns true
@@ -35,10 +32,16 @@ class Controller : public GameNotification {
     void printWinStatus(int currentPlayer);
 
   public:
+    // Game setup to rearrange pieces on the board
+    void setup(std::istream & input);
+
     // Controller Constructor creates the game
     Controller();
     // Controller Destructor cleans up game and view
     ~Controller();
+
+    // Setter for currentPlayer
+    void setCurrentPlayer(int currentPlayer);
 
     // Start collecting user input from the Game
     // Args: 
