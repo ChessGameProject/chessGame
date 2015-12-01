@@ -1,4 +1,4 @@
-#include "textdisplay.h"
+#include "textDisplay.h"
 using namespace std;
 
 TextDisplay::TextDisplay(int n):View(n){

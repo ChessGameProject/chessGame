@@ -37,8 +37,7 @@ class Game{
 	int currentPlayer;
 	//Type of character to promote to
 	void clearGame();
-	Game();
-	~Game();
+	
 
 public:
 	void notify(int x, int y, char c);// What will the parameters for this be
@@ -62,6 +61,8 @@ public:
 	void addPiece(int x, int y, char newPiece);
 	void removePiece(int x, int y, char newPiece);
 	bool validBoard();
+	Game();
+	~Game();
 };
 
 #endif

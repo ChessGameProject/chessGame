@@ -1,5 +1,6 @@
 #include "knight.h"
 #include "piece.h"
+#include "game.h"
 #include <iostream>
 
 // Create a piece with name 'n'

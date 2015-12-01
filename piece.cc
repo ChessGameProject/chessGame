@@ -61,3 +61,5 @@ void Piece::setHasMoved(bool moved) {
 bool Piece::getHasMoved(){
   	return hasMoved;
 }
+
+Piece::~Piece(){}

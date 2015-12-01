@@ -1,6 +1,6 @@
 #include "rook.h"
-#include "game.h"
 #include "piece.h"
+#include "game.h"
 
 // Create a piece with name 'r'
 Rook::Rook(int player) : Piece(player, 'r') {

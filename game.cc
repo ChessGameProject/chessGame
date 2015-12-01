@@ -91,14 +91,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 	//Check is Move is invalid from the Piece class
 	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) return false;
 
-
-	//Check for castle
-	if (currentPlayer = WHITE){
-
-	}
-	else{
-
-	}
+	return true;
 
 
 	//Check for en passant
@@ -350,6 +343,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	//Notifies of changes
 	notify(startX,startY,' ');
 	notify(endX,endY, theBoard[endX][endY]->getName());
+	return true;
 
 }
 

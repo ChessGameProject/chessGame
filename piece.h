@@ -23,10 +23,12 @@ protected:
 	int worth;
 	// A single character name to represent the piece on the board
 	char name;
+	bool hasMoved;
 
 public:
 	// Constructor that changes capitalization of the name based on player
 	Piece(int player, char name);
+	virtual ~Piece();
 
 	// Allow game to be set
 	void setGame(Game * game);
