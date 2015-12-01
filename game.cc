@@ -537,6 +537,7 @@ void Game::addPiece(int x, int y, char piece){
 }
 
 void Game::removePiece(int x, int y){
+	if (theBoard[x][y] == NULL) return;
 	int player = WHITE;
 	char piece = theBoard[x][y]->getName();
 	if (piece < 'A') player = BLACK;

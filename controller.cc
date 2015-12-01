@@ -6,7 +6,7 @@
 using namespace std;
 
 Controller::Controller() {
-	game = 0;//new Game();
+	game = new Game();
 	td = new TextDisplay(8);
 	whitePlayer = 0;
 	blackPlayer = 0;
