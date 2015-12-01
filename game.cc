@@ -43,13 +43,16 @@ void Game::notify(int x, int y, char c){
 // Deletes old pieces and board and creates a new blank one (if restart is true)
 // restart defaults to true
 void Game::clearGame(bool restart){
-	for (int i = 0; i < 25; i++) {
-		if (playerWhite[i] == NULL) playerWhite[i] = new Pawn(1);
-		if (playerBlack[i] == NULL) playerBlack[i] = new Pawn(-1);
-
+	for ( int i = 0; i < 25; i++ ) {
+		if (playerWhite[i] != NULL) delete playerWhite[i];
+		if (playerBlack[i] != NULL) delete playerBlack[i];
 	}
 	delete [] playerWhite;
 	delete [] playerBlack;
+
+	for (int i = 0; i < 8; i++ ) {
+		delete [] theBoard[i];
+	}
 	delete [] theBoard;
 
 	if (restart) {

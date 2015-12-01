@@ -88,6 +88,7 @@ void Controller::play(int givenFirstMove) {
   		// Movement loop
   		//
   		// TODO: switch back and forth between input streams
+      cout << currentPlayer << "'s turn:" << endl;
   		while (cin >> cmd) {
   			if (cmd == "resign") {
   				currentPlayer = currentPlayer * -1;
@@ -141,6 +142,7 @@ void Controller::play(int givenFirstMove) {
   					currentPlayer = currentPlayer * -1;
   				}
   			}
+        cout << currentPlayer << "'s turn:" << endl;
   		} // Make another move
   	} // game is over
   }
