@@ -18,7 +18,7 @@ bool Queen::isMoveValid(int endX, int endY) const {
 		int yDir = 1;
 		if (endY - y < 0) yDir = -1;
 
-		for ( int i = y; i != endY; i += yDir ) {
+		for ( int i = y + yDir; i != endY; i += yDir ) {
 			// Make sure there are no pieces in the way
 			if ( game->isOccupied(x, i) ) return false;
 		}
@@ -30,12 +30,12 @@ bool Queen::isMoveValid(int endX, int endY) const {
 		int xDir = 1;
 		if (endX - x < 0) xDir = -1;
 
-		for ( int i = x; i != endX; i += xDir ) {
+		for ( int i = x + xDir; i != endX; i += xDir ) {
 			// Make sure there are no pieces in the way
 			if ( game->isOccupied(i, y) ) return false;
 		}
 
-	} else if ( endX - x == endY - y ) {
+	} else if ( std::abs(endX - x) == std::abs(endY - y) ) {
 		// Diagonal
 
 		// Determine direction 
@@ -44,7 +44,7 @@ bool Queen::isMoveValid(int endX, int endY) const {
 		if (endX - x < 0) xDir = -1;
 		if (endY - y < 0) yDir = -1;
 
-		for (int i = x, j = y; (i != endX) && (j != endY); i += xDir, j += yDir) {
+		for (int i = x + xDir, j = y + yDir; (i != endX) && (j != endY); i += xDir, j += yDir) {
 			// Make sure there are no pieces in the way
 			if ( game->isOccupied(i, j) ) return false;
 		}
