@@ -2,7 +2,6 @@
 #include "piece.h"
 /*
 TO DO:
-- Castling
 - En Passant
 - setup() function
 - clearGame()
@@ -29,9 +28,8 @@ Game::Game(){
 }
 
 Game::~Game(){
-	for(int i = 0; i < 8; i++){
-		delete [] theBoard[i];
-	}
+	delete [] playerWhite;
+	delete [] playerBlack;
 	delete [] theBoard;
 }
 
@@ -206,7 +204,6 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		if (isCheckAfterMove(startX,startY,endX,endY) == true) return false;
 	}
 
-
 	//Checks for Pawn Promotion,
 	if (promoteType != ' '){
 
@@ -291,7 +288,6 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		}
 	}
 
-
 	//Check for castle
 	if (theBoard[startX][startY]->getWorth() == KING  && (std::abs(startX - endX) == 2 || std::abs(startX - endX) == 3)){
 		//If player is currently in check, returns false
@@ -334,8 +330,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			notify(7,startY,' ');
 			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName());
 		}
-	}
-	
+	}	
 
 	//For Kings and Rooks, if they have not moved before, setHasMoved to true;
 	if (theBoard[startX][startY]->getWorth() == KING || theBoard[startX][startY]->getWorth() == ROOK){
@@ -343,7 +338,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	}
 
 
-	if (isOccupied(endX,endY) == true)theBoard[endX][endY]->setLocation(-1,-1);
+	if (isOccupied(endX,endY) == true) theBoard[endX][endY]->setLocation(-1,-1);
 	theBoard[endX][endY] = theBoard[startX][startY];	
 	theBoard[startX][startY] = NULL;
 	theBoard[endX][endY]->setLocation(endX,endY);
@@ -362,7 +357,7 @@ int Game::getCurrentPlayer(){
 	return currentPlayer;
 }
 
-void Game::initialSetup(){
+void Game::init(){
 	//Sets initial location of Pawns
 	for (int i = 0; i < 8; i++){
 		playerWhite[i] = new Pawn(WHITE);
@@ -465,10 +460,159 @@ void Game::initialSetup(){
 	theBoard[4][7]->setLocation(4,7);
 }
 
-void Game::setup(){
-	initialSetup();
-}
+
 
 void Game::setNotification(GameNotification* input){
 	notifications = input;
+}
+
+void addPiece(int x, int y, char piece){
+	int player = WHITE;
+	if (piece < 'A') player = BLACK;
+	// Variable to store what location to put the piece in the Pieces array
+	int location = -1;
+	for (int i = 0; i < 16; i++){
+		if (player == BLACK){
+			if (playerBlack[i] == NULL){
+				location = i;
+				break;
+			}
+		}
+		else{
+			if (playerWhite[i] == NULL){
+				location = i;
+				break;
+			}
+		}
+	}
+
+
+
+	//If there are no empty spaces in the piece array, checks if any of the pieces ahave been eaten
+	if (location == -1){
+		for (int i = 0; i < 16; i++){
+			if (player == BLACK){
+				if (playerBlack[i]->getX() == -1 && playerBlack[i]->getY() == -1){
+					delete playerBlack[i];
+					playerBlack[i] = NULL;
+					location = i;
+					break;
+				}
+			}
+			else{
+				if (playerWhite[i]->getX() == -1 && playerWhite[i]->getY() == -1){
+					delete playerWhite[i];
+					playerWhite[i] = NULL;
+					location = i;
+					break;
+				}
+			}
+		}
+	}
+
+// If the loop couldn't find and empty space, then there are already 16 pieces on the board
+	if (location == -1){
+		cout << "Too many pieces on the board, remove some before trying to add more!" << endl;
+		return;
+	}
+
+
+	int charDiff = 0;
+	if (piece > 'A') charDiff = 'A' - 'a';
+
+	Piece* newPiece;
+
+	// If location is already occupied remove it and change co-ordinates
+	if (isOccupied(x,y)){
+		theBoard[x][y].setLocation(-1,-1);
+		theBoard[x][y] = NULL;
+	}
+
+	if (piece == 'k' + charDiff){
+		temp = new King(player);
+	}
+	else if (piece == 'q' + charDiff){
+		temp = new Queen(player);
+	}
+	else if (piece == 'r' + charDiff){
+		temp = new Rook(player);
+	}
+	else if (piece == 'b' + charDiff){
+		temp = new Bishop(player);
+	}
+	else if (piece == 'n' + charDiff){
+		temp = new Knight(player);
+	}
+	else if (piece == 'p' + charDiff){
+		temp = new Pawn(player);
+	}
+
+	if (player == BLACK){
+		playerBlack[location] = newPiece;
+	}
+	else playerWhite[location] = newPiece;
+
+	newPiece->setLocation(x,y);
+	newPiece->setGame(this);
+	theBoard[x][y] = newPiece;
+
+}
+
+void removePiece(int x, int y, char piece){
+	int player = WHITE;
+	if (piece < 'A') player = BLACK;
+	for (int i = 0; i < 16; i++){
+		if (player == BLACK){
+			if (playerBlack[i]->getX() == x && 
+				playerBlack[i]->getY() == y && 
+				playerBlack[i]->getName() == piece){
+				delete playerBlack[i];
+				playerBlack[i] = NULL;
+				return;
+			}
+		}
+		else{
+			if (playerWhite[i]->getX() == x && 
+				playerWhite[i]->getY() == y && 
+				playerWhite[i]->getName() == piece){
+				delete playerWhite[i];
+				playerWhite[i] = NULL;
+				return;
+			}
+		}
+	}
+}
+
+bool validBoard(){
+
+	//Checks if either player is in Check
+	if (isCheck(WHITE) || isCheck(BLACK)){
+		cout << "A king is in Check. Unable to leave setup mode" << endl;
+		return false;
+	}
+		// Checks if a pawn is in the top or bottom row
+	for (int y = 0; i == 0 || i == 7; i+= 7){
+		for (int x = 0; x < 8; i++){
+			if (isOccupied(x,y) && theBoard[x][y]->getWorth() == PAWN){
+				cout << "A pawn is in an invalid position. Unable to leave setup mode" << endl;
+				return false;
+			}
+		}
+	}
+		//Check that there are exactly one white king and one black king
+	int whiteKing = 0;
+	int blackKing = 0;
+	for (int x = 0; x < 8; x++){
+		for (int y = 0; y < 8; y++){
+			if (isOccupied(x,y)){
+				if (theBoard[x][y]->getName == 'k') ++whiteKing;
+				else if (theBoard[x][y]->getName == 'K') ++blackKing;
+			}
+		}
+	}
+		if (whiteKing != 1 || blackKing != 1){
+		cout << "Invalid number of Kings. Unable to leave setup mode" << endl;
+		return false;
+	}
+	return true;
 }
