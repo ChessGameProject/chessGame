@@ -3,7 +3,9 @@
 #include "piece.h"
 
 // Create a piece with name 'b'
-Bishop::Bishop(int player) : Piece(player, 'b') {}
+Bishop::Bishop(int player) : Piece(player, 'b') {
+	worth = BISHOP;
+}
 
 // Checks if a given move is valid
 bool Bishop::isMoveValid(int endX, int endY) const {

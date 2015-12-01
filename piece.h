@@ -4,6 +4,7 @@
 class Game;
 
 class Piece {
+	
 protected:
 	// Location of piece
 	int x;
@@ -13,13 +14,21 @@ protected:
 	Game *game;
 
 	// value of the piece to help with strategy selection
+	//King: -1
+	//Queen: 900
+	//Rook: 500
+	//Bishop: 305
+	//Knight: 300
+	//Pawn: 100
 	int worth;
 	// A single character name to represent the piece on the board
 	char name;
+	bool hasMoved;
 
 public:
 	// Constructor that changes capitalization of the name based on player
 	Piece(int player, char name);
+	virtual ~Piece();
 
 	// Allow game to be set
 	void setGame(Game * game);
@@ -33,6 +42,15 @@ public:
 	// worth and name will be set by individual piece constructors, not client
 	int getWorth() const;
 	char getName() const;
+
+	// To let the piece know when it has been moved for the first time
+  	void setHasMoved(bool moved);
+	
+	//getter for hasMoved
+  	bool getHasMoved();
+
+  	//setter for hasMoved
+  	void setHasMoved();
 
 	// Checks to see if given move is valid
   virtual bool isMoveValid(int endX, int endY) const = 0;

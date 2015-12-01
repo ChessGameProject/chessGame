@@ -5,6 +5,7 @@
 // Create a piece with name 'p'
 Pawn::Pawn(int player) : Piece(player, 'p') {
 	hasMoved = false;
+	worth = PAWN;
 	if (player == WHITE) {
 		direction = 1;
 	} else if (player == BLACK) {

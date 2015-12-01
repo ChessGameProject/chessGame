@@ -1,9 +1,11 @@
 #include "rook.h"
-#include "game.h"
 #include "piece.h"
+#include "game.h"
 
 // Create a piece with name 'r'
-Rook::Rook(int player) : Piece(player, 'r') {}
+Rook::Rook(int player) : Piece(player, 'r') {
+	worth = ROOK;
+}
 
 // Checks to see if a given move is valid
 bool Rook::isMoveValid(int endX, int endY) const {
@@ -33,3 +35,4 @@ bool Rook::isMoveValid(int endX, int endY) const {
 
   return false;
 }
+

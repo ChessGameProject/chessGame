@@ -1,9 +1,11 @@
 #include "queen.h"
-#include "game.h"
 #include "piece.h"
+#include "game.h"
 
 // Create a piece with name 'q'
-Queen::Queen(int player) : Piece(player, 'q') {}
+Queen::Queen(int player) : Piece(player, 'q') {
+	worth = QUEEN;
+}
 
 // Checks if a given move is valid
 bool Queen::isMoveValid(int endX, int endY) const {

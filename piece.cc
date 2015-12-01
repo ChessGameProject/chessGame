@@ -4,6 +4,8 @@
 // Change capitalization of the name based on player
 Piece::Piece(int player, char name) {
 	// if the piece belongs to the white player it should be capitalized
+	hasMoved = false;
+
 	if (player == WHITE) {
 		this->name = name - 'a' + 'A';
 	} else if (player == BLACK) {
@@ -42,7 +44,6 @@ int Piece::getY() const {
 	return y;
 }
 
-
 int Piece::getWorth() const {
 	return worth;
 }
@@ -50,3 +51,15 @@ int Piece::getWorth() const {
 char Piece::getName() const {
 	return name;
 }
+
+// Should be called when piece is moved for the 1st time
+void Piece::setHasMoved(bool moved) {
+	hasMoved = moved;
+}
+
+//getter for hasMoved
+bool Piece::getHasMoved(){
+  	return hasMoved;
+}
+
+Piece::~Piece(){}
