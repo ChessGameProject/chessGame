@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	} else if ( argc == 2 ) {
 		string filename = argv[1];
 		cout << "Loading " << filename << "..." << endl;
-		ifstream file(filename);
+		ifstream file(filename.c_str());
 
 		// Use this string stream to send the controller setup instructions
 		stringstream fileinput;

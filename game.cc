@@ -110,14 +110,37 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
   #endif
 	//Checks if input is valid
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
-	if (startX == endX && startY == endY) return false;
+	if (startX == endX && startY == endY) {
+		#ifdef DEBUG
+	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+	  		cout << endX << "," << endY << ")) is false for invalid input" << endl;
+	  	#endif
+		return false;
+	}
 
 	//If there is no piece at the specified location, returns false
-	if (isOccupied(startX,startY) == false) return false;
+	if (isOccupied(startX,startY) == false) {
+		#ifdef DEBUG
+	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+	  		cout << endX << "," << endY << ")) is false because initial space is empty" << endl;
+	  	#endif
+		return false;
+	}
 
 	//Check is Move is invalid from the Piece class
-	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) return false;
+	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) {
+		#ifdef DEBUG
+	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+	  		cout << endX << "," << endY << ")) is false because move isMoveValid() is false" << endl;
+	  	#endif
+		return false;
+	}
 
+	
+	#ifdef DEBUG
+  	cout << "    (isValidMove(" << startX << "," << startY << " ";
+  	cout << endX << "," << endY << ")) is true" << endl;
+  	#endif
 	return true;
 
 
@@ -127,10 +150,20 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 
 bool Game::isOccupied(int x, int y){
 	#ifdef DEBUG
-  	cout << "    (isOccupied(" << x << "," << y << "))" << endl;
+  	cout << "    (isOccupied(" << x << "," << y << "))";
   #endif
-	if (theBoard[x][y] == NULL) return false;
-	else return true;
+	if (theBoard[x][y] == NULL) {
+		#ifdef DEBUG
+			cout << " is false" << endl;
+		#endif
+		return false;
+	}
+	else {
+		#ifdef DEBUG
+			cout << " is true" << endl;
+		#endif
+		return true;
+	}
 }
 
 bool Game::isCheckmate(){
