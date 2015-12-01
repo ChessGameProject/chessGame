@@ -35,7 +35,7 @@ Game::~Game(){
 }
 
 void Game::notify(int x, int y, char c){
-
+	notifications->notify(x,y,c);
 }
 
 void Game::clearGame(){
