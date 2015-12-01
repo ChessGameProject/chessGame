@@ -1,20 +1,22 @@
 #include "pawn.h"
 #include "piece.h"
 #include "game.h"
+#include <iostream>
 
 // Create a piece with name 'p'
 Pawn::Pawn(int player) : Piece(player, 'p') {
 	hasMoved = false;
 	worth = PAWN;
-	if (player == WHITE) {
-		direction = 1;
-	} else if (player == BLACK) {
-		direction = -1;
-	}
+	direction = player;
 }
 
 // Checks to see if a given move is valid
 bool Pawn::isMoveValid(int endX, int endY) const {
+	#ifdef DEBUG
+    std::cout << "        (Pawn)" << std::endl;
+    std::cout << "           end - x: " << endX - x;
+    std::cout << "   end - y / direction: " << endY - y / direction << std::endl;
+  #endif
 	if ( !hasMoved && 
 		 (endX - x) == 0 &&
 		 ( (endY - y) / direction ) == 2 ) {
@@ -27,11 +29,12 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 		// Move one square away from starting end of the board
 		return true;
 	} else if ( (endX - x) == 1 &&
-						( (endY - y) / direction ) == 1 ) {
+						  ( (endY - y) / direction ) == 1 &&
+						  ( game->isOccupied(endX, endY) ) ) {
 		// Move one diagonal square away from starting end of the board
 		//    - There must be a piece there
 		//    - or **en passant**
-		//game.hasPiece(endX, endY);
+		
 
 		// TODO: Check for EN PASSANT
 		

@@ -110,8 +110,12 @@ void Controller::play(int givenFirstMove) {
   				// TODO: Check for wrong pieced
 
   				// Let the game know who is making the move
-  				//game->setCurrentPlayer(currentPlayer);
-  				if (cin.peek()) {
+  				game->setCurrentPlayer(currentPlayer);
+          char next = cin.peek();
+  				if (next == 'Q' || next == 'K') { // TODO: ...
+            #ifdef DEBUG
+              cout << "! Expecting Pawn Promotion !" << endl;
+            #endif
   					char pawnPromotionPiece;
   					cin >> pawnPromotionPiece;
   					success = game->makeMove(startX, startY, endX, endY, pawnPromotionPiece);
@@ -123,14 +127,14 @@ void Controller::play(int givenFirstMove) {
   					cout << "Couldn't make that move!" << endl;
   				} else {
   					// Check for the big win!
-  					// if ( game->hasWon() ) {
-  					// 	gameOver = true;
-  					// 	 printWinStatus(currentPlayer);
-  					// 	break;
-  					// } else if ( game->isStalemate() ) {
-  					// gameOver = ture;
-  					// cout << "Ended game in stalemate." << endl;
-  					//}
+  					if ( game->hasWon() ) {
+  						gameOver = true;
+  						printWinStatus(currentPlayer);
+  						break;
+  					} else if ( game->isStalemate() ) {
+    				  gameOver = true;
+    				  cout << "Ended game in stalemate." << endl;
+  					}
 
   					// or just increment whose turn it is
   					currentPlayer = currentPlayer * -1;

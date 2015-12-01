@@ -67,6 +67,9 @@ void Game::clearGame(){
 }
 
 bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int player){
+	#ifdef DEBUG
+  	cout << "    (isCheckAfterMove)" << endl;
+  #endif
 	Piece* temp = theBoard[endX][endY];
 	makeMove(startX,startY,endX,endY,' ',false);
 	bool output = false;
@@ -81,6 +84,10 @@ bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY){
 }
 
 bool Game::isValidMove(int startX, int startY, int endX, int endY){
+	#ifdef DEBUG
+  	cout << "    (isValidMove(" << startX << "," << startY << " ";
+  	cout << endX << "," << endY << "))" << endl;
+  #endif
 	//Checks if input is valid
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
 	if (startX == endX && startY == endY) return false;
@@ -99,11 +106,17 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 }
 
 bool Game::isOccupied(int x, int y){
+	#ifdef DEBUG
+  	cout << "    (isOccupied(" << x << "," << y << "))" << endl;
+  #endif
 	if (theBoard[x][y] == NULL) return false;
 	else return true;
 }
 
 bool Game::isCheckmate(){
+	#ifdef DEBUG
+  	cout << "    (isCheckmate)" << endl;
+  #endif
 	//Finds the Location the the King the the array of pieces and create pointer to it
 	int player;
 	Piece *king;
@@ -213,6 +226,9 @@ bool Game::isCheck(){
 	return isCheck(currentPlayer);
 }
 bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType, bool checkForCheck){
+	#ifdef DEBUG
+  	cout << "(makeMove)" << endl;
+  #endif
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
 	//Checks to see if piece that it is moving to its own piece
