@@ -267,58 +267,45 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		if (promoteType == 'q'){
 			if (currentPlayer == WHITE){
 				playerWhite[loc] = new Queen(WHITE);
-				playerWhite[loc]->setGame(this);
-				playerWhite[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Queen(BLACK);
-				playerBlack[loc]->setGame(this);
-				playerBlack[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (promoteType == 'r'){
 			if (currentPlayer == WHITE){
 				playerWhite[loc] = new Rook(WHITE);
-				playerWhite[loc]->setGame(this);
-				playerWhite[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Rook(BLACK);
-				playerBlack[loc]->setGame(this);
-				playerBlack[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (promoteType== 'b'){
 			if (currentPlayer == WHITE){
 				playerWhite[loc] = new Bishop(WHITE);
-				playerWhite[loc]->setGame(this);
-				playerWhite[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
 				playerBlack[loc] = new Bishop(BLACK);
-				playerBlack[loc]->setGame(this);
-				playerBlack[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerBlack[loc];
 			}
 		}
 		else if (promoteType == 'n'){
 			if (currentPlayer == WHITE){
 				playerWhite[loc] = new Knight(WHITE);
-				playerWhite[loc]->setGame(this);
-				playerWhite[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerWhite[loc];
 			}
 			else{
-				playerBlack[loc] = new Knight(BLACK);
-				playerBlack[loc]->setGame(this);
-				playerBlack[loc]->setLocation(startX,startY);
-				theBoard[startX][startY] = playerBlack[loc];
+				playerBlack[loc] = new Knight(BLACK);;
 			}
+		}
+
+		if (currentPlayer == WHITE){
+			playerWhite[loc]->setGame(this);
+			playerWhite[loc]->setLocation(startX,startY);
+			theBoard[startX][startY] = playerWhite[loc];
+		}
+		else{			
+			playerBlack[loc]->setGame(this);
+			playerBlack[loc]->setLocation(startX,startY);
+			theBoard[startX][startY] = playerBlack[loc];
 		}
 	}
 
