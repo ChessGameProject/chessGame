@@ -6,8 +6,7 @@ using namespace std;
 /*
 TO DO:
 - En Passant
-- setup() function
-- clearGame()
+- Stalemate with 3 move repetition
 */
 
 
@@ -264,45 +263,29 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			}
 		}
 
+		Piece * temp;
+
 		if (promoteType == 'q'){
-			if (currentPlayer == WHITE){
-				playerWhite[loc] = new Queen(WHITE);
-			}
-			else{
-				playerBlack[loc] = new Queen(BLACK);
-			}
+			temp = new Queen(currentPlayer);
 		}
 		else if (promoteType == 'r'){
-			if (currentPlayer == WHITE){
-				playerWhite[loc] = new Rook(WHITE);
-			}
-			else{
-				playerBlack[loc] = new Rook(BLACK);
-			}
+			temp = new Rook(currentPlayer);
 		}
 		else if (promoteType== 'b'){
-			if (currentPlayer == WHITE){
-				playerWhite[loc] = new Bishop(WHITE);
-			}
-			else{
-				playerBlack[loc] = new Bishop(BLACK);
-			}
+			temp = new Bishop(currentPlayer);
 		}
 		else if (promoteType == 'n'){
-			if (currentPlayer == WHITE){
-				playerWhite[loc] = new Knight(WHITE);
-			}
-			else{
-				playerBlack[loc] = new Knight(BLACK);;
-			}
+			temp = new Knight(currentPlayer);
 		}
 
 		if (currentPlayer == WHITE){
+			playerWhite[loc] = temp;
 			playerWhite[loc]->setGame(this);
 			playerWhite[loc]->setLocation(startX,startY);
 			theBoard[startX][startY] = playerWhite[loc];
 		}
-		else{			
+		else{
+			playerBlack[loc] = temp;	
 			playerBlack[loc]->setGame(this);
 			playerBlack[loc]->setLocation(startX,startY);
 			theBoard[startX][startY] = playerBlack[loc];
