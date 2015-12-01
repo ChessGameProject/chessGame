@@ -33,37 +33,48 @@ Game::Game(){
 }
 
 Game::~Game(){
-	clearGame();
+	clearGame(false);
 }
 
 void Game::notify(int x, int y, char c){
 	notifications->notify(x,y,c);
 }
 
-void Game::clearGame(){
+// Deletes old pieces and board and creates a new blank one (if restart is true)
+// restart defaults to true
+void Game::clearGame(bool restart){
+	for (int i = 0; i < 25; i++) {
+		if (playerWhite[i] == NULL) playerWhite[i] = new Pawn(1);
+		if (playerBlack[i] == NULL) playerBlack[i] = new Pawn(-1);
+
+	}
 	delete [] playerWhite;
 	delete [] playerBlack;
 	delete [] theBoard;
-	theBoard = new Piece**[8];
-	//Sets all pieces in Board to NULL
-	for(int i = 0; i < 8; i++){
-		theBoard[i] = new Piece*[8];
-		for (int j = 0; j < 8; j++){
-			theBoard[i][j] = NULL;
+
+	if (restart) {
+		// Create new board
+		theBoard = new Piece**[8];
+		//Sets all pieces in Board to NULL
+		for(int i = 0; i < 8; i++){
+			theBoard[i] = new Piece*[8];
+			for (int j = 0; j < 8; j++){
+				theBoard[i][j] = NULL;
+			}
 		}
+
+		playerWhite = new Piece*[25];
+		playerBlack = new Piece*[25];
+
+		for (int i = 0; i < 25; i++){
+			playerWhite[i] = NULL;
+			playerBlack[i] = NULL;
+		}
+			
+		if ((whiteScore + blackScore)%2 == 0) currentPlayer = WHITE;
+		else currentPlayer = BLACK;
 	}
-
-	for (int i = 0; i < 25; i++){
-		playerWhite[i] = NULL;
-		playerBlack[i] = NULL;
-	}
-
-
-	playerWhite = new Piece*[25];
-	playerBlack = new Piece*[25];
-		
-	if ((whiteScore + blackScore)%2 == 0) currentPlayer = WHITE;
-	else currentPlayer = BLACK;
+	
 }
 
 bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int player){

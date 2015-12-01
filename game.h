@@ -36,7 +36,7 @@ class Game{
 	int blackScore;
 	int currentPlayer;
 	//Type of character to promote to
-	void clearGame();
+	void clearGame(bool restart = true);
 	
 
 public:
