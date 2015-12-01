@@ -7,15 +7,15 @@
 Pawn::Pawn(int player) : Piece(player, 'p') {
 	hasMoved = false;
 	worth = PAWN;
-	direction = player;
+	direction = -1 * player;
 }
 
 // Checks to see if a given move is valid
 bool Pawn::isMoveValid(int endX, int endY) const {
 	#ifdef DEBUG
-    std::cout << "        (Pawn)" << std::endl;
-    std::cout << "           end - x: " << endX - x;
-    std::cout << "   end - y / direction: " << endY - y / direction << std::endl;
+    std::cout << "    (Pawn)" << std::endl;
+    std::cout << "       chgX: " << endX - x;
+    std::cout << "   chgY: " << (endY - y) / direction << std::endl;
   #endif
 	if ( !hasMoved && 
 		 (endX - x) == 0 &&

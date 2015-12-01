@@ -5,7 +5,7 @@ TextDisplay::TextDisplay(int n):View(n){
 	// Creates a new nxn textdisplay and sets the default value
 	theDisplay = new char*[n];
 	for (int x = 0; x < n; x++){
-		theDisplay[x] = new char[x];
+		theDisplay[x] = new char[n];
 		for (int y = 0; y < n; y++){
 			theDisplay[x][y] = blankSquare(x,y);
 		}

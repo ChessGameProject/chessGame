@@ -7,6 +7,7 @@ using namespace std;
 
 Controller::Controller() {
 	game = new Game();
+  game->setNotification(this);
 	td = new TextDisplay(8);
 	whitePlayer = 0;
 	blackPlayer = 0;
@@ -127,14 +128,14 @@ void Controller::play(int givenFirstMove) {
   					cout << "Couldn't make that move!" << endl;
   				} else {
   					// Check for the big win!
-  					if ( game->hasWon() ) {
-  						gameOver = true;
-  						printWinStatus(currentPlayer);
-  						break;
-  					} else if ( game->isStalemate() ) {
-    				  gameOver = true;
-    				  cout << "Ended game in stalemate." << endl;
-  					}
+  					// if ( game->hasWon() ) {
+  					// 	gameOver = true;
+  					// 	printWinStatus(currentPlayer);
+  					// 	break;
+  					// } else if ( game->isStalemate() ) {
+    			// 	  gameOver = true;
+    			// 	  cout << "Ended game in stalemate." << endl;
+  					// }
 
   					// or just increment whose turn it is
   					currentPlayer = currentPlayer * -1;
@@ -189,7 +190,6 @@ void Controller::setup(std::istream & input) {
       // REMOVE the piece to the board
       //
   		game->addPiece(x,y,piece);
-  		notify(x, y, piece);
 
 		} else if (cmd == "-") {
 			input >> location;
@@ -208,7 +208,6 @@ void Controller::setup(std::istream & input) {
       // ADD the piece to the board
       //
   		game->removePiece(x, y);
-  		notify(x, y, '\0');
 
 		} else if (cmd == "=") {
 			string colour;
