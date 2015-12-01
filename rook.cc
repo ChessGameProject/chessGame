@@ -1,4 +1,5 @@
 #include "rook.h"
+#include "game.h"
 #include "piece.h"
 
 // Create a piece with name 'r'
@@ -18,7 +19,7 @@ bool Rook::isMoveValid(int endX, int endY) const {
 
 		for ( int i = y; i != endY; i += yDir ) {
 			// Make sure there are no pieces in the way
-			if ( game.isOccupied(x, i) ) return false;
+			if ( game->isOccupied(x, i) ) return false;
 		}
 	} else if ( (endY - y) == 0 ) {
 		// Stright right or left
@@ -29,7 +30,7 @@ bool Rook::isMoveValid(int endX, int endY) const {
 
 		for ( int i = x; i != endX; i += xDir ) {
 			// Make sure there are no pieces in the way
-			if ( game.isOccupied(i, y) ) return false;
+			if ( game->isOccupied(i, y) ) return false;
 		}
 	}
 

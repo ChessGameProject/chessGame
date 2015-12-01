@@ -19,7 +19,7 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 		 (endX - x) == 0 &&
 		 ( (endY - y) / direction ) == 2 ) {
 		// Move two squares away from starting end on first move
-		game.addGhostPawn(x + direction, y);
+		//game->addGhostPawn(x + direction, y);
 
 		return true;
 	} else if ( (endX - x) == 0 &&

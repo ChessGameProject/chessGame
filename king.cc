@@ -1,4 +1,5 @@
 #include "king.h"
+#include "game.h"
 #include "piece.h"
 #include <iostream>
 
@@ -24,7 +25,7 @@ bool King::isMoveValid(int endX, int endY) const {
 		if (hasMoved) return false;
 
 		// Determine direction
-		int dir = 1
+		int dir = 1;
 		if (endX - x < 0) dir = -1;
 
 		//Checks if King is moving enough spaces in the correct direction
@@ -34,8 +35,8 @@ bool King::isMoveValid(int endX, int endY) const {
 		// TODO: Check the rook in that direction has not moved
 
 		// Check pieces between king and rook
-		for (int i = x; ((x > 0) && (x < 8)); x += dir) {
-			if game.isOccupied(i, y) return false;
+		for (int i = x; ((i > 0) && (i < 8)); i += dir) {
+			if ( game->isOccupied(i, y) ) return false;
 		}
 
 		// TODO: Check that king isn't currently in check

@@ -317,6 +317,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			if (theBoard[0][startY]->getHasMoved() == true) return false;
 		}
 
+
 		//For all spaces the king will move through, checks if any of them would put the king in check
 		for (int i = startX + dir; i != endX; i += dir){
 			if (isCheckAfterMove(startX,startY,i,endY) == true) return false;

@@ -1,1 +1,1 @@
-rook.o: rook.cc rook.h piece.h
+rook.o: rook.cc rook.h piece.h game.h
