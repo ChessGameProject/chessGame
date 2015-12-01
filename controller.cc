@@ -38,7 +38,7 @@ void Controller::play(int givenFirstMove) {
 
   // Welcome message
   cout << "Welcome to Pawn Pusher 9000!" << endl;
-  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl << endl;
+  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
 
   while ( !gameOver && (cin >> cmd) ) {
 
@@ -161,12 +161,15 @@ bool Controller::validPiece(char p) const {
 
 
 void Controller::setup(std::istream & input) {
-	//game.init();
+
 	string cmd, location;
 	char piece;
 	while (input >> cmd) {
+    #ifdef DEBUG
+      cout << "Received setup command: " << cmd << endl;
+    #endif
 		if (cmd == "+") {
-			cin >> piece >> location;
+			input >> piece >> location;
 
 			// Location validation
 			if ( !validLocation(location[0], location[1]) ) {
@@ -181,7 +184,7 @@ void Controller::setup(std::istream & input) {
   		// game.addPiece(x,y,piece);
   		notify(x, y, piece);
 		} else if (cmd == "-") {
-			cin >> location;
+			input >> location;
 
 			// Location validation
 			if (!validLocation(location[0], location[1]) ) {
@@ -198,7 +201,7 @@ void Controller::setup(std::istream & input) {
 
 		} else if (cmd == "=") {
 			string colour;
-			cin >> colour;
+			input >> colour;
 			if (colour == "white") {
 				currentPlayer = WHITE;
 			} else if (colour == "black") {
@@ -216,8 +219,16 @@ void Controller::setup(std::istream & input) {
 			// } else {
 			break;
 			// }
-		}
+		} else {
+      cout << cmd << " command not recognized" << endl;
+
+    }
 	}
+}
+
+// Set the currentPlayer
+void Controller::setCurrentPlayer(int player) {
+  currentPlayer = player;
 }
 
 /*
