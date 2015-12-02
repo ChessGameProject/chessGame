@@ -11,6 +11,7 @@ Controller::Controller() {
 	td = new TextDisplay(8);
 	whitePlayer = 0;
 	blackPlayer = 0;
+  boardNotInitialized = true;
 
 	// White always goes first
 	currentPlayer = WHITE;
@@ -39,11 +40,22 @@ void Controller::play(int givenFirstMove) {
 
   // Welcome message
   cout << "Welcome to Pawn Pusher 9000!" << endl;
-  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
 
   while ( !gameOver && (cin >> cmd) ) {
+    cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
+
 
   	if (cmd == "setup") {
+      //Run game initialization to set up default board, then we can change it
+      if (boardNotInitialized) {
+        game->init();
+      }
+
+      // Welcome information
+      cout << "Welcome to SETUP mode" << endl;
+      cout << "Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', ";
+      cout << "'done'" << endl;
+
   		setup(cin);
 
   	} else if (cmd == "game") {
@@ -164,20 +176,11 @@ bool Controller::validPiece(char p) const {
 
 
 void Controller::setup(std::istream & input) {
-
-  //Run game initialization to set up default board, then we can change it
-  game->init();
-
-  // Welcome information
-  cout << "Welcome to SETUP mode" << endl;
-  cout << "Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', ";
-  cout << "'done'" << endl;
-
 	string cmd, location;
 	char piece;
 	while (input >> cmd) {
     #ifdef DEBUG
-      cout << "Received setup command: " << cmd << endl;
+      //cout << "Received setup command: " << cmd << endl;
     #endif
 		if (cmd == "+") {
 			input >> piece >> location;
@@ -245,6 +248,11 @@ void Controller::setup(std::istream & input) {
 // Set the currentPlayer
 void Controller::setCurrentPlayer(int player) {
   currentPlayer = player;
+}
+
+// Set the boardNotInitialized
+void Controller::setBoardNotInitialized(bool b) {
+  boardNotInitialized = b;
 }
 
 /*

@@ -59,6 +59,8 @@ int main(int argc, char *argv[]) {
 				setup += setup_add;
 			}
 		}
+		
+		// Get starting player
 		fileinput >> piece;
 		if ( piece == 'W' ) {
 			setup += "= white ";
@@ -74,9 +76,7 @@ int main(int argc, char *argv[]) {
 		istringstream issetup(setup);
 		// SETUP TIME!!!
 		c.setup(issetup);
-
-		// Set current player
-		
+		c.setBoardNotInitialized(false);		
 	}
 
 	

@@ -14,6 +14,8 @@ class Controller : public GameNotification {
     
     Game *game;
 
+    bool boardNotInitialized;
+
     std::istream* whitePlayer;
     std::istream* blackPlayer;
     int currentPlayer;
@@ -42,6 +44,8 @@ class Controller : public GameNotification {
 
     // Setter for currentPlayer
     void setCurrentPlayer(int currentPlayer);
+    // Setter for boardNotInitialized
+    void setBoardNotInitialized(bool b);
 
     // Start collecting user input from the Game
     // Args: 
