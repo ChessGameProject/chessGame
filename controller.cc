@@ -44,10 +44,6 @@ void Controller::play(int givenFirstMove) {
   while ( !gameOver && (cin >> cmd) ) {
 
   	if (cmd == "setup") {
-  		cout << "Welcome to SETUP mode" << endl;
-  		cout << "Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', ";
-  		cout << "'done'" << endl;
-  		// TODO: Check for a different input to give (if loading a game)
   		setup(cin);
 
   	} else if (cmd == "game") {
@@ -168,6 +164,14 @@ bool Controller::validPiece(char p) const {
 
 
 void Controller::setup(std::istream & input) {
+
+  //Run game initialization to set up default board, then we can change it
+  game->init();
+
+  // Welcome information
+  cout << "Welcome to SETUP mode" << endl;
+  cout << "Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', ";
+  cout << "'done'" << endl;
 
 	string cmd, location;
 	char piece;

@@ -505,6 +505,9 @@ void Game::init(){
 		playerWhite[i]->setLocation(i,2);
 		theBoard[i][6] = playerWhite[i];
 		theBoard[i][1] = playerBlack[i];
+		//Harcode notifications for pawns
+		notify(i,1,'p');
+		notify(i,6,'P');
 	}
 
 	//Sets Location of Rooks
@@ -595,6 +598,25 @@ void Game::init(){
 
 	theBoard[4][0]->setLocation(4,0);
 	theBoard[4][7]->setLocation(4,7);
+
+	// Harcode notifications
+	notify(0,0,'r');
+	notify(1,0,'n');
+	notify(2,0,'b');
+	notify(3,0,'q');
+	notify(4,0,'k');
+	notify(5,0,'b');
+	notify(6,0,'n');
+	notify(7,0,'r');
+
+	notify(0,7,'R');
+	notify(1,7,'N');
+	notify(2,7,'B');
+	notify(3,7,'Q');
+	notify(4,7,'K');
+	notify(5,7,'B');
+	notify(6,7,'N');
+	notify(7,7,'R');
 }
 
 
