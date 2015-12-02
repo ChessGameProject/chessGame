@@ -94,6 +94,7 @@ bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int play
 	if (isCheck(player) == true) output = true;
 	unrestrictedMakeMove(endX,endY,startX,startY);
 	theBoard[endX][endY] = temp;
+	theBoard[endX][endY]->setLocation(endX,endY);
 
 	// So we don't lose the Piece stored in temp
 	temp = NULL;
@@ -294,10 +295,10 @@ bool Game::isCheck(int player){
 
 		//Goes through each opposition player and sees if any of them can make a valid move to the King
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL){
+			if (playerBlack[i] != NULL && playerBlack[i]->getX() != -1){
 				if (playerBlack[i]->isMoveValid(king->getX(),king->getY()) == true){
 					#ifdef DEBUG
-  					cout << "__isCheck (true)__"<< endl;
+  					cout << "__isCheck (true)__ for piece " << playerBlack[i]->getName()<< endl;
   				#endif
 					return true;
 				}
@@ -313,10 +314,10 @@ bool Game::isCheck(int player){
 		}
 
 		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != NULL){
+			if (playerWhite[i] != NULL  && playerWhite[i]->getX() != -1){
 				if (playerWhite[i]->isMoveValid(king->getX(),king->getY())){
 					#ifdef DEBUG
-  					cout << "__isCheck (true)__"<< endl;
+  					cout << "__isCheck (true)__ for piece " << playerWhite[i]->getName()<< endl;
   				#endif
 					return true;
 				}
@@ -497,7 +498,9 @@ void Game::unrestrictedMakeMove(int startX, int startY, int endX, int endY) {
   #ifdef DEBUG
   	cout << "    (unrestrictedMakeMove)" << endl;
   #endif
-	theBoard[endX][endY] = theBoard[startX][startY];	
+
+  	if (isOccupied(endX,endY)) theBoard[endX][endY]->setLocation(-1,-1);
+	theBoard[endX][endY] = theBoard[startX][startY];
 	theBoard[startX][startY] = NULL;
 	theBoard[endX][endY]->setLocation(endX,endY);
 }
