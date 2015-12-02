@@ -1,0 +1,12 @@
+setup
+done
+game human human
+move a2 a4
+move b7 b5
+move b2 b3
+move a7 a6
+move b3 b4
+move a6 a5
+move a4 b5
+move a5 b4
+resign

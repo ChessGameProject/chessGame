@@ -1,0 +1,96 @@
+Welcome to Pawn Pusher 9000!
+Commands: 'setup', 'game [white-player] [black-player]'
+Welcome to SETUP mode
+Commands: '+ [Piece] [Location]', '- [Location]', '= [Player]', 'done'
+8 rnbqkbnr
+7 pppppppp
+6 _ _ _ _
+5  _ _ _ _
+4 _ _ _ _
+3  _ _ _ _
+2 PPPPPPPP
+1 RNBQKBNR
+  abcdefgh
+Commands: 'setup', 'game [white-player] [black-player]'
+1's turn:
+8 rnbqkbnr
+7 pppppppp
+6 _ _ _ _
+5  _ _ _ _
+4 P _ _ _
+3  _ _ _ _
+2 _PPPPPPP
+1 RNBQKBNR
+  abcdefgh
+-1's turn:
+8 rnbqkbnr
+7 p_pppppp
+6 _ _ _ _
+5  p _ _ _
+4 P _ _ _
+3  _ _ _ _
+2 _PPPPPPP
+1 RNBQKBNR
+  abcdefgh
+1's turn:
+8 rnbqkbnr
+7 p_pppppp
+6 _ _ _ _
+5  p _ _ _
+4 P _ _ _
+3  P _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+-1's turn:
+8 rnbqkbnr
+7  _pppppp
+6 p _ _ _
+5  p _ _ _
+4 P _ _ _
+3  P _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+1's turn:
+8 rnbqkbnr
+7  _pppppp
+6 p _ _ _
+5  p _ _ _
+4 PP_ _ _
+3  _ _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+-1's turn:
+8 rnbqkbnr
+7  _pppppp
+6 _ _ _ _
+5 pp _ _ _
+4 PP_ _ _
+3  _ _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+1's turn:
+8 rnbqkbnr
+7  _pppppp
+6 _ _ _ _
+5 pP _ _ _
+4 _P_ _ _
+3  _ _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+-1's turn:
+8 rnbqkbnr
+7  _pppppp
+6 _ _ _ _
+5  P _ _ _
+4 _p_ _ _
+3  _ _ _ _
+2 _ PPPPPP
+1 RNBQKBNR
+  abcdefgh
+1's turn:
+Commands: 'setup', 'game [white-player] [black-player]'
