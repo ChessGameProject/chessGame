@@ -5,6 +5,7 @@
 Piece::Piece(int player, char name) {
 	// if the piece belongs to the white player it should be capitalized
 	hasMoved = false;
+	this->player = player;
 
 	if (player == WHITE) {
 		this->name = name - 'a' + 'A';
@@ -50,6 +51,10 @@ int Piece::getWorth() const {
 
 char Piece::getName() const {
 	return name;
+}
+
+int Piece::getPlayer() const {
+	return player;
 }
 
 // Should be called when piece is moved for the 1st time

@@ -15,7 +15,7 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 	#ifdef DEBUG
     std::cout << "    (Pawn)" << std::endl;
     std::cout << "       chgX: " << endX - x;
-    std::cout << "   chgY: " << (endY - y) / direction << std::endl;
+    std::cout << "   chgY: " << (endY - y) / direction << " " << "dir:" << direction << std::endl;
   #endif
 	if ( !hasMoved && 
 		 (endX - x) == 0 &&

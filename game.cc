@@ -108,39 +108,49 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
   	cout << "    (isValidMove(" << startX << "," << startY << " ";
   	cout << endX << "," << endY << "))" << endl;
   #endif
-	//Checks if input is valid
+
+	//Checks if input is within the bounds of the board
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
 	if (startX == endX && startY == endY) {
 		#ifdef DEBUG
-	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
-	  		cout << endX << "," << endY << ")) is false for invalid input" << endl;
-	  	#endif
+  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+  		cout << endX << "," << endY << ")) is false for invalid board location" << endl;
+  	#endif
 		return false;
 	}
 
 	//If there is no piece at the specified location, returns false
 	if (isOccupied(startX,startY) == false) {
 		#ifdef DEBUG
-	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
-	  		cout << endX << "," << endY << ")) is false because initial space is empty" << endl;
-	  	#endif
+  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+  		cout << endX << "," << endY << ")) is false because there is not piece there to move!" << endl;
+  	#endif
+		return false;
+	}
+
+	//Check that the Piece belongs to the right player!
+	if (theBoard[startX][startY]->getPlayer() != currentPlayer) {
+		#ifdef DEBUG
+  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+  		cout << endX << "," << endY << ")) is false because that piece doesn't belong to you!" << endl;
+  	#endif
 		return false;
 	}
 
 	//Check is Move is invalid from the Piece class
 	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) {
 		#ifdef DEBUG
-	  		cout << "    (isValidMove(" << startX << "," << startY << " ";
-	  		cout << endX << "," << endY << ")) is false because move isMoveValid() is false" << endl;
-	  	#endif
+  		cout << "    (isValidMove(" << startX << "," << startY << " ";
+  		cout << endX << "," << endY << ")) is false because move isMoveValid() is false" << endl;
+  	#endif
 		return false;
 	}
 
 	
 	#ifdef DEBUG
-  	cout << "    (isValidMove(" << startX << "," << startY << " ";
-  	cout << endX << "," << endY << ")) is true" << endl;
-  	#endif
+	cout << "    (isValidMove(" << startX << "," << startY << " ";
+	cout << endX << "," << endY << ")) is true" << endl;
+	#endif
 	return true;
 
 
@@ -323,6 +333,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	#ifdef DEBUG
   	cout << "(makeMove)" << endl;
   #endif
+  // Check the move is valid for the given piece
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
 	//Checks to see if Piece is trying to capture another piece of its own team
@@ -501,8 +512,8 @@ void Game::init(){
 		playerBlack[i] = new Pawn(BLACK);
 		playerWhite[i]->setGame(this);
 		playerBlack[i]->setGame(this);
-		playerWhite[i]->setLocation(i,7);
-		playerWhite[i]->setLocation(i,2);
+		playerWhite[i]->setLocation(i,6);
+		playerWhite[i]->setLocation(i,1);
 		theBoard[i][6] = playerWhite[i];
 		theBoard[i][1] = playerBlack[i];
 		//Harcode notifications for pawns

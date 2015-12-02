@@ -21,6 +21,12 @@ protected:
 	//Knight: 300
 	//Pawn: 100
 	int worth;
+
+	// Value of the player to help with restrictions
+	// Black: -1
+	// White: 1
+	int player;
+
 	// A single character name to represent the piece on the board
 	char name;
 	bool hasMoved;
@@ -43,14 +49,13 @@ public:
 	int getWorth() const;
 	char getName() const;
 
-	// To let the piece know when it has been moved for the first time
-  	void setHasMoved(bool moved);
-	
-	//getter for hasMoved
-  	bool getHasMoved();
+	//getter for player
+  int getPlayer() const;
 
-  	//setter for hasMoved
-  	void setHasMoved();
+	//getter for hasMoved
+	bool getHasMoved();
+	// To let the piece know when it has been moved for the first time
+  void setHasMoved(bool moved);	
 
 	// Checks to see if given move is valid
   virtual bool isMoveValid(int endX, int endY) const = 0;

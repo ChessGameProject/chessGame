@@ -40,10 +40,8 @@ void Controller::play(int givenFirstMove) {
 
   // Welcome message
   cout << "Welcome to Pawn Pusher 9000!" << endl;
-
+  cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
   while ( !gameOver && (cin >> cmd) ) {
-    cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
-
 
   	if (cmd == "setup") {
       //Run game initialization to set up default board, then we can change it
@@ -152,7 +150,8 @@ void Controller::play(int givenFirstMove) {
   			}
         cout << currentPlayer << "'s turn:" << endl;
   		} // Make another move
-  	} // game is over
+  	} // 'game' commands endpoint
+    cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
   }
 }
 
