@@ -121,10 +121,14 @@ void Game::unrestrictedMakeMove(int startX, int startY, int endX, int endY) {
 }
 
 bool Game::isValidMove(int startX, int startY, int endX, int endY){
+	return isValidMove(startX, startY, endX, endY, currentPlayer);
+}
+
+bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 	#ifdef DEBUG
   	cout << "    (isValidMove(" << startX << "," << startY << " ";
   	cout << endX << "," << endY << "))" << endl;
-  #endif
+  	#endif
 
 	//Checks if input is within the bounds of the board
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
@@ -132,7 +136,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 		#ifdef DEBUG
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false for invalid board location" << endl;
-  	#endif
+  		#endif
 		return false;
 	}
 
@@ -146,7 +150,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 	}
 
 	//Check that the Piece belongs to the right player!
-	if (theBoard[startX][startY]->getPlayer() != currentPlayer) {
+	if (theBoard[startX][startY]->getPlayer() != player) {
 		#ifdef DEBUG
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false because that piece doesn't belong to you!" << endl;
@@ -200,7 +204,7 @@ bool Game::isCheckmate(){
 	//Finds the Location the the King the the array of pieces and create pointer to it
 	int player;
 	Piece *king;
-	if (getCurrentPlayer() == WHITE){
+	if (currentPlayer == WHITE){
 		#ifdef DEBUG
   			cout << "        - finding BLACK king" << endl;
  	 	#endif
@@ -238,19 +242,22 @@ bool Game::isCheckmate(){
 		for (int y = -1; y <= 1; y++){
 			#ifdef DEBUG
   			cout << "        - Check king's move to ("<< king->getX() + x <<","<< king->getY() + y <<")" << endl;
-  		#endif
-			bool valid = isValidMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y);
+  			#endif
+			bool valid = isValidMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y, -1*player);
 			if ( !valid ){
-				#ifdef DEBUG
-  					cout << "      __isCheckmate (false) because invalid move__" << endl;
-  				#endif
-  				return false;
+  				continue;
 			}
 			bool isInCheck = isCheckAfterMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y, player);
-			if ( (!isInCheck) == false) {
-				#ifdef DEBUG
-  					cout << "      __isCheckmate (false) because not check after move__" << endl;
+			if ( !isInCheck ) {
+				#ifdef DEBUG1
+  					cout << "      __isCheckmate (false) because (" << king->getX() << ",";
+  					cout << king->getY() << ") to (" << king->getX() + x << "," << king->getY() + y << ") is a valid move" << endl;
   				#endif
+
+				#ifdef DEBUG
+  					cout << "      __isCheckmate (false) because not check after move" << endl;
+  				#endif
+
 				return false;
 			}
 		}
@@ -289,11 +296,13 @@ bool Game::isStalemate(){
 }
 
 bool Game::hasWon(){
-	if (isCheckmate()){
+	if ( !isCheck( currentPlayer*(-1) )) return false;
+	bool output = isCheckmate();
+	if (output){
 		if (currentPlayer == WHITE) ++whiteScore;
 		else ++blackScore;
 	}
-	return isCheckmate();
+	return output;
 }
 
 bool Game::isCheck(int player){

@@ -53,6 +53,7 @@ public:
 	bool isStalemate();
 	bool isOccupied(int x, int y);
 	bool isValidMove(int startX, int startY, int endX, int endY);
+	bool isValidMove(int startX, int startY, int endX, int endY, int player);
 	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
 	bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player);
 	bool isCheckAfterMove(int startX, int startY, int endX, int endY);

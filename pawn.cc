@@ -19,7 +19,8 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 	// #endif
 	if ( !hasMoved && 
 		 (endX - x) == 0 &&
-		 ( (endY - y) / direction ) == 2 ) {
+		 ( (endY - y) / direction ) == 2 
+		 && !game->isOccupied(endX,endY) ) {
 		// Move two squares away from starting end on first move
 		//game->addGhostPawn(x + direction, y);
 
