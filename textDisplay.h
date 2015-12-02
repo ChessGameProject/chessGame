@@ -18,7 +18,10 @@ class TextDisplay : public View {
   
   
   //The Controller calls notify to update the (row,column) location to be ch
-  virtual void notify(int x, int y, char ch);
+  virtual void notify(int x, int y, char ch, bool printOut = true);
+
+  // For adjusting two cells
+  virtual void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
 
   //Prints the Grid
   virtual void print(std::ostream &out) const ;

@@ -46,6 +46,7 @@ void Controller::play() {
       //Run game initialization to set up default board, then we can change it
       if (boardNotInitialized) {
         game->init();
+        boardNotInitialized = false;
       }
 
       // Welcome information
@@ -234,6 +235,8 @@ void Controller::setup(std::istream & input) {
 			// if (!game.validBoard()) {
 			//    continue;
 			// } else {
+      // Print out the board one last time
+      td->print(cout);
 			break;
 			// }
 		} else {
@@ -253,11 +256,26 @@ void Controller::setBoardNotInitialized(bool b) {
   boardNotInitialized = b;
 }
 
+// Get the boardNotInitialized
+bool Controller::getBoardNotInitialized() {
+  return boardNotInitialized;
+}
+
+
 /*
  * Update the game state in the View
  */
 void Controller::notify(int x, int y, char piece) {
-	td->notify(x, y, piece);
+  if (boardNotInitialized) {
+    // Don't print out on first board initialization
+    td->notify(x, y, piece, false);
+  } else {
+    td->notify(x, y, piece);
+  }
+}
+
+void Controller::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2) {
+  td->notifyTwo(x,y,ch,x2,y2,ch2);
 }
 
 Controller::~Controller() {

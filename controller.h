@@ -44,14 +44,19 @@ class Controller : public GameNotification {
 
     // Setter for currentPlayer
     void setCurrentPlayer(int currentPlayer);
+
     // Setter for boardNotInitialized
     void setBoardNotInitialized(bool b);
+    // Getter for boardNotInitialized
+    bool getBoardNotInitialized();
 
     // Start collecting user input for the Game
     void play();
 
     // Update the game state in the View
     void notify(int x, int y, char piece);   
+    // Update two cells in the View
+    void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
 };
 
 // Converts board location input (eg. f6)

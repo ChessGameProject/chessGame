@@ -32,14 +32,20 @@ char TextDisplay::blankSquare(int x, int y){
 	}
 }
 
-void TextDisplay::notify(int x, int y, char ch){
+void TextDisplay::notify(int x, int y, char ch, bool printOut){
 	if (ch == '\0') {
 		ch = blankSquare(x, y);
 	}
 	theDisplay[y][x] = ch;
 	// Show updated display
-	print(cout);
+	if (printOut) print(cout);
  }
+
+ void TextDisplay::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2){
+	notify(x,y,ch,false);
+	notify(x2,y2,ch2);
+ }
+
 
    
 void TextDisplay::print(std::ostream &out) const {

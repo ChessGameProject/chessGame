@@ -24,7 +24,8 @@ class Cell;
 
 class GameNotification {
   public:
-    virtual void notify(int row, int column, char piece) = 0;
+    virtual void notify(int x, int y, char ch) = 0;
+    virtual void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2) = 0;
 };
 
 class Game{
@@ -40,7 +41,9 @@ class Game{
 	
 
 public:
-	void notify(int x, int y, char c);// What will the parameters for this be
+	void notify(int x, int y, char ch);
+	void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
+
 	bool hasWon();
 	//Returns if current player is in Check
 	bool isCheck(int player);

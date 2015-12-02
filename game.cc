@@ -36,8 +36,12 @@ Game::~Game(){
 	clearGame(false);
 }
 
-void Game::notify(int x, int y, char c){
-	notifications->notify(x,y,c);
+void Game::notify(int x, int y, char ch){
+	notifications->notify(x,y,ch);
+}
+
+void Game::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2){
+	notifications->notifyTwo(x,y,ch, x2,y2,ch2);
 }
 
 // Deletes old pieces and board and creates a new blank one (if restart is true)
@@ -477,8 +481,9 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
   #endif
 	//Notifies of changes only happens at the end of the process
   if (checkForCheck) {
-  	notify(endX, endY, theBoard[endX][endY]->getName());
-		notify(startX, startY, '\0');
+  	// Update both the cell moved from and moved to
+  	notifyTwo(endX, endY, theBoard[endX][endY]->getName(), 
+  						startX, startY, '\0');
   }
 	#ifdef DEBUG
   	cout << "__move made__" << endl;
@@ -509,16 +514,16 @@ void Game::init(){
 	//Sets initial location of Pawns
 	for (int i = 0; i < 8; i++){
 		playerWhite[i] = new Pawn(WHITE);
-		playerBlack[i] = new Pawn(BLACK);
 		playerWhite[i]->setGame(this);
-		playerBlack[i]->setGame(this);
 		playerWhite[i]->setLocation(i,6);
-		playerWhite[i]->setLocation(i,1);
 		theBoard[i][6] = playerWhite[i];
-		theBoard[i][1] = playerBlack[i];
-		//Harcode notifications for pawns
-		notify(i,1,'p');
 		notify(i,6,'P');
+
+		playerBlack[i] = new Pawn(BLACK);
+		playerBlack[i]->setGame(this);
+		playerBlack[i]->setLocation(i,1);
+		theBoard[i][1] = playerBlack[i];
+		notify(i,1,'p');
 	}
 
 	//Sets Location of Rooks
@@ -611,6 +616,7 @@ void Game::init(){
 	theBoard[4][7]->setLocation(4,7);
 
 	// Harcode notifications
+	// BLACK
 	notify(0,0,'r');
 	notify(1,0,'n');
 	notify(2,0,'b');
@@ -619,7 +625,7 @@ void Game::init(){
 	notify(5,0,'b');
 	notify(6,0,'n');
 	notify(7,0,'r');
-
+	// WHITE
 	notify(0,7,'R');
 	notify(1,7,'N');
 	notify(2,7,'B');
