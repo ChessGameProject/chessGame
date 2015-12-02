@@ -14,7 +14,7 @@ bool King::isMoveValid(int endX, int endY) const {
 		// Commence Castling Check
 
 
-		//If not moving on same y-cais, invalid castle move
+		//If not moving on same y-axis, invalid castle move
 		if (y != endY) return false;
 
 		//Cannot castle when not on either the top or bottom row
@@ -34,7 +34,7 @@ bool King::isMoveValid(int endX, int endY) const {
 		// TODO: Check the rook in that direction has not moved
 
 		// Check pieces between king and rook
-		for (int i = x; ((i > 0) && (i < 8)); i += dir) {
+		for (int i = x + dir; ((i > 0) && (i < 7)); i += dir) {
 			if ( game->isOccupied(i, y) ) return false;
 		}
 
