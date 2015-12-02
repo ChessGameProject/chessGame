@@ -29,9 +29,8 @@ void Controller::printWinStatus(int currentPlayer) {
 }
 
 // Start collecting user input for the Game with specified player moving first
-void Controller::play(int givenFirstMove) {
+void Controller::play() {
   srand(time(NULL));
-  currentPlayer = givenFirstMove;
 
   string cmd;
   string whitePlayerInput;
@@ -179,7 +178,7 @@ void Controller::setup(std::istream & input) {
 	char piece;
 	while (input >> cmd) {
     #ifdef DEBUG
-      //cout << "Received setup command: " << cmd << endl;
+      cout << "Received setup command: " << cmd << endl;
     #endif
 		if (cmd == "+") {
 			input >> piece >> location;

@@ -29,7 +29,7 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 			 			  !(game->isOccupied(endX, endY)) ) {
 		// Move one square away from starting end of the board
 		return true;
-	} else if ( (endX - x) == 1 &&
+	} else if ( std::abs(endX - x) == 1 &&
 						  ( (endY - y) / direction ) == 1 &&
 						  ( game->isOccupied(endX, endY) ) ) {
 		// Move one diagonal square away from starting end of the board

@@ -47,10 +47,8 @@ class Controller : public GameNotification {
     // Setter for boardNotInitialized
     void setBoardNotInitialized(bool b);
 
-    // Start collecting user input from the Game
-    // Args: 
-    //    int givenFirstMove determines the player that starts the game
-    void play(int givenFirstMove = WHITE);
+    // Start collecting user input for the Game
+    void play();
 
     // Update the game state in the View
     void notify(int x, int y, char piece);   
