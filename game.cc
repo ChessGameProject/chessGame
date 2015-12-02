@@ -295,7 +295,7 @@ bool Game::isCheck(int player){
 
 		//Goes through each opposition player and sees if any of them can make a valid move to the King
 		for (int i = 0; i < 25; i++){
-			if (playerBlack[i] != NULL && playerBlack[i]->getX() != -1){
+			if (playerBlack[i] != NULL){
 				if (playerBlack[i]->isMoveValid(king->getX(),king->getY()) == true){
 					#ifdef DEBUG
   					cout << "__isCheck (true)__ for piece " << playerBlack[i]->getName()<< endl;
@@ -314,7 +314,7 @@ bool Game::isCheck(int player){
 		}
 
 		for (int i = 0; i < 25; i++){
-			if (playerWhite[i] != NULL  && playerWhite[i]->getX() != -1){
+			if (playerWhite[i] != NULL){
 				if (playerWhite[i]->isMoveValid(king->getX(),king->getY())){
 					#ifdef DEBUG
   					cout << "__isCheck (true)__ for piece " << playerWhite[i]->getName()<< endl;
