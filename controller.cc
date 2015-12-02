@@ -46,6 +46,8 @@ void Controller::play() {
       //Run game initialization to set up default board, then we can change it
       if (boardNotInitialized) {
         game->init();
+        td->print(cout);
+        cout << "Standard board initialized" << endl;
         boardNotInitialized = false;
       }
 
@@ -60,6 +62,11 @@ void Controller::play() {
   		#ifdef DEBUG
 				cout << "(Starting game...)" << endl;
 			#endif
+      if (boardNotInitialized) {
+        cout << "Make sure a board is setup first!" << endl;
+        continue;
+      }
+
   		//
   		// Set player inputs
   		//
