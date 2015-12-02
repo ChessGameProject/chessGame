@@ -12,11 +12,11 @@ Pawn::Pawn(int player) : Piece(player, 'p') {
 
 // Checks to see if a given move is valid
 bool Pawn::isMoveValid(int endX, int endY) const {
-	#ifdef DEBUG
-    std::cout << "    (Pawn)" << std::endl;
-    std::cout << "       chgX: " << endX - x;
-    std::cout << "   chgY: " << (endY - y) / direction << " " << "dir:" << direction << std::endl;
-  #endif
+	// #ifdef DEBUG
+	//     std::cout << "    (Pawn)" << std::endl;
+	//     std::cout << "       chgX: " << endX - x;
+	//     std::cout << "   chgY: " << (endY - y) / direction << " " << "dir:" << direction << std::endl;
+	// #endif
 	if ( !hasMoved && 
 		 (endX - x) == 0 &&
 		 ( (endY - y) / direction ) == 2 ) {
