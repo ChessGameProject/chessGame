@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 			tmp_y << y;
 			string y_str = tmp_y.str();
 
-			if ( piece == '-' ) {
+			if ( piece == '-' || piece == '_') {
 				string setup_add = "- " + x_str + y_str + " ";
 				setup += setup_add;
 			} else {
