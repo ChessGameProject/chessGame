@@ -820,7 +820,7 @@ void Game::addPiece(int x, int y, char piece){
 void Game::removePiece(int x, int y){
 
 	// If no piece exists at the location, don't do anything
-	if (isOccupied(x,y)) return;
+	if (!isOccupied(x,y)) return;
 
 	#ifdef DEBUG
 		cout << "(removePiece)" <<endl;
