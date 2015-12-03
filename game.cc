@@ -144,7 +144,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY){
 }
 
 bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
-	#ifdef DEBUG
+	#ifdef DEBUG2
   	cout << "    (isValidMove(" << startX << "," << startY << " ";
   	cout << endX << "," << endY << "))" << endl;
   	#endif
@@ -152,7 +152,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 	//Checks if input is within the bounds of the board
 	if (startX > 7 || startX < 0 || startY > 7 || startY < 0 || endX < 0 || endX > 7 || endY > 7 || endY < 0) return false;
 	if (startX == endX && startY == endY) {
-		#ifdef DEBUG
+		#ifdef DEBUG2
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false for invalid board location" << endl;
   		#endif
@@ -161,7 +161,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 
 	//If there is no piece at the specified location, returns false
 	if (isOccupied(startX,startY) == false) {
-		#ifdef DEBUG
+		#ifdef DEBUG2
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false because there is not piece there to move!" << endl;
   	#endif
@@ -170,7 +170,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 
 	//Check that the Piece belongs to the right player!
 	if (theBoard[startX][startY]->getPlayer() != player) {
-		#ifdef DEBUG
+		#ifdef DEBUG2
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false because that piece doesn't belong to you!" << endl;
   	#endif
@@ -179,7 +179,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 
 	//Check is Move is invalid from the Piece class
 	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) {
-		#ifdef DEBUG
+		#ifdef DEBUG2
   		cout << "    (isValidMove(" << startX << "," << startY << " ";
   		cout << endX << "," << endY << ")) is false because move isMoveValid() is false" << endl;
   	#endif
@@ -187,7 +187,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 	}
 
 	
-	#ifdef DEBUG
+	#ifdef DEBUG2
 	cout << "    (isValidMove(" << startX << "," << startY << " ";
 	cout << endX << "," << endY << ")) is true" << endl;
 	#endif
@@ -199,7 +199,7 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 }
 
 bool Game::isOccupied(int x, int y){
-	#ifdef DEBUG
+	#ifdef DEBUG2
   	cout << "    (isOccupied(" << x << "," << y << "))";
   #endif
 
@@ -207,13 +207,13 @@ bool Game::isOccupied(int x, int y){
 	if (x < 0 || y < 0 || x > 7 || y > 7) return false;
 
 	if (theBoard[x][y] == NULL) {
-		#ifdef DEBUG
+		#ifdef DEBUG2
 			cout << " is false" << endl;
 		#endif
 		return false;
 	}
 	else {
-		#ifdef DEBUG
+		#ifdef DEBUG2
 			cout << " is true" << endl;
 		#endif
 		return true;
@@ -303,6 +303,7 @@ bool Game::isCheckmate(){
 
 		//If there is no piece at that location, continues
 		if (currentPiece == NULL) continue;
+		if (currentPiece->getWorth() == KING) continue;
 
 		//Goes through all possible locations on the board and see if there is a move that would result in
 		//The king not being in Check
@@ -311,7 +312,13 @@ bool Game::isCheckmate(){
 				bool valid = isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 				if ( valid ){	  
 					bool isInCheck = isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
-					if ( !isInCheck ) return false;
+					if ( !isInCheck ) {
+						#ifdef DEBUG1
+						cout << "      __isCheckmate (false) because (" << currentPiece->getX() << "," << currentPiece->getY() << ") to (" << x << ", " << y << ")";
+						cout << " with " << currentPiece->getName() << " for player " << player  << " is a valid move"<< endl;
+						return false;
+						#endif
+					}
 				}
 			}
 		}
