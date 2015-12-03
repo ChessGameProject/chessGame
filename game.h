@@ -41,33 +41,60 @@ class Game{
 	
 
 public:
+	Game(); // ctor
+	~Game(); // dtor
+
+	//Notifications
 	void notify(int x, int y, char ch);
 	void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
 
 	bool hasWon();
+
 	//Returns if current player is in Check
-	bool isCheck(int player);
 	bool isCheck();
-	//Check is other player is in a Checkmate scenario
+	//Same as isCheck(), but sets which player to check if in Check
+	bool isCheck(int player);
+
+	//Checksis other player is in a Checkmate scenario
 	bool isCheckmate();
+	//Checks if Board is in Stalemate state
 	bool isStalemate();
+
+	//Checks is specified Board location is occupied by a Piece
 	bool isOccupied(int x, int y);
+
+	//Checks if moving from one location to another is a valid move
 	bool isValidMove(int startX, int startY, int endX, int endY);
 	bool isValidMove(int startX, int startY, int endX, int endY, int player);
-	bool isPossibleMove(int startX, int startY, int endX, int endY); // returns true if move is possible based on the given board
+
+	//Checks if after the given move, the player is in Check
 	bool isCheckAfterMove(int startX, int startY, int endX, int endY, int player);
 	bool isCheckAfterMove(int startX, int startY, int endX, int endY);
-	void setCurrentPlayer(int player);
-	int getCurrentPlayer();
-	void init();
+
+	//makes move from and to specified locations, whith validity Checks
 	bool makeMove(int startX, int startY, int endX, int endY, char promoteType = ' ', bool checkForCheck = true);
+
+	//Makes move with no restrictions
 	void unrestrictedMakeMove(int startX, int startY, int endX, int endY);
-	void setNotification(GameNotification* input);
+
+	//Initializes Board to default position
+	void init();
+
+	//Adds Piece to the Board
 	void addPiece(int x, int y, char newPiece);
+
+	//removes Piece from the Board
 	void removePiece(int x, int y);
+
+	//Checks if the Board is in a valid state to leave setup mode
 	bool validBoard();
-	Game();
-	~Game();
+
+	//Setters
+	void setCurrentPlayer(int player);
+	void setNotification(GameNotification* input);
+
+	//Getter
+	int getCurrentPlayer();	
 };
 
 #endif

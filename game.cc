@@ -9,10 +9,10 @@ TO DO:
 - Stalemate with 3 move repetition
 */
 
-
-
 Game::Game(){
+	//Constructs Array of Piece** for theBoard to place the 2D array of Piece*
 	theBoard = new Piece**[8];
+
 	//Sets all pieces in Board to NULL
 	for(int i = 0; i < 8; i++){
 		theBoard[i] = new Piece*[8];
@@ -20,15 +20,22 @@ Game::Game(){
 			theBoard[i][j] = NULL;
 		}
 	}
+
+	//Allocates arrays to store Pieces for each player
 	playerWhite = new Piece*[25];
 	playerBlack = new Piece*[25];
+
+	//Sets all values in Piece array to NULL
 	for (int i = 0; i < 25; i++){
 		playerWhite[i] = NULL;
 		playerBlack[i] = NULL;
 	}
 	
+
 	whiteScore = 0;
 	blackScore = 0;
+
+	//By default sets player to go first to be WHITE
 	currentPlayer = WHITE;
 }
 
@@ -47,13 +54,17 @@ void Game::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2){
 // Deletes old pieces and board and creates a new blank one (if restart is true)
 // restart defaults to true
 void Game::clearGame(bool restart){
+	// If there is a Piece in the Piece array, delete the Piece
 	for ( int i = 0; i < 25; i++ ) {
 		if (playerWhite[i] != NULL) delete playerWhite[i];
 		if (playerBlack[i] != NULL) delete playerBlack[i];
 	}
+
+	//delete the Piece arrays
 	delete [] playerWhite;
 	delete [] playerBlack;
 
+	//Since 2D array, delete both dimensions on the array
 	for (int i = 0; i < 8; i++ ) {
 		delete [] theBoard[i];
 	}
@@ -92,10 +103,15 @@ bool Game::isCheckAfterMove(int startX, int startY, int endX, int endY, int play
 	#ifdef DEBUG
 	  	cout << "(isCheckAfterMove)" << endl;
 	#endif
+	//Temp piece to put back into the Board after temp move is made
 	Piece* temp = theBoard[endX][endY];
+	
+	//Makes the move and then see if player is in Check after the move
 	unrestrictedMakeMove(startX,startY,endX,endY);
 	bool output = false;
 	if (isCheck(player) == true) output = true;
+
+	//Puts the pieces back
 	unrestrictedMakeMove(endX,endY,startX,startY);
 	theBoard[endX][endY] = temp;
 	if( isOccupied(endX,endY) ) theBoard[endX][endY]->setLocation(endX,endY);
@@ -113,8 +129,11 @@ void Game::unrestrictedMakeMove(int startX, int startY, int endX, int endY) {
   	cout << "    (unrestrictedMakeMove(" << startX << "," << startY << " ";
   	cout << endX << "," << endY << "))" << endl;
   #endif
-
+	
+	//If the move eats a Piece, set that eaten piece to have a null location
   	if (isOccupied(endX,endY)) theBoard[endX][endY]->setLocation(-1,-1);
+
+  	//Move Piece to the new location
 	theBoard[endX][endY] = theBoard[startX][startY];
 	theBoard[startX][startY] = NULL;
 	theBoard[endX][endY]->setLocation(endX,endY);
@@ -183,6 +202,10 @@ bool Game::isOccupied(int x, int y){
 	#ifdef DEBUG
   	cout << "    (isOccupied(" << x << "," << y << "))";
   #endif
+
+  	//Checks if input is within the bounds of the board
+	if (x < 0 || y < 0 || x > 7 || y > 7) return false;
+
 	if (theBoard[x][y] == NULL) {
 		#ifdef DEBUG
 			cout << " is false" << endl;
@@ -201,13 +224,18 @@ bool Game::isCheckmate(){
 	#ifdef DEBUG
   		cout << "    (isCheckmate)" << endl;
   	#endif
-	//Finds the Location the the King the the array of pieces and create pointer to it
+
+  	//Sets the player to be the other player
 	int player = currentPlayer*(-1);
+
+	//Finds the Location the the King the the array of pieces and create pointer to it
 	Piece *king;
 	if (currentPlayer == WHITE){
 		#ifdef DEBUG
   			cout << "        - finding BLACK king" << endl;
  	 	#endif
+
+  		//Goes through each Black piece and to find the King
 		for (int i = 0; i < 25; i++){
 			if ( (playerBlack[i] != NULL) && (playerBlack[i]->getWorth() == KING) ){
 				king = playerBlack[i];
@@ -240,10 +268,14 @@ bool Game::isCheckmate(){
 			#ifdef DEBUG
   			cout << "        - Check king's move to ("<< king->getX() + x <<","<< king->getY() + y <<")" << endl;
   			#endif
+
+  			//Checks if the proposed move is valid
 			bool valid = isValidMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y);
 			if ( !valid ){
   				continue;
 			}
+
+			//Checks if the proposed move would leave the king in Check
 			bool isInCheck = isCheckAfterMove(king->getX(),king->getY(),king->getX() + x,king->getY() + y, player);
 			if ( !isInCheck ) {
 				#ifdef DEBUG1
@@ -261,17 +293,19 @@ bool Game::isCheckmate(){
 	}
 
 
-	//Check if there is a space any piece could move to that would create a non-check position
-
+	//Checks if there is a space any piece could move to that would create a non-check position
 	Piece* currentPiece;
-	for (int i = 0; i < 25; i++){
-		
+	for (int i = 0; i < 25; i++){	
 
+		//Depending on the Player, determines which array to look in
 		if ( player == BLACK ) currentPiece = playerBlack[i];
 		else currentPiece = playerWhite[i];
 
+		//If there is no piece at that location, continues
 		if (currentPiece == NULL) continue;
 
+		//Goes through all possible locations on the board and see if there is a move that would result in
+		//The king not being in Check
 		for (int x = 0; x < 8; x++){
 			for (int y = 0; y < 8; y++){
 				bool valid = isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
@@ -284,8 +318,7 @@ bool Game::isCheckmate(){
 	}
 
 
-
-
+	//If all checks pass, the King must then be in Checkmate
 	#ifdef DEBUG
   	cout << "      __isCheckmate (true)__" << endl;
   	#endif
@@ -295,7 +328,7 @@ bool Game::isCheckmate(){
 bool Game::isStalemate(){
 
 	if (getCurrentPlayer() == WHITE){
-		//goes through each piece and trie to find a valid move for any piece
+		//goes through each piece and tries to find a valid move for any piece
 		for (int i = 0; i < 16; i++){
 			if (playerWhite[i] == NULL) continue;
 			for(int x = 0; x < 8; x++){
@@ -418,7 +451,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	if (promoteType != ' '){
 		#ifdef DEBUG
   		cout << "    (pawnPromoCheck)" << endl;
-  	#endif
+  		#endif
 
 		//Checks that the piece is a pawn moving to the end row
 		if (theBoard[startX][startY]->getWorth() != PAWN) return false;
@@ -475,8 +508,8 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	//Check for castle
 	if (theBoard[startX][startY]->getWorth() == KING  && (abs(startX - endX) == 2 || abs(startX - endX) == 3)){
 		#ifdef DEBUG
-  	cout << "    (checkCastle)" << endl;
-  #endif
+		 	cout << "    (checkCastle)" << endl;
+		#endif
 		//If player is currently in check, returns false
 		if (isCheck() == true) return false;
 		
@@ -521,8 +554,8 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	}	
 
 	#ifdef DEBUG
-  	cout << "    (setHasMoved)" << endl;
-  #endif
+  		cout << "    (setHasMoved)" << endl;
+  	#endif
 	//if piece has not moved before, setHasMoved to true;
 	if (theBoard[startX][startY]->getHasMoved() == false) theBoard[startX][startY]->setHasMoved(true);
 
@@ -533,8 +566,8 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	theBoard[endX][endY]->setLocation(endX,endY);
 
 	#ifdef DEBUG
-  	cout << "    (notification time!)" << endl;
-  #endif
+  		cout << "    (notification time!)" << endl;
+  	#endif
 	//Notifies of changes only happens at the end of the process
   if (checkForCheck) {
   	// Update both the cell moved from and moved to
@@ -542,9 +575,9 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
   						startX, startY, '\0');
   }
 	#ifdef DEBUG
-  	cout << "__move made__" << endl;
-  	cout << playerBlack[0]->getName() << endl;
-  #endif
+  		cout << "__move made__" << endl;
+  		cout << playerBlack[0]->getName() << endl;
+  	#endif
 	return true;
 
 }
@@ -729,6 +762,7 @@ void Game::addPiece(int x, int y, char piece){
 		theBoard[x][y] = NULL;
 	}
 
+	//Creates new piece depending on the specified type
 	if (piece == 'k' || piece == 'K'){
 		newPiece = new King(player);
 	}
@@ -784,13 +818,20 @@ void Game::addPiece(int x, int y, char piece){
 }
 
 void Game::removePiece(int x, int y){
-	if (theBoard[x][y] == NULL) return;
+
+	// If no piece exists at the location, don't do anything
+	if (isOccupied(x,y)) return;
+
 	#ifdef DEBUG
 		cout << "(removePiece)" <<endl;
 	#endif
+
 	int player = WHITE;
 	char piece = theBoard[x][y]->getName();
 	if ( (piece < 'z') && (piece > 'a') ) player = BLACK;
+
+
+	//Goes through the Piece array to find the piece at the same location
 	for (int i = 0; i < 16; i++){
 		if (player == BLACK){
 			if (playerBlack[i]->getX() == x && 
@@ -809,6 +850,8 @@ void Game::removePiece(int x, int y){
 			}
 		}
 	}
+
+	//notifies of changes
 	notifications->notify(x,y,'\0');
 }
 
@@ -819,7 +862,7 @@ bool Game::validBoard(){
 		cout << "A king is in Check. Unable to leave setup mode" << endl;
 		return false;
 	}
-		// Checks if a pawn is in the top or bottom row
+	// Checks that all pawna are in the top or bottom row
 	for (int y = 0; y == 0 || y == 7; y+= 7){
 		for (int x = 0; x < 8; x++){
 			if (isOccupied(x,y) && theBoard[x][y]->getWorth() == PAWN){
@@ -828,7 +871,8 @@ bool Game::validBoard(){
 			}
 		}
 	}
-		//Check that there are exactly one white king and one black king
+	
+	//Checks that there are exactly one white king and one black king
 	int whiteKing = 0;
 	int blackKing = 0;
 	for (int x = 0; x < 8; x++){
@@ -839,7 +883,9 @@ bool Game::validBoard(){
 			}
 		}
 	}
-		if (whiteKing != 1 || blackKing != 1){
+
+	//If there are not one of each king, invalid number of Kings
+	if (whiteKing != 1 || blackKing != 1){
 		cout << "Invalid number of Kings. Unable to leave setup mode" << endl;
 		return false;
 	}
