@@ -194,6 +194,7 @@ bool Controller::move() {
         } else if ( game->isStalemate() ) {
           gameOver = true;
           cout << "Ended game in stalemate." << endl;
+          break;
         }
 
         // or just increment whose turn it is

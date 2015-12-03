@@ -333,7 +333,7 @@ bool Game::isCheckmate(){
 
 bool Game::isStalemate(){
 
-	if (getCurrentPlayer() == WHITE){
+	if (currentPlayer == BLACK){
 		//goes through each piece and tries to find a valid move for any piece
 		for (int i = 0; i < 16; i++){
 			if (playerWhite[i] == NULL) continue;
