@@ -2,7 +2,7 @@
 # David Mamujee and Jonathan Smith
 
 CC = g++
-CXXFLAGS = -Wall -g -MMD -DDEBUG -DDEBUG1
+CXXFLAGS = -Wall -g -MMD #-DDEBUG -DDEBUG1 -DDEBUG2
 
 OBJS = view.o textDisplay.o piece.o king.o queen.o bishop.o knight.o rook.o pawn.o game.o controller.o
 DEPENDS = $(OBJS:.o=.d)

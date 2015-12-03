@@ -302,8 +302,7 @@ bool Game::isCheckmate(){
 		else currentPiece = playerWhite[i];
 
 		//If there is no piece at that location, continues
-		if (currentPiece == NULL) continue;
-		if (currentPiece->getWorth() == KING) continue;
+		if (currentPiece == NULL || currentPiece->getWorth() == KING) continue;
 
 		//Goes through all possible locations on the board and see if there is a move that would result in
 		//The king not being in Check
@@ -316,8 +315,8 @@ bool Game::isCheckmate(){
 						#ifdef DEBUG1
 						cout << "      __isCheckmate (false) because (" << currentPiece->getX() << "," << currentPiece->getY() << ") to (" << x << ", " << y << ")";
 						cout << " with " << currentPiece->getName() << " for player " << player  << " is a valid move"<< endl;
-						return false;
 						#endif
+						return false;
 					}
 				}
 			}
