@@ -4,6 +4,7 @@
 #include <iostream>
 
 class View;
+class Player;
 
 // More documentation in controller.cc file
 
@@ -16,8 +17,8 @@ class Controller : public GameNotification {
 
     bool boardNotInitialized;
 
-    std::istream* whitePlayer;
-    std::istream* blackPlayer;
+    // Storing an array of pointers to players
+    Player** players;
     int currentPlayer;
     
 	///Helper to check if the game is in a win state
@@ -34,13 +35,30 @@ class Controller : public GameNotification {
     void printWinStatus(int currentPlayer);
 
   public:
-    // Game setup to rearrange pieces on the board
-    void setup(std::istream & input);
+
 
     // Controller Constructor creates the game
     Controller();
     // Controller Destructor cleans up game and view
     ~Controller();
+
+
+    // Main entrance point for the chess game
+    void play();
+
+    // Collects user moves for the game from both opponents
+    // Returns gameOver status
+    bool move();
+
+    // Game setup to rearrange pieces on the board
+    void setup(std::istream & input);
+
+
+    // Update the game state in the View
+    void notify(int x, int y, char piece);   
+    // Update two cells in the View
+    void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
+
 
     // Setter for currentPlayer
     void setCurrentPlayer(int currentPlayer);
@@ -50,13 +68,7 @@ class Controller : public GameNotification {
     // Getter for boardNotInitialized
     bool getBoardNotInitialized();
 
-    // Start collecting user input for the Game
-    void play();
 
-    // Update the game state in the View
-    void notify(int x, int y, char piece);   
-    // Update two cells in the View
-    void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
 };
 
 // Converts board location input (eg. f6)
