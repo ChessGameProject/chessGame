@@ -449,8 +449,9 @@ bool Game::isCheck(){
 
 bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType, bool checkForCheck){
 	#ifdef DEBUG
-  	cout << "(makeMove)" << endl;
-  #endif
+  		cout << "(makeMove)" << endl;
+  	#endif
+
   // Check the move is valid for the given piece
 	if (isValidMove(startX,startY,endX,endY) == false) return false;
 
@@ -472,6 +473,12 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		if (isCheckAfterMove(startX,startY,endX,endY) == true) return false;
 	}
 
+	//Checks if Pawn is moving to a promotion square and there is no promotion type
+	//If no promotion type and one is needed, set promotion typ to Queen
+	if ( (theBoard[startX][startY]->getWorth() == PAWN ) && (endY == 0 || endY == 7) && ( promoteType == ' ' ) ) {
+		promoteType = 'q';
+	}
+
 	//Checks for Pawn Promotion,
 	if (promoteType != ' '){
 		#ifdef DEBUG
@@ -486,7 +493,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 
 		// Check if character is correct Case
-		if (promoteType > 'A') promoteType = promoteType - 'A' + 'a';
+		if (promoteType < 'Z') promoteType = promoteType + 'A' - 'a';
 
 		//Finds location of piece in the array of pieces
 		int loc = 16;
@@ -515,18 +522,36 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		else if (promoteType == 'n'){
 			temp = new Knight(currentPlayer);
 		}
+		else {
+			#ifdef DEBUG
+		  		cout << "	__Invalid PromoteType: " << promoteType << endl;
+		  	#endif
+			return false;
+		}
 
 		if (currentPlayer == WHITE){
 			playerWhite[loc] = temp;
 			playerWhite[loc]->setGame(this);
-			playerWhite[loc]->setLocation(startX,startY);
-			theBoard[startX][startY] = playerWhite[loc];
+			playerWhite[loc]->setLocation(endX,endY);
+			theBoard[endX][endY] = playerWhite[loc];
+			theBoard[startX][startY]->setLocation(-1,-1);
+			theBoard[startX][startY] = NULL;
+
+			notifyTwo(startX,startY,'\0',endX,endY,temp->getName());
+
+			return true;
 		}
 		else{
 			playerBlack[loc] = temp;	
 			playerBlack[loc]->setGame(this);
-			playerBlack[loc]->setLocation(startX,startY);
-			theBoard[startX][startY] = playerBlack[loc];
+			playerBlack[loc]->setLocation(endX,endY);
+			theBoard[endX][endY] = playerBlack[loc];
+			theBoard[startX][startY]->setLocation(-1,-1);
+			theBoard[startX][startY] = NULL;
+
+			notifyTwo(startX,startY,'\0',endX,endY,temp->getName());
+
+			return true;
 		}
 	}
 
