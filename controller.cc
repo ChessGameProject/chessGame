@@ -9,10 +9,20 @@
 
 using namespace std;
 
-Controller::Controller() {
+Controller::Controller(bool graphics) {
 	game = new Game();
   game->setNotification(this);
-	td = new TextDisplay(8);
+  if (graphics) {
+    #ifdef DEBUG
+      cout << "Creating Graphical Display..." << endl;
+    #endif
+    td = new TextDisplay(8);
+  } else {
+    #ifdef DEBUG
+      cout << "Creating Text Display..." << endl;
+    #endif
+    td = new TextDisplay(8);
+  }
 
   // players[0] is white
   // players[1] is black

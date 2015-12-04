@@ -38,7 +38,7 @@ class Controller : public GameNotification {
 
 
     // Controller Constructor creates the game
-    Controller();
+    Controller(bool graphics);
     // Controller Destructor cleans up game and view
     ~Controller();
 
