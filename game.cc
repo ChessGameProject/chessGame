@@ -567,7 +567,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			theBoard[0][startY] = NULL;
 			theBoard[endX - dir][endY]->setLocation(endX - dir,endY);
 			//Notifies of changes
-			notify(7,startY,'\0');
+			notify(0,startY,'\0');
 			notify(endX-dir,endY, theBoard[endX-dir][endY]->getName());
 		}
 	}	
