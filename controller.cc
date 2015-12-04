@@ -63,12 +63,11 @@ void Controller::play() {
   srand(time(NULL));
 
   string cmd;
-  bool gameOver = false;
 
   // Welcome message
   cout << "Welcome to Pawn Pusher 9000!" << endl;
   cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
-  while ( !gameOver && (cin >> cmd) ) {
+  while (cin >> cmd) {
     //
     // SETUP
     //
@@ -129,18 +128,27 @@ void Controller::play() {
       // If players aren't spelled right, try again...
       if (!goodPlayers) continue;
 
-      gameOver = move();
+      move();
 
   	} // 'game' commands endpoint
     cout << "Commands: 'setup', 'game [white-player] [black-player]'" << endl;
   }
+
+  // Output final score
+  cout << "Final Score:" << endl;
+  cout << "White: " << game->getWhiteScore() << endl;
+  cout << "Black: " << game->getBlackScore() << endl;
 }
 
 // Returns true if gameOver
-bool Controller::move() {
-  bool gameOver;
+void Controller::move() {
+  bool gameOver = false;
   string cmd;
-  cout << currentPlayer << "'s turn:" << endl;
+  if ( currentPlayer == -1 ) {
+    cout << "Black's turn:" << endl;
+  } else if ( currentPlayer == 1 ) {
+    cout << "White's turn:" << endl;
+  }
 
 
   Player *player = players[0];
@@ -148,13 +156,19 @@ bool Controller::move() {
     player = players[1];
   }
 
-  while (1) {
+  while (!gameOver) {
     bool success = false;
 
     // Move is either 'resign' or 'move start end [promotion]'
     istringstream input(player->getNextMove());
     input >> cmd;
     if (cmd == "resign") {
+      if (currentPlayer == WHITE) {
+        game->incrementBlackScore();
+      } else if (currentPlayer == BLACK) {
+        game->incrementWhiteScore();
+      }
+      
       currentPlayer = currentPlayer * -1;
       gameOver = true;          
       break;
@@ -214,7 +228,9 @@ bool Controller::move() {
     cout << currentPlayer << "'s turn:" << endl;
   } // Make another move
 
-  return gameOver;
+  // RESET THE BOARD
+  game->clearGame(true);
+  boardNotInitialized = true;
 }
 
 void Controller::setup(std::istream & input) {

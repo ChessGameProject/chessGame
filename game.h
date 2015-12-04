@@ -41,10 +41,6 @@ class Game{
 	int enPassantX;
 	int enPassantY;
 
-	//Type of character to promote to
-	void clearGame(bool restart = true);
-	
-
 public:
 	Game(); // ctor
 	~Game(); // dtor
@@ -54,6 +50,9 @@ public:
 	void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2);
 
 	bool hasWon();
+
+	//Reset the board and clear pieces
+	void clearGame(bool restart = true);
 
 	//Returns if current player is in Check
 	bool isCheck();
@@ -102,9 +101,16 @@ public:
 	//Setters
 	void setCurrentPlayer(int player);
 	void setNotification(GameNotification* input);
+	void incrementWhiteScore();
+	void incrementBlackScore();
 
 	//Getter
 	int getCurrentPlayer();	
+	int getWhiteScore();
+
+	int getBlackScore();
+
+
 	Piece* getPlayerWhite(int location);
 	Piece* getPlayerBlack(int location);
 	Piece* getBoardLocation(int x, int y);

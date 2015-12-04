@@ -48,7 +48,7 @@ class Controller : public GameNotification {
 
     // Collects user moves for the game from both opponents
     // Returns gameOver status
-    bool move();
+    void move();
 
     // Game setup to rearrange pieces on the board
     void setup(std::istream & input);

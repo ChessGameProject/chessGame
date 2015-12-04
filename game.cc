@@ -56,6 +56,9 @@ void Game::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2){
 // Deletes old pieces and board and creates a new blank one (if restart is true)
 // restart defaults to true
 void Game::clearGame(bool restart){
+	//
+	// Clear game board
+	//
 	// If there is a Piece in the Piece array, delete the Piece
 	for ( int i = 0; i < 25; i++ ) {
 		if (playerWhite[i] != NULL) delete playerWhite[i];
@@ -72,6 +75,9 @@ void Game::clearGame(bool restart){
 	}
 	delete [] theBoard;
 
+	// 
+	// Setup new board
+	//
 	if (restart) {
 		// Create new board
 		theBoard = new Piece**[8];
@@ -622,15 +628,14 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 }
 
-void Game::setCurrentPlayer(int player){
-	currentPlayer = player;
-}
-
-int Game::getCurrentPlayer(){
-	return currentPlayer;
-}
-
 void Game::init(){
+	// Clear board view
+	for(int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			notify(i,j, '\0');
+		}
+	}
+
 	//Sets initial location of Pawns
 	for (int i = 0; i < 8; i++){
 		playerWhite[i] = new Pawn(WHITE);
@@ -945,6 +950,32 @@ void Game::clearEnPassant(){
 	possibleEP = false;
 	enPassantX = -1;
 	enPassantY = -1;
+}
+
+// Getters and Setters
+
+void Game::setCurrentPlayer(int player){
+	currentPlayer = player;
+}
+
+int Game::getCurrentPlayer(){
+	return currentPlayer;
+}
+
+int Game::getWhiteScore() {
+	return whiteScore;
+}
+
+int Game::getBlackScore() {
+	return blackScore;
+}
+
+void Game::incrementWhiteScore() {
+	whiteScore++;
+}
+
+void Game::incrementBlackScore() {
+	blackScore++;
 }
 
 Piece* Game::getPlayerWhite(int location){
