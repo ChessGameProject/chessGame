@@ -565,7 +565,9 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		}
 	}	
 
-	//Handle Enpassant
+	//Handles Enpassant
+
+	//Checks if Move would make the next move en passant possible
 	if ( (endX - startX) == 0 && ( abs(endY - startY) ) == 2 && theBoard[startX][startY]->getWorth() == PAWN){
 		cout << "got here!" << endl;
 		if (endY > startY) {
@@ -575,15 +577,12 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			setEnPassant( endX, endY + 1);
 		}
 	}
-	else if (enPassantPossible(endX,endY)){
-		if (endY > startY){
-			theBoard[endX][endY -1]->setLocation(endX,endY - 1);
-			notify(endX,endY - 1,'\0');
-		}
-		else{
-			theBoard[endX][endY + 1]->setLocation(endX,endY + 1);
-			notify(endX,endY + 1,'\0');
-		}
+	//Checks if current move would be a possible enPassant Move
+	else if (enPassantPossible(endX,endY) && theBoard[startX][startY]->getWorth() == PAWN){
+		int dir = 1;
+		if (endY > startY) dir = -1;
+		theBoard[endX][endY + dir]->setLocation(endX,endY + dir);
+		notify(endX,endY + dir,'\0');
 		clearEnPassant();
 	}
 	else clearEnPassant();
