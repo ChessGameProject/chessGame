@@ -4,16 +4,34 @@
 
 using namespace std;
 
-Computer::Computer(Controller *c, Game *g, int i, int player) : Player(c) {
+Computer::Computer(Controller *c, Game *g, bool automatic, int i, int player) : Player(c) {
 	level = i;
 	game = g;
+	this->automatic = automatic;
 	this->player = player;
 }
 
 string Computer::getNextMove(){
-	if (level == 1) return AILevel1();
-	if (level == 2) return AILevel2();
-	else return AILevel2();
+	string cmd;
+	if (automatic == false) {
+		while (cin >> cmd) {
+			if (cmd == "move") {
+				if (level == 1) return AILevel1();
+				if (level == 2) return AILevel2();
+				else return AILevel2();
+			} else if (cmd == "resign") {
+				return cmd;
+			} else {
+				cout << "Try a different command" << endl;
+			}
+		}
+	} else {
+		if (level == 1) return AILevel1();
+		if (level == 2) return AILevel2();
+		else return AILevel2();
+	}
+	
+	return "none";
 }
 
 

@@ -115,9 +115,13 @@ void Controller::play() {
         if (playerInput == "human") {
           players[i] = new Human(this);
         } else if (playerInput == "computer1") {
-          players[i] = new Computer(this,game,1,playerNumber);
+          players[i] = new Computer(this,game,false,1,playerNumber);
+        } else if (playerInput == "computer1auto") {
+          players[i] = new Computer(this,game,true,1,playerNumber);
         } else if (playerInput == "computer2") {
-          players[i] = new Computer(this,game,2,playerNumber);
+          players[i] = new Computer(this,game,false,2,playerNumber);
+        } else if (playerInput == "computer2auto") {
+          players[i] = new Computer(this,game,true,2,playerNumber);
         } else {
           cout << "Player not recognized, try again..." << endl;
           goodPlayers = false;
@@ -168,7 +172,7 @@ void Controller::move() {
       } else if (currentPlayer == BLACK) {
         game->incrementWhiteScore();
       }
-      
+
       currentPlayer = currentPlayer * -1;
       gameOver = true;          
       break;

@@ -18,11 +18,19 @@ string Human::getNextMove() {
 
 	} else if (cmd == "move") {
 		string start, end;
+		char *pawnPromotion = new char[1];
     cin >> start >> end;
-
-    // TODO: Check for pawn promotion piece
-
     string final = cmd + " " + start + " " + end;
+
+    cin.readsome(pawnPromotion, 1);
+    #ifdef DEBUG
+    	cout << "PawnPromo: " << pawnPromotion[0] << endl;
+    #endif
+  	if (pawnPromotion > 0) {
+  		final = final + " " + pawnPromotion;
+  	}
+  	delete pawnPromotion;
+
     return final;
 
 	} else {
