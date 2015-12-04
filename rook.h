@@ -3,8 +3,6 @@
 #include "piece.h"
 
 class Rook : public Piece {
-
-	bool hasMoved;
 	
 public:
 	// Constructor with player the piece belongs too

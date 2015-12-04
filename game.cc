@@ -614,6 +614,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 			setEnPassant( endX, endY + 1);
 		}
 	}
+	
 	//Checks if current move would be a possible enPassant Move
 	else if (enPassantPossible(endX,endY) && theBoard[startX][startY]->getWorth() == PAWN){
 		int dir = 1;
