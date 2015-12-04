@@ -110,7 +110,7 @@ string Computer::AILevel2(){
 		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
-		if (currentPiece == NULL) continue;
+		if (currentPiece == NULL || currentPiece->getX() == -1) continue;
 
 		//Goes through all possible locations on the board and see if there is a move that would result in
 		//The king not being in Check
@@ -123,7 +123,7 @@ string Computer::AILevel2(){
 
 					if (captureMove) {
 						++numOfCaptureMoves;
-						if (game->getBoardLocation(x,y)->getWorth() > highestCapture) {
+						if (game->isOccupied(x,y) && game->getBoardLocation(x,y)->getWorth() > highestCapture) {
 							targetXstart = currentPiece->getX();
 							targetYstart = currentPiece->getY();
 							targetXend = x;
