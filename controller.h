@@ -38,7 +38,7 @@ class Controller : public GameNotification {
 
 
     // Controller Constructor creates the game
-    Controller();
+    Controller(bool graphics);
     // Controller Destructor cleans up game and view
     ~Controller();
 
@@ -52,6 +52,9 @@ class Controller : public GameNotification {
 
     // Game setup to rearrange pieces on the board
     void setup(std::istream & input);
+
+    // Checks to see if given move is a PawnPromotion
+    bool isPawnPromotion(std::string start, std::string end) const;
 
 
     // Update the game state in the View

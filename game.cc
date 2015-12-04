@@ -960,6 +960,16 @@ bool Game::validBoard(){
 	return true;
 }
 
+bool Game::isPawnPromotion(int startX, int startY, int endX, int endY) const {
+	// Check if starting position is a pawn and ending is in the endzone
+	if ( (theBoard[startX][startY]->getWorth() == 100) && 
+			 (endY == 0 || endY == 7) ) {
+		return true;
+	}
+	return false;
+}
+
+
 bool Game::enPassantPossible(int x, int y){
 	if ( possibleEP && enPassantX == x && enPassantY == y ) return true;
 	else return false;

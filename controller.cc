@@ -9,10 +9,20 @@
 
 using namespace std;
 
-Controller::Controller() {
+Controller::Controller(bool graphics) {
 	game = new Game();
   game->setNotification(this);
-	td = new TextDisplay(8);
+  if (graphics) {
+    #ifdef DEBUG
+      cout << "Creating Graphical Display..." << endl;
+    #endif
+    td = new TextDisplay(8);
+  } else {
+    #ifdef DEBUG
+      cout << "Creating Text Display..." << endl;
+    #endif
+    td = new TextDisplay(8);
+  }
 
   // players[0] is white
   // players[1] is black
@@ -115,9 +125,13 @@ void Controller::play() {
         if (playerInput == "human") {
           players[i] = new Human(this);
         } else if (playerInput == "computer1") {
-          players[i] = new Computer(this,game,1,playerNumber);
+          players[i] = new Computer(this,game,false,1,playerNumber);
+        } else if (playerInput == "computer1auto") {
+          players[i] = new Computer(this,game,true,1,playerNumber);
         } else if (playerInput == "computer2") {
-          players[i] = new Computer(this,game,2,playerNumber);
+          players[i] = new Computer(this,game,false,2,playerNumber);
+        } else if (playerInput == "computer2auto") {
+          players[i] = new Computer(this,game,true,2,playerNumber);
         } else {
           cout << "Player not recognized, try again..." << endl;
           goodPlayers = false;
@@ -162,13 +176,15 @@ void Controller::move() {
     // Move is either 'resign' or 'move start end [promotion]'
     istringstream input(player->getNextMove());
     input >> cmd;
-    if (cmd == "resign") {
+    if (cmd == "quit") {
+      break;
+    } else if (cmd == "resign") {
       if (currentPlayer == WHITE) {
         game->incrementBlackScore();
       } else if (currentPlayer == BLACK) {
         game->incrementWhiteScore();
       }
-      
+
       currentPlayer = currentPlayer * -1;
       gameOver = true;          
       break;
@@ -362,6 +378,16 @@ bool Controller::validPiece(char p) const {
     return true;
   }
   return false;
+}
+
+// Checks to see if given move is a PawnPromotion
+bool Controller::isPawnPromotion(string start, string end) const {
+  int startX = getXLocation(start);
+  int startY = getYLocation(start);
+  int endX = getXLocation(end);
+  int endY = getYLocation(end);
+  if (game->isPawnPromotion(startX, startY, endX, endY)) return true;
+  else return false;
 }
 
 void Controller::printWinStatus(int currentPlayer) {

@@ -8,12 +8,13 @@ class Computer : public Player {
 	int level;
 	Game* game;
 	int player;
+	bool automatic;
 // protected:
 // 	istream *input;
 
 public:
 //	void setInput(istream *i);
-	Computer(Controller *c, Game* g, int i, int player);
+	Computer(Controller *c, Game* g, bool automatic, int i, int player);
 
 	std::string getNextMove();
 

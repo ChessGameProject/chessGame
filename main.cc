@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -7,14 +8,36 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	Controller c;
+	bool graphics = false;
+	bool loading = false;
+	string filename;
 
-	if ( argc > 2 ) {
+	if ( argc > 3 ) {
 		// Let the user know how to use the arguments
-		cout << "Usage: pp9k [filename]" << endl;
+		cout << "Usage: pp9k [--graphics] [filename]" << endl;
 		return 1;
-	} else if ( argc == 2 ) {
-		string filename = argv[1];
+	}
+
+	for (int i = 1; i < argc; i++) {
+		string g = "--graphics";
+		if ( strcmp(argv[i], g.c_str()) == 0 ) {
+			#ifdef DEBUG
+				cout << "Graphics Flag" << endl;
+			#endif
+			graphics = true;
+		} else {
+			#ifdef DEBUG
+				cout << "Loading Board Flag..." << endl;
+			#endif
+			loading = true;
+			filename = argv[i];
+		}
+	}
+
+	// Create a controller with graphical view or not
+	Controller c(graphics);
+
+	if (loading) {
 		cout << "Loading " << filename << "..." << endl;
 		ifstream file(filename.c_str());
 
