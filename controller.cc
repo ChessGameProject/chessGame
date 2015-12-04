@@ -3,6 +3,7 @@
 #include "textDisplay.h"
 #include "player.h"
 #include "human.h"
+#include "computer.h"
 //#include "ai1.h"
 #include <iostream>
 
@@ -112,8 +113,10 @@ void Controller::play() {
         
         if (playerInput == "human") {
           players[i] = new Human(this);
-        // } else if (playerInput == "computer1") {
-          //players[i] = new AIOne();
+        } else if (playerInput == "computer1") {
+          players[i] = new Computer(this,game,1);
+        } else if (playerInput == "computer2") {
+          players[i] = new Computer(this,game,2);
         } else {
           cout << "Player not recognized, try again..." << endl;
           goodPlayers = false;

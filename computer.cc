@@ -1,7 +1,25 @@
+#include "computer.h"
 #include <cstdlib>
 #include <sstream>
 
-string AILevel1(){
+using namespace std;
+
+Computer::Computer(Controller *c, Game *g, int i) : Player(c) {
+	level = i;
+	game = g;
+	this->player = player;
+}
+
+string Computer::getNextMove(){
+	if (level == 1) return AILevel1();
+	if (level == 2) return AILevel2();
+	else return AILevel2();
+}
+
+
+
+string Computer::AILevel1(){
+	int player = game->getCurrentPlayer();
 
 	//Finds how many valid moves are possible
 	int numOfValidMoves = 0;
@@ -10,8 +28,8 @@ string AILevel1(){
 	for (int i = 0; i < 25; i++){	
 
 		//Depending on the Player, determines which array to look in
-		if ( player == BLACK ) currentPiece = playerBlack[i];
-		else currentPiece = playerWhite[i];
+		if ( player == BLACK ) currentPiece = game->getPlayerBlack(i);
+		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
 		if (currentPiece == NULL) continue;
@@ -20,9 +38,9 @@ string AILevel1(){
 		//The king not being in Check
 		for (int x = 0; x < 8; x++){
 			for (int y = 0; y < 8; y++){
-				bool valid = isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
+				bool valid = game->isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 				if ( valid ){	  
-					bool isInCheck = isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
+					bool isInCheck = game->isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 					if ( !isInCheck ) {
 						++numOfValidMoves;
 					}
@@ -39,8 +57,8 @@ string AILevel1(){
 	for (int i = 0; i < 25; i++){	
 
 		//Depending on the Player, determines which array to look in
-		if ( player == BLACK ) currentPiece = playerBlack[i];
-		else currentPiece = playerWhite[i];
+		if ( player == BLACK ) currentPiece = game->getPlayerBlack(i);
+		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
 		if (currentPiece == NULL) continue;
@@ -49,12 +67,13 @@ string AILevel1(){
 		//The king not being in Check
 		for (int x = 0; x < 8; x++){
 			for (int y = 0; y < 8; y++){
-				bool valid = isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
+				bool valid = game->isValidMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 				if ( valid ){	  
-					bool isInCheck = isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
+					bool isInCheck = game->isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 					if ( !isInCheck ) {
 						if (counter == outputMove){
 							return outputFormat(currentPiece->getX(),currentPiece->getY(),x,y);
+							
 						}
 
 						else ++counter;
@@ -63,11 +82,14 @@ string AILevel1(){
 			}
 		}
 	}
+	return "ERROR";
 }
 
 
 //Prefers moves with captures and checks if possible
-string AILevel2(){
+string Computer::AILevel2(){
+
+	int player = game->getCurrentPlayer();
 
 	//Finds how many valid moves are possible
 	int numOfValidMoves = 0;;
@@ -80,11 +102,11 @@ string AILevel2(){
 	int targetYend = -1;
 
 	Piece* currentPiece;
-	for (int i = 0; i < 25; i++){	
+	for (int i = 0; i < 25; i++){
 
 		//Depending on the Player, determines which array to look in
-		if ( otherPlayer == BLACK ) currentPiece = playerBlack[i];
-		else currentPiece = playerWhite[i];
+		if ( player == WHITE ) currentPiece = game->getPlayerBlack(i);
+		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
 		if (currentPiece == NULL) continue;
@@ -93,14 +115,14 @@ string AILevel2(){
 		//The king not being in Check
 		for (int x = 0; x < 8; x++){
 			for (int y = 0; y < 8; y++){
-				bool valid = isValidMove(currentPiece->getX(),currentPiece->getY(),x,y);
+				bool valid = game->isValidMove(currentPiece->getX(),currentPiece->getY(),x,y);
 				if ( valid ){
 					bool captureMove = false;
-					if (currentPiece->getPlayer() != theBoard[x][y]->getPlayer()) captureMove = true;
+					if (currentPiece->getPlayer() != game->getBoardLocation(x,y)->getPlayer()) captureMove = true;
 
 					if (captureMove) {
 						++numOfCaptureMoves;
-						if (theBoard[x][y]->getValue() > highestCapture) {
+						if (game->getBoardLocation(x,y)->getWorth() > highestCapture) {
 							targetXstart = currentPiece->getX();
 							targetYstart = currentPiece->getY();
 							targetXend = x;
@@ -108,14 +130,13 @@ string AILevel2(){
 						}
 					}
 
-					bool selfIisInCheck = isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
+					bool selfIsInCheck = game->isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player);
 					if ( !selfIsInCheck ) {
 						++numOfValidMoves;
-						bool otherIsInCheck = isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, otherPlayer);
+						bool otherIsInCheck = game->isCheckAfterMove(currentPiece->getX(),currentPiece->getY(),x,y, player*(-1) );
 						if (otherIsInCheck) ++numOfCheckMoves;
 						if (otherIsInCheck && captureMove) {
-							++numOfCheckAndCaptureMoves;
-							if (theBoard[x][y]->getValue() > highestCapture - 10) {
+							if (game->getBoardLocation(x,y)->getWorth() > highestCapture - 10) {
 								targetXstart = currentPiece->getX();
 								targetYstart = currentPiece->getY();
 								targetXend = x;
@@ -129,7 +150,7 @@ string AILevel2(){
 	}
 
 	//If it couldn't find any capture or check moves, return a random move
-	if (targetX == numOfCheckMoves && targetY == numOfCaptureMoves) return AILevel1();
+	if (targetXend == -1) return AILevel1();
 
 	else return outputFormat(targetXstart,targetYstart,targetXend,targetYend);	
 }
@@ -139,20 +160,22 @@ string AILevel2(){
 
 
 
-string outputFormat(int startX, int startY, int endX, int endY){
-	string output = "move "
-	ostringstream = ss;
-	char temp = startX;
-	ss << temp  + 'a';
-	output = output + ss.str();
-	ss << 8 - startY;
-	output = output + ss.str() + " ";
-
-	char temp = endX;
-	ss << temp  + 'a';
-	output = output + ss.str();
-	ss << 8 - endY;
-	output = output + ss.str() + " ";
+string Computer::outputFormat(int startX, int startY, int endX, int endY){
+	stringstream ss1;
+	stringstream ss2;
+	ss1 << startX << 8 - startY;
+	ss2 << endX << 8 - endY;
+	string temp1 = ss1.str();
+	string temp2 = ss2.str();
+	temp1[0] = temp1[0] +'a' - '0';
+	temp2[0] = temp2[0] +'a' - '0';
+	string output = "move " + temp1 + " " + temp2;
 
 	return output;
 }
+
+
+
+
+
+

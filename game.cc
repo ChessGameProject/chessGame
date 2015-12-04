@@ -569,7 +569,6 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 
 	//Checks if Move would make the next move en passant possible
 	if ( (endX - startX) == 0 && ( abs(endY - startY) ) == 2 && theBoard[startX][startY]->getWorth() == PAWN){
-		cout << "got here!" << endl;
 		if (endY > startY) {
 			setEnPassant(endX, endY - 1 );
 		}
@@ -940,3 +939,16 @@ void Game::clearEnPassant(){
 	enPassantX = -1;
 	enPassantY = -1;
 }
+
+Piece* Game::getPlayerWhite(int location){
+	return playerWhite[location];
+}
+
+Piece* Game::getPlayerBlack(int location){
+	return playerBlack[location];
+}
+
+Piece* Game::getBoardLocation(int x, int y){
+	return theBoard[x][y];
+}
+
