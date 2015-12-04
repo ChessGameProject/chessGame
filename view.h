@@ -18,7 +18,6 @@ class View {
  // Modifies two cells in the view
  virtual void notifyTwo(int x, int y, char ch, int x2, int y2, char ch2) = 0;
 
-
  virtual void print(std::ostream &out) const = 0;
     
  virtual ~View() = 0;

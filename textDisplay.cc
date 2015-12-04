@@ -1,12 +1,12 @@
 #include "textDisplay.h"
 using namespace std;
 
-TextDisplay::TextDisplay(int n):View(n){
+TextDisplay::TextDisplay():View(8){
 	// Creates a new nxn textdisplay and sets the default value
-	theDisplay = new char*[n];
-	for (int x = 0; x < n; x++){
-		theDisplay[x] = new char[n];
-		for (int y = 0; y < n; y++){
+	theDisplay = new char*[gridSize];
+	for (int x = 0; x < gridSize; x++){
+		theDisplay[x] = new char[gridSize];
+		for (int y = 0; y < gridSize; y++){
 			theDisplay[x][y] = blankSquare(x,y);
 		}
 	}
@@ -49,19 +49,17 @@ void TextDisplay::notify(int x, int y, char ch, bool printOut){
 
    
 void TextDisplay::print(std::ostream &out) const {
-  	for (int y = 0; y < gridSize; y++){
-  		out << gridSize-y << " ";
-  		for (int x = 0; x < gridSize; x++){
-  			out << theDisplay[y][x];
-  		}
-  		out << endl;
-  	}
-  	out << "  ";
-  	for (int i = 0; i < gridSize; i++){
-  		char x = 'a' + i;
-  		out << x;
-  	}
-  	out << endl;
-  }
-
-  View::~View(){}
+	for (int y = 0; y < gridSize; y++){
+		out << gridSize-y << " ";
+		for (int x = 0; x < gridSize; x++){
+			out << theDisplay[y][x];
+		}
+		out << endl;
+	}
+	out << "  ";
+	for (int i = 0; i < gridSize; i++){
+		char x = 'a' + i;
+		out << x;
+	}
+	out << endl;
+ }

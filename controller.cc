@@ -4,7 +4,7 @@
 #include "player.h"
 #include "human.h"
 #include "computer.h"
-//#include "ai1.h"
+#include "windowDisplay.h"
 #include <iostream>
 
 using namespace std;
@@ -16,12 +16,12 @@ Controller::Controller(bool graphics) {
     #ifdef DEBUG
       cout << "Creating Graphical Display..." << endl;
     #endif
-    td = new TextDisplay(8);
+    td = new WindowDisplay(8);
   } else {
     #ifdef DEBUG
       cout << "Creating Text Display..." << endl;
     #endif
-    td = new TextDisplay(8);
+    td = new TextDisplay();
   }
 
   // players[0] is white
@@ -37,15 +37,17 @@ Controller::Controller(bool graphics) {
 }
 
 Controller::~Controller() {
-  if (players[0] != 0) {
-    delete players[0];
-  }
-  if (players[1] != 0) {
-    delete players[1];
-  }
+  // if (players[0] != 0) {
+  //   delete players[0];
+  // }
+  // if (players[1] != 0) {
+  //   delete players[1];
+  // }
   delete [] players;
   delete game;
-  delete td;
+  if (td != 0) {
+    delete td;
+  }
 }
 
 
@@ -152,6 +154,10 @@ void Controller::play() {
   cout << "Final Score:" << endl;
   cout << "White: " << game->getWhiteScore() << endl;
   cout << "Black: " << game->getBlackScore() << endl;
+
+  // Clean up view so if it is graphical it will close now
+  delete td;
+  td = 0;
 }
 
 // Returns true if gameOver

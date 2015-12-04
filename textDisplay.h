@@ -8,7 +8,7 @@ class TextDisplay : public View {
   char **theDisplay;          //the n x n display 
   
  public:
-  TextDisplay(int n); //ctor
+  TextDisplay(); //ctor
 
   ~TextDisplay(); //dtor
   
