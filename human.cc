@@ -18,7 +18,7 @@ string Human::getNextMove() {
 
 	} else if (cmd == "move") {
 		string start, end;
-    cin >> start >> end;
+    cin >> start >> end;zzz
 
     // TODO: Check for pawn promotion piece
 
