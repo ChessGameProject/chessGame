@@ -106,7 +106,7 @@ string Computer::AILevel2(){
 	for (int i = 0; i < 25; i++){
 
 		//Depending on the Player, determines which array to look in
-		if ( player == WHITE ) currentPiece = game->getPlayerBlack(i);
+		if ( player == BLACK ) currentPiece = game->getPlayerBlack(i);
 		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
@@ -116,14 +116,14 @@ string Computer::AILevel2(){
 		//The king not being in Check
 		for (int x = 0; x < 8; x++){
 			for (int y = 0; y < 8; y++){
-				bool valid = game->isValidMove(currentPiece->getX(),currentPiece->getY(),x,y);
+				bool valid = game->isOccupied(x,y) && game->isValidMove(currentPiece->getX(),currentPiece->getY(),x,y,player);
 				if ( valid ){
 					bool captureMove = false;
 					if (currentPiece->getPlayer() != game->getBoardLocation(x,y)->getPlayer()) captureMove = true;
 
 					if (captureMove) {
 						++numOfCaptureMoves;
-						if (game->isOccupied(x,y) && game->getBoardLocation(x,y)->getWorth() > highestCapture) {
+						if (game->getBoardLocation(x,y)->getWorth() > highestCapture) {
 							targetXstart = currentPiece->getX();
 							targetYstart = currentPiece->getY();
 							targetXend = x;
@@ -151,7 +151,12 @@ string Computer::AILevel2(){
 	}
 
 	//If it couldn't find any capture or check moves, return a random move
-	if (targetXend == -1) return AILevel1();
+	if (targetXend == -1) {
+		#ifdef DEBUG3
+		cout << "	Didn't find any good moves :( " << endl;
+		#endif
+		return AILevel1();
+	}
 
 	else return outputFormat(targetXstart,targetYstart,targetXend,targetYend);	
 }
@@ -171,10 +176,7 @@ string Computer::outputFormat(int startX, int startY, int endX, int endY){
 	temp1[0] = temp1[0] +'a' - '0';
 	temp2[0] = temp2[0] +'a' - '0';
 	string output = "move " + temp1 + " " + temp2;
-	#ifdef DEBUG3
-		cout << "outputFormat: " << output << endl;
-	#endif
-
+	
 	return output;
 }
 
