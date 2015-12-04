@@ -20,18 +20,6 @@ class WindowDisplay : public View {
 
   enum {White=0, Black, Red, Green, Blue, Cyan, Yellow, Magenta, Orange, Brown}; // Available colours.
 
-  // Draws a rectangle
-  void fillRectangle(int x, int y, int width, int height, int colour=Black);
-
-  // Draws a string
-  void drawString(int x, int y, std::string msg, int colour=Black);
-
-  // Draws a string
-  void drawBigString(int x, int y, std::string msg, int colour=Black);
-
-  // Prints the first 10000 available fonts
-  void showAvailableFonts();
-
   //The Controller calls notify to update the (row,column) location to be ch
   void notify(int x, int y, char ch, bool printOut = true);
 

@@ -110,63 +110,6 @@ WindowDisplay::~WindowDisplay() {
   XCloseDisplay(d);
 }
 
-void WindowDisplay::fillRectangle(int x, int y, int width, int height, int colour) {
-  XSetForeground(d, gc, colours[colour]);
-  XFillRectangle(d, w, gc, x, y, width, height);
-  XSetForeground(d, gc, colours[Black]);
-}
-
-void WindowDisplay::drawString(int x, int y, string msg, int colour) {
-  XSetForeground(d, gc, colours[colour]);
-  Font f = XLoadFont(d, "6x13");
-  XTextItem ti;
-  ti.chars = const_cast<char*>(msg.c_str());
-  ti.nchars = msg.length();
-  ti.delta = 0;
-  ti.font = f;
-  XDrawText(d, w, gc, x, y, &ti, 1);
-  XSetForeground(d, gc, colours[Black]);
-  XFlush(d);
-}
-
-
-void WindowDisplay::drawBigString(int x, int y, string msg, int colour) {
-  XSetForeground(d, gc, colours[colour]);
-
-
-  //set default font
-  Font f = XLoadFont(d, "6x13");
-
-
-  // Font f = XLoadFont(d, "-*-helvetica-bold-r-normal--*-240-*-*-*-*-*");
-  ostringstream name;
-  name << "-*-helvetica-bold-r-*-*-*-240-" << width/5 << "-" << height/5 << "-*-*-*-*";
-
-  XFontStruct * fStruct = XLoadQueryFont(d, name.str().c_str());
-
-  if (fStruct) { //font was found, replace default
-    f = fStruct->fid;
-  }
-
-
-  XTextItem ti;
-  ti.chars = const_cast<char*>(msg.c_str());
-  ti.nchars = msg.length();
-  ti.delta = 0;
-//  ti.font = f->fid;
-  ti.font = f;
-  XDrawText(d, w, gc, x, y, &ti, 1);
-  XSetForeground(d, gc, colours[Black]);
-  XFlush(d);
-}
-
-void WindowDisplay::showAvailableFonts() {
-  int count;
-  char** fnts = XListFonts(d, "*", 10000, &count);
-
-  for (int i = 0; i < count; ++i) cout << fnts[i] << endl;
-}
-
 void WindowDisplay::notify(int x, int y, char ch, bool printOut) {
   if (ch == '\0') {
     ch = ' ';
