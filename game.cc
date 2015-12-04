@@ -317,7 +317,7 @@ bool Game::isCheckmate(){
 		else currentPiece = playerWhite[i];
 
 		//If there is no piece at that location, continues
-		if (currentPiece == NULL || currentPiece->getWorth() == KING) continue;
+		if (currentPiece == NULL) continue; //|| currentPiece->getWorth() == KING) continue;
 
 		//Goes through all possible locations on the board and see if there is a move that would result in
 		//The king not being in Check

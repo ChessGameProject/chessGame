@@ -34,17 +34,8 @@ bool Pawn::isMoveValid(int endX, int endY) const {
 		// Move one diagonal square away from starting end of the board
 		//    - There must be a piece there
 		//    - or **en passant**
-		
-
-		// TODO: Check for EN PASSANT
-		
+				
 		return true;
 	}
-	else return false;
-  return true;
-}
-
-// Should be called after a piece is moved
-void Pawn::setHasMoved(bool moved) {
-	hasMoved = moved;
+	return false;
 }

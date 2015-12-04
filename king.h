@@ -10,12 +10,6 @@ public:
 
 	// Checks to see if given move is valid
   bool isMoveValid(int endX, int endY) const;
-
-  // To let the piece know when it has been moved for the first time
-  void setHasMoved(bool moved);
-
-  //getter for hasMoved
-  bool getHasMoved();
 };
 
 #endif
