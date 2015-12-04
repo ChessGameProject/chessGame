@@ -53,6 +53,9 @@ class Controller : public GameNotification {
     // Game setup to rearrange pieces on the board
     void setup(std::istream & input);
 
+    // Checks to see if given move is a PawnPromotion
+    bool isPawnPromotion(std::string start, std::string end) const;
+
 
     // Update the game state in the View
     void notify(int x, int y, char piece);   

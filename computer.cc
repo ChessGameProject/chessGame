@@ -25,6 +25,7 @@ string Computer::getNextMove(){
 				cout << "Try a different command" << endl;
 			}
 		}
+		if (cin.eof()) return "quit";
 	} else {
 		if (level == 1) return AILevel1();
 		if (level == 2) return AILevel2();

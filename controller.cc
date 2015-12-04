@@ -166,7 +166,9 @@ void Controller::move() {
     // Move is either 'resign' or 'move start end [promotion]'
     istringstream input(player->getNextMove());
     input >> cmd;
-    if (cmd == "resign") {
+    if (cmd == "quit") {
+      break;
+    } else if (cmd == "resign") {
       if (currentPlayer == WHITE) {
         game->incrementBlackScore();
       } else if (currentPlayer == BLACK) {
@@ -366,6 +368,16 @@ bool Controller::validPiece(char p) const {
     return true;
   }
   return false;
+}
+
+// Checks to see if given move is a PawnPromotion
+bool Controller::isPawnPromotion(string start, string end) const {
+  int startX = getXLocation(start);
+  int startY = getYLocation(start);
+  int endX = getXLocation(end);
+  int endY = getYLocation(end);
+  if (game->isPawnPromotion(startX, startY, endX, endY)) return true;
+  else return false;
 }
 
 void Controller::printWinStatus(int currentPlayer) {

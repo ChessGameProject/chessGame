@@ -51,9 +51,6 @@ public:
 
 	bool hasWon();
 
-	//Reset the board and clear pieces
-	void clearGame(bool restart = true);
-
 	//Returns if current player is in Check
 	bool isCheck();
 	//Same as isCheck(), but sets which player to check if in Check
@@ -66,6 +63,10 @@ public:
 
 	//Checks is specified Board location is occupied by a Piece
 	bool isOccupied(int x, int y);
+
+	//
+	// MOVEMENT
+	//
 
 	//Checks if moving from one location to another is a valid move
 	bool isValidMove(int startX, int startY, int endX, int endY);
@@ -81,6 +82,10 @@ public:
 	//Makes move with no restrictions
 	void unrestrictedMakeMove(int startX, int startY, int endX, int endY);
 
+	//
+	// SETUP
+	//
+
 	//Initializes Board to default position
 	void init();
 
@@ -90,13 +95,29 @@ public:
 	//removes Piece from the Board
 	void removePiece(int x, int y);
 
+	//Reset the board and clear pieces
+	void clearGame(bool restart = true);
+
+	//
+	// BOARD VALIDITY & SPECIAL MOVES
+	//
+
 	//Checks if the Board is in a valid state to leave setup mode
 	bool validBoard();
+
+	// Checks if current move is a pawn promotion
+	bool isPawnPromotion(int startX, int startY, int endX, int endY) const;
+
+
 
 	//Checks if enPassant is Possible with given Move
 	bool enPassantPossible(int x, int y);
 	void setEnPassant(int x, int y);
 	void clearEnPassant();
+
+	//
+	// GETTERS & SETTERS
+	//
 
 	//Setters
 	void setCurrentPlayer(int player);

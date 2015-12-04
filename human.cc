@@ -1,11 +1,8 @@
+#include "controller.h"
 #include "human.h"
 
 using namespace std;
 
-// Set input so we can accept user commands through interface
-// Human::setInput(istream *i) {
-// 	input = i;
-// }
 
 Human::Human(Controller *c) : Player(c) {}
 
@@ -22,17 +19,15 @@ string Human::getNextMove() {
     cin >> start >> end;
     string final = cmd + " " + start + " " + end;
 
-    cin.readsome(pawnPromotion, 1);
-    #ifdef DEBUG
-    	cout << "PawnPromo: " << pawnPromotion[0] << endl;
-    #endif
-  	if (pawnPromotion > 0) {
-  		final = final + " " + pawnPromotion;
-  	}
-  	delete pawnPromotion;
-
+    // Pawn Promotion!!
+    if (c->isPawnPromotion(start, end)) {
+	 		cin >> pawnPromotion;
+	  	final = final + " " + pawnPromotion;
+    }
     return final;
 
+	} else if (cin.eof()) {
+		return "quit";
 	} else {
 		return "ERROR";
 	}
