@@ -13,8 +13,6 @@ class WindowDisplay : public View {
   unsigned long colours[10];
   int width, height;
 
-  XTextItem **theDisplay;          //the n x n display of characters
-
  public:  
 
   WindowDisplay(int size = 8);  // Constructor; displays the window.

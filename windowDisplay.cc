@@ -60,33 +60,6 @@ WindowDisplay::WindowDisplay(int size): View(size), width(400), height(400) {
     }
   }
 
-  // Setup pieces
-  // Keep track of characters in an array
-  string msg = "X";
-  theDisplay = new XTextItem*[gridSize];
-  for (int x = 0; x < gridSize; x++){
-    theDisplay[x] = new XTextItem[gridSize];
-    for (int y = 0; y < gridSize; y++){
-
-      XSetForeground(d, gc, colours[Orange]);
-      Font f = XLoadFont(d, "6x13");
-      XTextItem *ti = new XTextItem;
-      ti->chars = const_cast<char*>(msg.c_str());
-      ti->nchars = msg.length();
-      ti->delta = 0;
-      ti->font = f;
-
-       // Set XTextItem in grid!
-      //theDisplay[x][y] = ti;
-
-      // Draw it
-      XDrawText(d, w, gc, x*50+20, y*50-20, ti, 1);
-      XSetForeground(d, gc, colours[Black]);
-      XFlush(d);
-      delete ti;
-    }
-  }
-
   XSetForeground(d, gc, colours[Black]);
 
   // Make window non-resizeable.
@@ -108,11 +81,6 @@ WindowDisplay::WindowDisplay(int size): View(size), width(400), height(400) {
 WindowDisplay::~WindowDisplay() {
   XFreeGC(d, gc);
   XCloseDisplay(d);
-
-  for (int i = 0; i < gridSize; i++){
-    delete [] theDisplay[i];  
-  }
-  delete [] theDisplay;
 }
 
 void WindowDisplay::fillRectangle(int x, int y, int width, int height, int colour) {
@@ -182,11 +150,11 @@ void WindowDisplay::notify(int x, int y, char ch, bool printOut) {
   if ( ( y % 2 == 0 && x % 2 == 0 ) || (!(y % 2 == 0) && !(x % 2 == 0))) {
     // Black tiles
     XSetForeground(d, gc, colours[Black]);
-    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*y, 50, 50);
+    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*(y), 50, 50);
   } else {
     // White tiles
     XSetForeground(d, gc, colours[White]);
-    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*y, 50, 50);
+    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*(y), 50, 50);
   }
 
   XSetForeground(d, gc, colours[Orange]);
@@ -197,13 +165,10 @@ void WindowDisplay::notify(int x, int y, char ch, bool printOut) {
   ti.delta = 0;
   ti.font = f;
 
-   // Set XTextItem in grid!
-  theDisplay[x][y] = ti;
-
   // Draw it
-  XDrawText(d, w, gc, x*50+20, y*50-20, &ti, 1);
+  XDrawText(d, w, gc, x*50+20, (y+1)*50-20, &ti, 1);
   XSetForeground(d, gc, colours[Black]);
-  XFlush(d);
+  //XFlush(d);
 }
 
 void WindowDisplay::notifyTwo(int x, int y, char ch, int x2, int y2, char ch2) {
