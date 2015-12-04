@@ -105,7 +105,6 @@ public:
 
 	//Getter
 	int getCurrentPlayer();	
-
 	Piece* getPlayerWhite(int location);
 	Piece* getPlayerBlack(int location);
 	Piece* getBoardLocation(int x, int y);

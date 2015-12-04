@@ -110,13 +110,15 @@ void Controller::play() {
         }
 
         cin >> playerInput;
+        int playerNumber = WHITE;
+        if (i == 1) playerNumber = BLACK;
         
         if (playerInput == "human") {
           players[i] = new Human(this);
         } else if (playerInput == "computer1") {
-          players[i] = new Computer(this,game,1);
+          players[i] = new Computer(this,game,1,playerNumber);
         } else if (playerInput == "computer2") {
-          players[i] = new Computer(this,game,2);
+          players[i] = new Computer(this,game,2,playerNumber);
         } else {
           cout << "Player not recognized, try again..." << endl;
           goodPlayers = false;

@@ -179,6 +179,13 @@ bool Game::isValidMove(int startX, int startY, int endX, int endY, int player){
 		return false;
 	}
 
+	//Checks if piece it is capturing is on the correct team
+	if (isOccupied(endX,endY) && theBoard[endX][endY]->getPlayer() == player) {
+		return false;
+	}
+
+
+
 	//Check is Move is invalid from the Piece class
 	if (theBoard[startX][startY]->isMoveValid(endX,endY) == false) {
 		#ifdef DEBUG2
@@ -580,7 +587,7 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	else if (enPassantPossible(endX,endY) && theBoard[startX][startY]->getWorth() == PAWN){
 		int dir = 1;
 		if (endY > startY) dir = -1;
-		theBoard[endX][endY + dir]->setLocation(endX,endY + dir);
+		theBoard[endX][endY + dir]->setLocation(-1,-1);
 		notify(endX,endY + dir,'\0');
 		clearEnPassant();
 	}

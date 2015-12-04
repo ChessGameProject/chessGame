@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Computer::Computer(Controller *c, Game *g, int i) : Player(c) {
+Computer::Computer(Controller *c, Game *g, int i, int player) : Player(c) {
 	level = i;
 	game = g;
 	this->player = player;
@@ -19,7 +19,10 @@ string Computer::getNextMove(){
 
 
 string Computer::AILevel1(){
-	int player = game->getCurrentPlayer();
+
+	#ifdef DEBUG3
+		cout << "player: " << player << endl;
+	#endif
 
 	//Finds how many valid moves are possible
 	int numOfValidMoves = 0;
@@ -32,7 +35,7 @@ string Computer::AILevel1(){
 		else currentPiece = game->getPlayerWhite(i);
 
 		//If there is no piece at that location, continues
-		if (currentPiece == NULL) continue;
+		if (currentPiece == NULL || currentPiece->getX() == -1) continue;
 
 		//Goes through all possible locations on the board and see if there is a move that would result in
 		//The king not being in Check
@@ -88,8 +91,6 @@ string Computer::AILevel1(){
 
 //Prefers moves with captures and checks if possible
 string Computer::AILevel2(){
-
-	int player = game->getCurrentPlayer();
 
 	//Finds how many valid moves are possible
 	int numOfValidMoves = 0;;
@@ -170,6 +171,9 @@ string Computer::outputFormat(int startX, int startY, int endX, int endY){
 	temp1[0] = temp1[0] +'a' - '0';
 	temp2[0] = temp2[0] +'a' - '0';
 	string output = "move " + temp1 + " " + temp2;
+	#ifdef DEBUG3
+		cout << "outputFormat: " << output << endl;
+	#endif
 
 	return output;
 }

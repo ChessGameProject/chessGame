@@ -13,7 +13,7 @@ class Computer : public Player {
 
 public:
 //	void setInput(istream *i);
-	Computer(Controller *c, Game* g, int i);
+	Computer(Controller *c, Game* g, int i, int player);
 
 	std::string getNextMove();
 
