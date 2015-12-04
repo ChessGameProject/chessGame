@@ -9,7 +9,7 @@
 
 using namespace std;
 
-WindowDisplay::WindowDisplay(int size): View(size), width(400), height(400) {
+WindowDisplay::WindowDisplay(int size): View(size), width(450), height(450) {
 
   d = XOpenDisplay(NULL);
   if (d == NULL) {
@@ -51,13 +51,40 @@ WindowDisplay::WindowDisplay(int size): View(size), width(400), height(400) {
       if ( ( r % 2 == 0 && c % 2 == 0 ) || (!(r % 2 == 0) && !(c % 2 == 0))) {
         // Black tiles
         XSetForeground(d, gc, colours[Black]);
-        XFillRectangle(d,w,gc, width/gridSize*c, height/gridSize*r, 50, 50);
+        XFillRectangle(d,w,gc, 50 + 50*c, 50*r, 50, 50);
       } else {
         // White tiles
         XSetForeground(d, gc, colours[White]);
-        XFillRectangle(d,w,gc, width/gridSize*c, height/gridSize*r, 50, 50);
+        XFillRectangle(d,w,gc, 50 + 50*c, 50*r, 50, 50);
       }
     }
+  }
+
+  XSetForeground(d, gc, colours[Black]);
+  XFillRectangle(d,w,gc, 0, 0, 50, 450);
+  XFillRectangle(d,w,gc, 0, 400, 450, 50);
+  for (int i = 0; i < 8; i++) {
+    char msg[2] = {'0' + 8-i,'\0'};
+
+    XSetForeground(d, gc, colours[White]);
+    Font f = XLoadFont(d, "6x13");
+    XTextItem ti;
+    ti.chars = msg;
+    ti.nchars = 1;
+    ti.delta = 0;
+    ti.font = f;
+    XDrawText(d, w, gc, 20, (i+1)*50-20, &ti, 1);
+
+
+    char msg2[2] = {'a' + i, '\0'};
+
+    XTextItem ti2;
+    ti2.chars = msg2;
+    ti2.nchars = 1;
+    ti2.delta = 0;
+    ti2.font = f;
+    XDrawText(d, w, gc, (i+1)*50+20, 430, &ti2, 1);
+    XSetForeground(d, gc, colours[Black]);
   }
 
   XSetForeground(d, gc, colours[Black]);
@@ -150,11 +177,11 @@ void WindowDisplay::notify(int x, int y, char ch, bool printOut) {
   if ( ( y % 2 == 0 && x % 2 == 0 ) || (!(y % 2 == 0) && !(x % 2 == 0))) {
     // Black tiles
     XSetForeground(d, gc, colours[Black]);
-    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*(y), 50, 50);
+    XFillRectangle(d,w,gc, 50 + 50*x, 50*(y), 50, 50);
   } else {
     // White tiles
     XSetForeground(d, gc, colours[White]);
-    XFillRectangle(d,w,gc, width/gridSize*x, height/gridSize*(y), 50, 50);
+    XFillRectangle(d,w,gc, 50 + 50*x, 50*(y), 50, 50);
   }
 
   XSetForeground(d, gc, colours[Orange]);
@@ -166,7 +193,7 @@ void WindowDisplay::notify(int x, int y, char ch, bool printOut) {
   ti.font = f;
 
   // Draw it
-  XDrawText(d, w, gc, x*50+20, (y+1)*50-20, &ti, 1);
+  XDrawText(d, w, gc, 50 + x*50+20, (y+1)*50-20, &ti, 1);
   XSetForeground(d, gc, colours[Black]);
   //XFlush(d);
 }
