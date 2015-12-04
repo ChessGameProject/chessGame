@@ -36,6 +36,11 @@ class Game{
 	int whiteScore;
 	int blackScore;
 	int currentPlayer;
+	//Possible En Passant
+	bool possibleEP;
+	int enPassantX;
+	int enPassantY;
+
 	//Type of character to promote to
 	void clearGame(bool restart = true);
 	
@@ -88,6 +93,11 @@ public:
 
 	//Checks if the Board is in a valid state to leave setup mode
 	bool validBoard();
+
+	//Checks if enPassant is Possible with given Move
+	bool enPassantPossible(int x, int y);
+	void setEnPassant(int x, int y);
+	void clearEnPassant();
 
 	//Setters
 	void setCurrentPlayer(int player);

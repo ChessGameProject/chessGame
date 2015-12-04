@@ -31,7 +31,9 @@ Game::Game(){
 		playerBlack[i] = NULL;
 	}
 	
-
+	possibleEP = false;
+	enPassantX = -1;
+	enPassantY = -1;
 	whiteScore = 0;
 	blackScore = 0;
 
@@ -335,22 +337,26 @@ bool Game::isStalemate(){
 
 	if (currentPlayer == BLACK){
 		//goes through each piece and tries to find a valid move for any piece
-		for (int i = 0; i < 16; i++){
+		for (int i = 0; i < 24; i++){
 			if (playerWhite[i] == NULL) continue;
 			for(int x = 0; x < 8; x++){
 				for(int y = 0; y < 8; y++){
 					//If it can find a valid move for the current player, returns false since it is not a stalemate
-					if (isValidMove(playerWhite[i]->getX(),playerWhite[i]->getY(),x,y) == true) return false;
+					if (isValidMove(playerWhite[i]->getX(),playerWhite[i]->getY(),x,y,WHITE) == true) {
+						if ( isCheckAfterMove(playerWhite[i]->getX(),playerWhite[i]->getY(),x,y,WHITE) ==  false) return false;
+					}
 				}
 			}
 		}
 	}
 	else{
-		for (int i = 0; i < 16; i++){
+		for (int i = 0; i < 24; i++){
 			if (playerBlack[i] == NULL) continue;
 			for(int x = 0; x < 8; x++){
 				for(int y = 0; y < 8; y++){
-					if (isValidMove(playerBlack[i]->getX(),playerBlack[i]->getY(),x,y) == true) return false;
+					if (isValidMove(playerBlack[i]->getX(),playerBlack[i]->getY(),x,y,BLACK) == true) {
+						if ( isCheckAfterMove(playerBlack[i]->getX(),playerBlack[i]->getY(),x,y,BLACK) == false) return false;
+					}
 				}
 			}
 		}
@@ -559,6 +565,29 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 		}
 	}	
 
+	//Handle Enpassant
+	if ( (endX - startX) == 0 && ( abs(endY - startY) ) == 2 && theBoard[startX][startY]->getWorth() == PAWN){
+		cout << "got here!" << endl;
+		if (endY > startY) {
+			setEnPassant(endX, endY - 1 );
+		}
+		else {
+			setEnPassant( endX, endY + 1);
+		}
+	}
+	else if (enPassantPossible(endX,endY)){
+		if (endY > startY){
+			theBoard[endX][endY -1]->setLocation(endX,endY - 1);
+			notify(endX,endY - 1,'\0');
+		}
+		else{
+			theBoard[endX][endY + 1]->setLocation(endX,endY + 1);
+			notify(endX,endY + 1,'\0');
+		}
+		clearEnPassant();
+	}
+	else clearEnPassant();
+
 	#ifdef DEBUG
   		cout << "    (setHasMoved)" << endl;
   	#endif
@@ -587,8 +616,6 @@ bool Game::makeMove(int startX, int startY, int endX, int endY, char promoteType
 	return true;
 
 }
-
-
 
 void Game::setCurrentPlayer(int player){
 	currentPlayer = player;
@@ -896,4 +923,21 @@ bool Game::validBoard(){
 		return false;
 	}
 	return true;
+}
+
+bool Game::enPassantPossible(int x, int y){
+	if ( possibleEP && enPassantX == x && enPassantY == y ) return true;
+	else return false;
+}
+
+void Game::setEnPassant(int x, int y){
+	possibleEP = true;
+	enPassantX = x;
+	enPassantY = y;
+}
+
+void Game::clearEnPassant(){
+	possibleEP = false;
+	enPassantX = -1;
+	enPassantY = -1;
 }
