@@ -71,6 +71,10 @@ string Computer::AILevel1(){
 		}
 	}
 
+	#ifdef DEBUG
+ 		cout << "__There are " << numOfValidMoves << " valid move(s)" << endl;
+	#endif
+
 	int outputMove =  rand() % numOfValidMoves;
 
 	int counter = 0;

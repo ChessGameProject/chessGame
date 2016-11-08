@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
 
 	if ( argc > 3 ) {
 		// Let the user know how to use the arguments
-		cout << "Usage: pp9k [--graphics] [filename]" << endl;
+		cout << "Usage: chessGame [--graphics] [filename]" << endl;
 		return 1;
 	}
 
