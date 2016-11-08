@@ -247,7 +247,11 @@ void Controller::move() {
         }
       }
     }
-    cout << currentPlayer << "'s turn:" << endl;
+    if ( currentPlayer == -1 ) {
+      cout << "Black's turn:" << endl;
+    } else if ( currentPlayer == 1 ) {
+      cout << "White's turn:" << endl;
+    }
   } // Make another move
 
   // RESET THE BOARD
